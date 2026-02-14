@@ -5,19 +5,17 @@ w.title('')
 canv = Canvas(w, width= 1370, height = 770)
 canv.pack()
 
-Widht = 50
-Height = 50
+x = 50
+y = 50
 player_size = 100
 SPEED = 20
 
-player1_id = canv.create_rectangle(Widht, Height, Widht + player_size, Height + player_size)
+player1_id = canv.create_rectangle(x, y, x + player_size, y + player_size)
 
 KEY_W = 87
 KEY_S = 83
 KEY_A = 65
 KEY_D = 68
-
-we = 10
 
 def key_press(event):
     if event.keycode == KEY_W:
