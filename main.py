@@ -1,32 +1,47 @@
-from tkinter import*
+import pygame
+from game import Game  # мы создадим game.py позже
 
-w = Tk()
-w.title('')
-canv = Canvas(w, width= 1370, height = 770)
-canv.pack()
+def main():
+    # 1. Инициализация pygame
+    pygame.init()
 
-x = 50
-y = 50
-player_size = 100
-SPEED = 20
+    # 2. Настройки окна (размеры, название)
+    SCREEN_WIDTH = 1280  # можешь изменить на свой размер
+    SCREEN_HEIGHT = 720
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("ArsGame")
 
-player1_id = canv.create_rectangle(x, y, x + player_size, y + player_size)
+    # 3. Часы для ограничения FPS
+    clock = pygame.time.Clock()
 
-KEY_W = 87
-KEY_S = 83
-KEY_A = 65
-KEY_D = 68
+    # 4. Создаём объект игры
+    game = Game(screen)
 
-def key_press(event):
-    if event.keycode == KEY_W:
-        canv.move(player1_id, 0, -SPEED)
-    elif event.keycode == KEY_S:
-        canv.move(player1_id, 0, SPEED)
-    elif event.keycode == KEY_A:
-        canv.move(player1_id, -SPEED, 0)
-    if event.keycode == KEY_D:
-        canv.move(player1_id, SPEED, 0)
+    # 5. Главный цикл
+    running = True
+    while running:
+        # Ограничение до 60 кадров в секунду, dt — время в секундах между кадрами
+        dt = clock.tick(60) / 1000.0
 
-w.bind('<KeyPress>', key_press)
+        # Получаем все события от Pygame
+        events = pygame.event.get()
 
-w.mainloop()
+        # Проверяем, не закрыто ли окно
+        for event in events:
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Обновление игровой логики
+        game.update(dt, events)
+
+        # Отрисовка
+        game.draw(screen)
+
+        # Показываем нарисованное на экране
+        pygame.display.flip()
+
+    # 6. Завершение работы
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
