@@ -7,13 +7,37 @@ class Game:
         self.change_state("world") # начальное состояние
 
     def load_states(self):
-        # Импортируй классы состояний (позже)
         from states.world_state import WorldState
         from states.inventory_state import InventoryState
-        # ... и так далее
+        from states.character_state import CharacterState
+        from states.map_state import MapState
+        from states.quest_state import QuestState
+        from states.tutorials_state import TutorialsState
+        from states.party_state import PartyState
+        from states.events_state import EventsState
+        from states.battlepass_state import BattlepassState
+        from states.gacha_state import GachaState
+        from states.passport_state import PassportState
+        from states.dialog_state import DialogState
+        from states.shop_state import ShopState
+        from states.settings_state import SettingsState
+        from states.battle_state import BattleState
+
         self.states["world"] = WorldState(self)
         self.states["inventory"] = InventoryState(self)
-        # ...
+        self.states["character"] = CharacterState(self)
+        self.states["map"] = MapState(self)
+        self.states["quest_log"] = QuestState(self)
+        self.states["tutorials"] = TutorialsState(self)
+        self.states["party"] = PartyState(self)
+        self.states["events"] = EventsState(self)
+        self.states["battlepass"] = BattlepassState(self)
+        self.states["gacha"] = GachaState(self)
+        self.states["passport"] = PassportState(self)
+        self.states["dialog"] = DialogState(self)
+        self.states["shop"] = ShopState(self)
+        self.states["settings"] = SettingsState(self)
+        self.states["battle"] = BattleState(self)
 
     def change_state(self, new_state_name):
         if self.state:
