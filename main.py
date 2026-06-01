@@ -1,5 +1,5 @@
 import pygame
-from game import Game  # мы создадим game.py позже
+from game import Game
 
 def main():
     # 1. Инициализация pygame
