@@ -1,3 +1,5 @@
+from player import Player
+
 class Game:
     def __init__(self, screen):
         self.screen = screen
@@ -5,6 +7,7 @@ class Game:
         self.states = {}           # словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # начальное состояние
+        self.player = Player()
 
     def load_states(self):
         from states.world_state import WorldState

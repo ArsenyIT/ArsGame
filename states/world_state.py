@@ -1,4 +1,6 @@
 import pygame
+from player import Player
+
 class WorldState:
     def __init__(self, game):
         self.game = game
@@ -36,6 +38,8 @@ class WorldState:
                 elif event.key == pygame.K_f:
                     if self.near_item == True:
                         print('Получен Предмет')
+                        self.game.player.inventory.add_item("wood", 1)
+                        print(self.game.player.inventory.items)
                         self.item = False
                     else:
                         self.game.change_state("dialog")

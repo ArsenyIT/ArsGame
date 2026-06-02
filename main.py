@@ -6,8 +6,8 @@ def main():
     pygame.init()
 
     # 2. Настройки окна (размеры, название)
-    SCREEN_WIDTH = 1280  # можешь изменить на свой размер
-    SCREEN_HEIGHT = 720
+    SCREEN_WIDTH = 1366  # можешь изменить на свой размер
+    SCREEN_HEIGHT = 708
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("ArsGame")
 
