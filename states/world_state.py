@@ -1,11 +1,10 @@
 import pygame
-from player import Player
 
 class WorldState:
     def __init__(self, game):
         self.game = game
         self.player = None   # объект игрока на карте
-        self.hero_rect = pygame.Rect(100, 100, 40, 40)
+        self.hero_rect = pygame.Rect(100, 100, 43, 85)
         self.item_rect = pygame.Rect(200, 200, 40, 40)
         self.hint_font = pygame.font.Font(None, 24)
         self.near_item = False
@@ -13,6 +12,10 @@ class WorldState:
 
     def on_enter(self):
         # загрузить карту, спрайты, инициализировать положение игрока
+        self.bg = pygame.image.load("assets/textures/Трава_1.png")
+        width, height = self.game.screen.get_size()
+        self.bg = pygame.transform.scale(self.bg, (width, height))
+        self.player_img = pygame.image.load("assets/textures/ГГ_стоя_влево.png").convert_alpha()
         pass
 
     def on_exit(self):
@@ -66,10 +69,11 @@ class WorldState:
             self.near_item = True
 
     def draw(self, screen):
-        screen.fill((255, 255, 255))
-        pygame.draw.rect(screen, (0,0,255), self.hero_rect, 20)
+        screen.blit(self.bg, (0, 0))
+        screen.blit(self.player_img, self.hero_rect)
+
         if self.item == True:
-            pygame.draw.rect(screen, (0,0,0), self.item_rect, 20)
+            pygame.draw.rect(screen, (50,50,50), self.item_rect, 20)
 
         if self.near_item == True and self.item == True:
             hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10))

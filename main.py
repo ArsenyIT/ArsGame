@@ -6,16 +6,16 @@ def main():
     pygame.init()
 
     # 2. Настройки окна (размеры, название)
-    SCREEN_WIDTH = 1366  # можешь изменить на свой размер
-    SCREEN_HEIGHT = 708
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    WIDTH = 1366  # можешь изменить на свой размер
+    HEIGHT = 708
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("ArsGame")
 
     # 3. Часы для ограничения FPS
     clock = pygame.time.Clock()
 
     # 4. Создаём объект игры
-    game = Game(screen)
+    game = Game(screen, WIDTH, HEIGHT)
 
     # 5. Главный цикл
     running = True
