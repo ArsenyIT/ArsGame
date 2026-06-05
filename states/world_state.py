@@ -45,6 +45,7 @@ class WorldState:
                         print(self.game.player.inventory.items)
                         self.item = False
                     else:
+                        self.game.temp_scene = "scene_1"
                         self.game.change_state("dialog")
                 elif event.key == pygame.K_F1:
                     self.game.change_state("events")
