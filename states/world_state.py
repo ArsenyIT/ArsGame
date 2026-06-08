@@ -5,7 +5,7 @@ class WorldState:
         self.game = game
         self.player = None   # объект игрока на карте
         self.hero_rect = pygame.Rect(100, 100, 43, 85)
-        self.item_rect = pygame.Rect(200, 200, 40, 40)
+        self.item_rect = pygame.Rect(200, 200, 13, 32)
         self.hint_font = pygame.font.Font(None, 24)
         self.near_item = False
         self.item = True
@@ -16,7 +16,8 @@ class WorldState:
         width, height = self.game.screen.get_size()
         self.bg = pygame.transform.scale(self.bg, (width, height))
         self.player_img = pygame.image.load("assets/textures/ГГ_стоя_влево.png").convert_alpha()
-        pass
+        self.item_img = pygame.image.load("assets/textures/Дубовое_бревно_предмет.png")
+        self.squad = pygame.image.load("assets/textures/Список_отряда.png")
 
     def on_exit(self):
         # сохранить данные, очистить ресурсы
@@ -41,7 +42,7 @@ class WorldState:
                 elif event.key == pygame.K_f:
                     if self.near_item == True:
                         print('Получен Предмет')
-                        self.game.player.inventory.add_item("wood", 1)
+                        self.game.player.inventory.add_item("oak_wood", 1)
                         print(self.game.player.inventory.items)
                         self.item = False
                     else:
@@ -72,9 +73,11 @@ class WorldState:
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
         screen.blit(self.player_img, self.hero_rect)
+        ramka = pygame.Rect(screen.get_width() - 250 - 30, 80, 250, 350)
+        screen.blit(self.squad, ramka)
 
         if self.item == True:
-            pygame.draw.rect(screen, (50,50,50), self.item_rect, 20)
+            screen.blit(self.item_img, self.item_rect)
 
         if self.near_item == True and self.item == True:
             hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10))

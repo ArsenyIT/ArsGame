@@ -22,6 +22,7 @@ class DialogState:
 
     def on_enter(self):
         print("Вход в диалог")
+        self.dialog_window = pygame.image.load("assets/textures/Диалоговое_окно.png")
         if hasattr(self.game, "temp_scene"):
             scene_name = self.game.temp_scene
             # Если нужно, найдём индекс этой сцены в scenes_order и установим current_scene_index
@@ -60,9 +61,8 @@ class DialogState:
 
     def draw(self, screen):
         screen.fill((0, 0, 0))  # Уникальный цвет для каждого состояния
-        rect = pygame.Rect(50, screen.get_height() - 150, screen.get_width() - 100, 120)
-        pygame.draw.rect(screen, (20, 20, 40), rect)
-        pygame.draw.rect(screen, (200, 200, 200), rect, 2)
+        dialog_rect = pygame.Rect(50, screen.get_height() - 150, screen.get_width() - 100, 120)
+        screen.blit(self.dialog_window, dialog_rect)
 
         if not self.dialog_lines or self.current_line >= len(self.dialog_lines):
             return
@@ -73,8 +73,8 @@ class DialogState:
 
         # Имя говорящего
         name_surf = self.name_font.render(speaker, True, (255, 255, 100))
-        screen.blit(name_surf, (rect.x + 10, rect.y + 10))
+        screen.blit(name_surf, (dialog_rect.x + 10, dialog_rect.y + 10))
 
         # Текст (пока одной строкой)
         text_surf = self.font.render(text, True, (255, 255, 255))
-        screen.blit(text_surf, (rect.x + 10, rect.y + 50))
+        screen.blit(text_surf, (dialog_rect.x + 10, dialog_rect.y + 50))
