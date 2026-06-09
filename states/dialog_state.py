@@ -14,7 +14,7 @@ class DialogState:
         self.current_scene_index = 0
 
     def load_scene(self, scene_name):
-        with open("assets/data/dialogues/Tom_1/Season_1/Preface.json", "r", encoding="utf-8") as f:
+        with open("assets/data/dialogues/Tom_1/Season_1/Chapter_1.json", "r", encoding="utf-8") as f:
             data = json.load(f)
         self.dialog_lines = data.get(scene_name, [])
         self.current_line = 0
