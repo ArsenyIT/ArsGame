@@ -15,6 +15,7 @@ class CharacterState:
         if not self.characters:
             self.characters = [self.create_test_character()]
         print("CharacterState: on_enter")
+        self.GG_menu = pygame.image.load("assets/textures/Арсений.png")
 
     def create_test_character(self):
         # Возвращает словарь с данными персонажа
@@ -63,7 +64,7 @@ class CharacterState:
                     #self.draw_up(screen)
 
     def draw(self, screen):
-        screen.fill((20, 20, 40))
+        screen.blit(self.GG_menu, (0,0))
         char = self.characters[self.current_index]
 
         # Имя и уровень
@@ -71,11 +72,11 @@ class CharacterState:
         screen.blit(name_text, (50, 30))
 
         # Полоска опыта
-        exp_ratio = char['exp'] / char['exp_next'] if char['exp_next'] > 0 else 0
-        pygame.draw.rect(screen, (80,80,80), (50, 70, 300, 15))
-        pygame.draw.rect(screen, (100,200,100), (50, 70, int(300 * exp_ratio), 15))
-        exp_text = self.font.render(f"Опыт: {char['exp']}/{char['exp_next']}", True, (200,200,200))
-        screen.blit(exp_text, (50, 90))
+        #exp_ratio = char['exp'] / char['exp_next'] if char['exp_next'] > 0 else 0
+        #pygame.draw.rect(screen, (80,80,80), (50, 70, 300, 15))
+        #pygame.draw.rect(screen, (100,200,100), (50, 70, int(300 * exp_ratio), 15))
+        #exp_text = self.font.render(f"Опыт: {char['exp']}/{char['exp_next']}", True, (200,200,200))
+        #screen.blit(exp_text, (50, 90))
 
         # Статы (левый и правый столбцы)
         stats_left = [
