@@ -73,7 +73,7 @@ class DialogState:
 
         # Имя говорящего
         name_surf = self.name_font.render(speaker, True, (255, 255, 100))
-        screen.blit(name_surf, (dialog_rect.x + 10, dialog_rect.y + 10))
+        screen.blit(name_surf, (dialog_rect.x + 30, dialog_rect.y + 10))
 
         # Текст (пока одной строкой)
         text_surf = self.font.render(text, True, (255, 255, 255))
