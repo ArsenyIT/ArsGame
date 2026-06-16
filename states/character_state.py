@@ -8,7 +8,7 @@ class CharacterState:
         # Список персонажей (позже будет браться из game.player.party)
         self.characters = []
         self.current_index = 0
-        self.level_up_rect = pygame.Rect(50, 500, 200, 40)
+        self.menu_buttons = []
 
     def on_enter(self):
         # Загрузить актуальных персонажей из game.player.party
@@ -36,6 +36,7 @@ class CharacterState:
             "resistance": 1,
             "talents": {"normal": 1, "skill": 1, "burst": 1},
             "constellation": 0,
+            "speed": 10,
         }
 
     def on_exit(self):
@@ -78,59 +79,90 @@ class CharacterState:
         #exp_text = self.font.render(f"Опыт: {char['exp']}/{char['exp_next']}", True, (200,200,200))
         #screen.blit(exp_text, (50, 90))
 
-        # Статы (левый и правый столбцы)
-        stats_left = [
+        x0 = 1102
+        y0 = 92
+        offset = 10
+        x_left = x0 + offset
+        y_start = y0 + offset
+        line_height = 30
+
+        # Общий список всех характеристик (в один столбик)
+        stats_all = [
             ("HP", f"{char['hp']}/{char['max_hp']}"),
             ("Сила атаки", str(char['atk'])),
             ("Защита", str(char['defense'])),
             ("Шанс крита", f"{char['crit_rate']}%"),
             ("Крит. урон", f"{char['crit_dmg']}%"),
-        ]
-        stats_right = [
             ("Восст. энергии", f"{char['energy_recharge']}%"),
             ("Мастерство стихий", str(char['elemental_mastery'])),
             ("Бонус физ. урона", f"{char['phys_bonus']}%"),
             ("Сопротивление", f"{char['resistance']}%"),
+            ("Скорость", str(char['speed'])),
         ]
 
-        y_start = 140
-        x_left = 50
-        x_right = 350
-        line_height = 30
-
-        for i, (name, val) in enumerate(stats_left):
-            text = self.font.render(f"{name}: {val}", True, (220,220,220))
-            screen.blit(text, (x_left, y_start + i*line_height))
-
-        for i, (name, val) in enumerate(stats_right):
-            text = self.font.render(f"{name}: {val}", True, (220,220,220))
-            screen.blit(text, (x_right, y_start + i*line_height))
+        for i, (name, val) in enumerate(stats_all):
+            text = self.font.render(f"{name}: {val}", True, (220, 220, 220))
+            screen.blit(text, (x_left, y_start + i * line_height))
 
         # Таланты
-        talent_y = y_start + len(stats_left)*line_height + 20
-        title = self.font.render("Таланты:", True, (255,200,100))
-        screen.blit(title, (x_left, talent_y))
-        talents = [
-            ("Обычная атака", char['talents']['normal']),
-            ("Навык (E)", char['talents']['skill']),
-            ("Сверхспособность (Q)", char['talents']['burst']),
-        ]
-        for i, (name, lvl) in enumerate(talents):
-            t = self.font.render(f"{name}: ур. {lvl}", True, (200,200,200))
-            screen.blit(t, (x_left, talent_y + 25 + i*25))
+        #talent_y = y_start + len(stats_left)*line_height + 20
+        #title = self.font.render("Таланты:", True, (255,200,100))
+        #screen.blit(title, (x_left, talent_y))
+        #talents = [
+        #    ("Обычная атака", char['talents']['normal']),
+        #    ("Навык (E)", char['talents']['skill']),
+        #    ("Сверхспособность (Q)", char['talents']['burst']),
+        #]
+        #for i, (name, lvl) in enumerate(talents):
+        #    t = self.font.render(f"{name}: ур. {lvl}", True, (200,200,200))
+        #    screen.blit(t, (x_left, talent_y + 25 + i*25))
 
         # Созвездия
-        const_text = self.font.render(f"Созвездия: {char['constellation']}/6", True, (200,200,200))
-        screen.blit(const_text, (x_right, talent_y))
+        #const_text = self.font.render(f"Созвездия: {char['constellation']}/6", True, (200,200,200))
+        #screen.blit(const_text, (x_right, talent_y))
 
         # Кнопки-заглушки
-        btn_y = screen.get_height() - 100
-        screen.blit(self.font.render("A - Возвышение", True, (150,150,200)), (50, btn_y+30))
-        screen.blit(self.font.render("T - Улучшить таланты", True, (150,150,200)), (50, btn_y+60))
+        #btn_y = screen.get_height() - 100
+        #screen.blit(self.font.render("A - Возвышение", True, (150,150,200)), (50, btn_y+30))
+        #screen.blit(self.font.render("T - Улучшить таланты", True, (150,150,200)), (50, btn_y+60))
 
-        pygame.draw.rect(screen, (70, 70, 120), self.level_up_rect)
-        text = self.font.render("Повышение уровня", True, (255, 255, 255))
-        screen.blit(text, (self.level_up_rect.x + 10, self.level_up_rect.y + 10))
+        # ---- Кнопки перехода (заглушки) ----
+        # Параметры поля кнопок (левая колонка)
+        x0_btn = 0
+        y0_btn = 162
+        field_width = 344  # ширина поля (0 до 344)
+        field_height = 785 - 162  # 623
+        offset = 10
+        btn_width = field_width - 2 * offset  # 324
+        btn_height = 123  # подобрано для 4 кнопок
+        btn_texts = ["Таланты", "Созвездия", "Экипировка оружия", "Экипировка артефактов"]
 
-    #def draw_up(self, screen):
-    #    screen.fill((200, 200, 240))
+        # Очищаем список кнопок перед перерисовкой
+        self.menu_buttons = []
+
+        for i, text in enumerate(btn_texts):
+            y = y0_btn + offset + i * (btn_height + offset)
+            rect = pygame.Rect(x0_btn + offset, y, btn_width, btn_height)
+            # Рисуем фон кнопки
+            pygame.draw.rect(screen, (60, 60, 80), rect)
+            pygame.draw.rect(screen, (200, 200, 200), rect, 2)  # рамка
+            # Текст по центру
+            text_surf = self.font.render(text, True, (255, 255, 255))
+            text_rect = text_surf.get_rect(center=rect.center)
+            screen.blit(text_surf, text_rect)
+            # Сохраняем для обработки кликов
+            self.menu_buttons.append({"text": text, "rect": rect})
+
+        x0_lvl = 1105
+        y0_lvl = 528
+        width_lvl = 1363 - 1105
+        height_lvl = 590 - 528
+        # Создаём прямоугольник кнопки (можно с отступом 5, но я сделаю точно по границам поля)
+        self.level_up_rect = pygame.Rect(x0_lvl, y0_lvl, width_lvl, height_lvl)
+        # Рисуем фон кнопки
+        pygame.draw.rect(screen, (60, 60, 80), self.level_up_rect)
+        pygame.draw.rect(screen, (200, 200, 200), self.level_up_rect, 2)  # рамка
+        # Текст с отступом 10 от левого края и по вертикали по центру
+        text_surf = self.font.render("Повышение уровня", True, (255, 255, 255))
+        text_rect = text_surf.get_rect(center=self.level_up_rect.center)
+        screen.blit(text_surf, text_rect)
