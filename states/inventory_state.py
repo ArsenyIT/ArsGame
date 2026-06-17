@@ -43,6 +43,9 @@ class InventoryState:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
+                elif event.key == pygame.K_s and (event.mod & pygame.KMOD_SHIFT):
+                    self.game.player.inventory.save("assets/data/inventory.json")
+                    print("Инвентарь сохранён (Shift+S)")
                 #elif event.key == pygame.K_UP:
                 #    self.selected_index -= 1
                 #elif event.key == pygame.K_DOWN:
@@ -109,5 +112,5 @@ class InventoryState:
                     screen.blit(self.empty_cell, (x, y))
 
         # Подсказка внизу
-        hint = self.font.render("B/ESC - выход, Стрелки - выбор, Enter - использовать", True, (150, 150, 150))
+        hint = self.font.render("B/ESC - выход", True, (150, 150, 150))
         screen.blit(hint, (50, screen.get_height() - 40))

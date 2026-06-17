@@ -35,3 +35,21 @@ class Inventory:
     def get_count(self, item_id):
         #Возвращает количество предмета (0 если нет)
         return self.items.get(item_id, 0)
+
+    def save(self, filename):
+        #Сохраняет инвентарь в JSON-файл
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(self.items, f, ensure_ascii=False, indent=2)
+        self.modified = False
+
+    def load(self, filename):
+        if os.path.exists(filename):
+            # Проверяем, что файл не пустой
+            if os.path.getsize(filename) > 0:
+                with open(filename, 'r', encoding='utf-8') as f:
+                    self.items = json.load(f)
+            else:
+                self.items = {}
+        else:
+            self.items = {}
+        self.modified = False
