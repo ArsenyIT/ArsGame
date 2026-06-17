@@ -1,4 +1,6 @@
 import pygame
+import json
+import os
 
 class Item:
     # Теперь конструктор принимает параметры
@@ -10,18 +12,21 @@ class Item:
 class Inventory:
     def __init__(self):
         self.items = {}  # словарь: ключ - item_id, значение - количество
+        self.modified = False
 
     def add_item(self, item_id, amount):
-        """Добавляет указанное количество предмета в инвентарь"""
+        #Добавляет указанное количество предмета в инвентарь
         if item_id in self.items:
             self.items[item_id] += amount
+            self.modified = True
         else:
             self.items[item_id] = amount
 
     def remove_item(self, item_id, amount):
-        """Удаляет указанное количество предмета (если достаточно)"""
+        #Удаляет указанное количество предмета (если достаточно)
         if item_id in self.items:
             self.items[item_id] -= amount
+            self.modified = True
             if self.items[item_id] <= 0:
                 del self.items[item_id]
             return True

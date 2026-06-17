@@ -5,6 +5,12 @@ class InventoryState:
         self.game = game
         self.font = None
         self.selected_index = 0
+        self.cols = 5
+        self.rows = 4
+        self.cell_size = 32
+        self.cell_margin = 10
+        self.grid_offset_x = 10
+        self.grid_offset_y = 128
 
     def get_item_list(self):
         # Возвращает список (item_id, количество) из инвентаря
@@ -17,6 +23,7 @@ class InventoryState:
         self.font = pygame.font.Font(None, 28)
         self.inventory_menu_1 = pygame.image.load("assets/textures/Инвентарь/Меню_инвентаря_1.png")
         self.inventory_menu_2 = pygame.image.load("assets/textures/Инвентарь/Меню_инвентаря_2.png")
+
         self.weapon_iсon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_оружий.png")
         self.food_iсon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_еды.png")
         self.potion_iсon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_зелий.png")
@@ -24,6 +31,9 @@ class InventoryState:
         self.artifact_iсon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_артефактов.png")
         self.rare_resurse_iсon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_редких_ресурсов.png")
         self.special_tools_icon = pygame.image.load("assets/textures/Инвентарь/Иконки/Иконка_особых_инструментов.png")
+
+        self.empty_cell = pygame.image.load("assets/textures/Инвентарь/Ячейка_инвентаря.png").convert_alpha()
+        self.oak_item_cell = pygame.image.load("assets/textures/Инвентарь/Дубовое_бревно_инвентарь.png").convert_alpha()
 
     def on_exit(self):
         print("Выход из инвентаря")
@@ -33,15 +43,15 @@ class InventoryState:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
-                elif event.key == pygame.K_UP:
-                    self.selected_index -= 1
-                elif event.key == pygame.K_DOWN:
-                    self.selected_index += 1
-                elif event.key == pygame.K_RETURN:
-                    items = self.get_item_list()
-                    if items and 0 <= self.selected_index < len(items):
-                        item_id, amount = items[self.selected_index]
-                        print(f"Использовать {item_id} (количество {amount})")
+                #elif event.key == pygame.K_UP:
+                #    self.selected_index -= 1
+                #elif event.key == pygame.K_DOWN:
+                #    self.selected_index += 1
+                #elif event.key == pygame.K_RETURN:
+                #    items = self.get_item_list()
+                #    if items and 0 <= self.selected_index < len(items):
+                #        item_id, amount = items[self.selected_index]
+                #        print(f"Использовать {item_id} (количество {amount})")
 
         items = self.get_item_list()
         if items:
@@ -73,13 +83,30 @@ class InventoryState:
         screen.blit(self.rare_resurse_iсon, icon_7)
 
         # Получаем список предметов
-        items = self.get_item_list()
-        y = 80
-        for idx, (item_id, amount) in enumerate(items):
-            # Цвет: белый для обычных, жёлтый для выбранного
-            color = (255, 255, 200) if idx == self.selected_index else (200, 200, 200)
-            text = self.font.render(f"{item_id}: {amount}", True, color)
-            screen.blit(text, (50, y + idx * 30))
+        items_dict = self.game.player.inventory.items
+        items_list = list(items_dict.items())  # [(item_id, quantity), ...]
+
+        # Рисуем сетку
+        for row in range(self.rows):
+            for col in range(self.cols):
+                x = self.grid_offset_x + col * (self.cell_size + self.cell_margin)
+                y = self.grid_offset_y + row * (self.cell_size + self.cell_margin)
+
+                # Индекс ячейки
+                idx = row * self.cols + col
+
+                # Рисуем ячейку (пустую или с предметом)
+                if idx < len(items_list):
+                    # Если есть предмет в этой позиции
+                    screen.blit(self.oak_item_cell, (x, y))
+                    # Выводим текст с названием и количеством (пока так)
+                    item_id, quantity = items_list[idx]
+                    text = f"{item_id}:{quantity}"
+                    text_surf = self.font.render(text, True, (255, 255, 255))
+                    screen.blit(text_surf, (x + 5, y + 5))
+                else:
+                    # Пустая ячейка
+                    screen.blit(self.empty_cell, (x, y))
 
         # Подсказка внизу
         hint = self.font.render("B/ESC - выход, Стрелки - выбор, Enter - использовать", True, (150, 150, 150))
