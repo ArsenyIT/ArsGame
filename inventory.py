@@ -33,5 +33,5 @@ class Inventory:
         return False
 
     def get_count(self, item_id):
-        """Возвращает количество предмета (0 если нет)"""
+        #Возвращает количество предмета (0 если нет)
         return self.items.get(item_id, 0)
