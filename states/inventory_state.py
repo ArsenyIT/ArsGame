@@ -5,12 +5,22 @@ class InventoryState:
         self.game = game
         self.font = None
         self.selected_index = 0
-        self.cols = 5
-        self.rows = 4
+        self.current_section = "resources"
+        self.cols = 23
+        self.rows = 13
         self.cell_size = 32
         self.cell_margin = 10
-        self.grid_offset_x = 10
+        self.grid_offset_x = 20
         self.grid_offset_y = 128
+        self.section_buttons = [
+            {"rect": pygame.Rect(0, 0, 127, 116), "section": "artifacts"},
+            {"rect": pygame.Rect(129, 0, 127, 116), "section": "weapons"},
+            {"rect": pygame.Rect(257, 0, 127, 116), "section": "food"},
+            {"rect": pygame.Rect(385, 0, 127, 116), "section": "potions"},
+            {"rect": pygame.Rect(513, 0, 127, 116), "section": "resources"},
+            {"rect": pygame.Rect(641, 0, 127, 116), "section": "special_tools"},
+            {"rect": pygame.Rect(769, 0, 127, 116), "section": "rare_resources"},
+        ]
 
     def get_item_list(self):
         # Возвращает список (item_id, количество) из инвентаря
@@ -55,6 +65,14 @@ class InventoryState:
                 #    if items and 0 <= self.selected_index < len(items):
                 #        item_id, amount = items[self.selected_index]
                 #        print(f"Использовать {item_id} (количество {amount})")
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                print(f"Клик в позиции {event.pos}")
+                for btn in self.section_buttons:
+                    print(f"  Проверяем {btn['section']} с rect {btn['rect']}")
+                    if btn["rect"].collidepoint(event.pos):
+                        self.current_section = btn["section"]
+                        print(f"Раздел изменён на {btn['section']}")
+                        break
 
         items = self.get_item_list()
         if items:
@@ -67,16 +85,15 @@ class InventoryState:
 
     def draw(self, screen):
         screen.blit(self.inventory_menu_1, (0, 0))
-        menu_2 = pygame.Rect(0,119,1000,768)
+        menu_2 = pygame.Rect(0, 119, 1000, 768)
         screen.blit(self.inventory_menu_2, menu_2)
-        icon_1 = pygame.Rect(0,0,126,116)
-        icon_2 = pygame.Rect(129, 0, 255, 116)
-        icon_3 = pygame.Rect(257, 0, 383, 116)
-        icon_4 = pygame.Rect(385, 0, 511, 116)
-        icon_5 = pygame.Rect(513, 0, 639, 116)
-        icon_6 = pygame.Rect(641, 0, 767, 116)
-        icon_7 = pygame.Rect(769, 0, 895, 116)
-        #icon_8 = pygame.Rect(897, 0, 999, 116)
+        icon_1 = pygame.Rect(0, 0, 127, 116)
+        icon_2 = pygame.Rect(129, 0, 127, 116)
+        icon_3 = pygame.Rect(257, 0, 127, 116)
+        icon_4 = pygame.Rect(385, 0, 127, 116)
+        icon_5 = pygame.Rect(513, 0, 127, 116)
+        icon_6 = pygame.Rect(641, 0, 127, 116)
+        icon_7 = pygame.Rect(769, 0, 127, 116)
         screen.blit(self.artifact_iсon, icon_1)
         screen.blit(self.weapon_iсon, icon_2)
         screen.blit(self.food_iсon, icon_3)
@@ -89,26 +106,28 @@ class InventoryState:
         items_dict = self.game.player.inventory.items
         items_list = list(items_dict.items())  # [(item_id, quantity), ...]
 
+        all_items = self.game.player.inventory.items
+        # Фильтруем по текущему разделу
+        filtered_items = {
+            item_id: amount for item_id, amount in all_items.items()
+            if self.game.player.inventory.get_item_type(item_id) == self.current_section
+        }
+        items_list = list(filtered_items.items())
+        #print(f"Текущий раздел: {self.current_section}, предметов: {len(items_list)}")
+
         # Рисуем сетку
         for row in range(self.rows):
             for col in range(self.cols):
                 x = self.grid_offset_x + col * (self.cell_size + self.cell_margin)
                 y = self.grid_offset_y + row * (self.cell_size + self.cell_margin)
-
-                # Индекс ячейки
                 idx = row * self.cols + col
-
-                # Рисуем ячейку (пустую или с предметом)
                 if idx < len(items_list):
-                    # Если есть предмет в этой позиции
                     screen.blit(self.oak_item_cell, (x, y))
-                    # Выводим текст с названием и количеством (пока так)
                     item_id, quantity = items_list[idx]
                     text = f"{item_id}:{quantity}"
                     text_surf = self.font.render(text, True, (255, 255, 255))
                     screen.blit(text_surf, (x + 5, y + 5))
                 else:
-                    # Пустая ячейка
                     screen.blit(self.empty_cell, (x, y))
 
         # Подсказка внизу

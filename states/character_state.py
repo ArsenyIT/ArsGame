@@ -117,15 +117,6 @@ class CharacterState:
         #    t = self.font.render(f"{name}: ур. {lvl}", True, (200,200,200))
         #    screen.blit(t, (x_left, talent_y + 25 + i*25))
 
-        # Созвездия
-        #const_text = self.font.render(f"Созвездия: {char['constellation']}/6", True, (200,200,200))
-        #screen.blit(const_text, (x_right, talent_y))
-
-        # Кнопки-заглушки
-        #btn_y = screen.get_height() - 100
-        #screen.blit(self.font.render("A - Возвышение", True, (150,150,200)), (50, btn_y+30))
-        #screen.blit(self.font.render("T - Улучшить таланты", True, (150,150,200)), (50, btn_y+60))
-
         # ---- Кнопки перехода (заглушки) ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
