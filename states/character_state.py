@@ -53,16 +53,10 @@ class CharacterState:
                     self.current_index = (self.current_index - 1) % len(self.characters)
                 if event.key == pygame.K_e:
                     self.current_index = (self.current_index + 1) % len(self.characters)
-                # Заглушки для кнопок
-                if event.key == pygame.K_a:
-                    print("Возвышение (заглушка)")
-                if event.key == pygame.K_t:
-                    print("Улучшить таланты (заглушка)")
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):
                     print("Повышение уровня")
-                    #self.draw_up(screen)
 
     def draw(self, screen):
         screen.blit(self.GG_menu, (0,0))
@@ -126,7 +120,7 @@ class CharacterState:
         offset = 10
         btn_width = field_width - 2 * offset  # 324
         btn_height = 123  # подобрано для 4 кнопок
-        btn_texts = ["Таланты", "Созвездия", "Экипировка оружия", "Экипировка артефактов"]
+        btn_texts = ["Оружие", "Артефакты", "Таланты", "Созвездия"]
 
         # Очищаем список кнопок перед перерисовкой
         self.menu_buttons = []

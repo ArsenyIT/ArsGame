@@ -113,7 +113,6 @@ class InventoryState:
             if self.game.player.inventory.get_item_type(item_id) == self.current_section
         }
         items_list = list(filtered_items.items())
-        #print(f"Текущий раздел: {self.current_section}, предметов: {len(items_list)}")
 
         # Рисуем сетку
         for row in range(self.rows):
@@ -131,5 +130,5 @@ class InventoryState:
                     screen.blit(self.empty_cell, (x, y))
 
         # Подсказка внизу
-        hint = self.font.render("B/ESC - выход", True, (150, 150, 150))
+        hint = self.font.render("B/ESC - выход, Левая кнопка мыши - Выбор предмета и переход в другие разделы", True, (150, 150, 150))
         screen.blit(hint, (50, screen.get_height() - 40))

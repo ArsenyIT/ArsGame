@@ -14,7 +14,7 @@ class DialogState:
         self.current_scene_index = 0
 
     def load_scene(self, scene_name):
-        with open("assets/data/dialogues/Tom_1/Season_1/Chapter_1.json", "r", encoding="utf-8") as f:
+        with open("assets/data/dialogues/Tom_1/Season_1/Preface.json", "r", encoding="utf-8") as f:
             data = json.load(f)
         self.dialog_lines = data.get(scene_name, [])
         self.current_line = 0
@@ -25,8 +25,6 @@ class DialogState:
         self.dialog_window = pygame.image.load("assets/textures/Диалоговое_окно.png")
         if hasattr(self.game, "temp_scene"):
             scene_name = self.game.temp_scene
-            # Если нужно, найдём индекс этой сцены в scenes_order и установим current_scene_index
-            # (необязательно, для последовательного переключения потом)
         else:
             scene_name = self.scenes_order[self.current_scene_index]
 
