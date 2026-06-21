@@ -1,4 +1,5 @@
 import pygame
+import json
 
 class WorldState:
     def __init__(self, game):
@@ -9,12 +10,18 @@ class WorldState:
         self.hint_font = pygame.font.Font(None, 24)
         self.near_item = False
         self.item = True
+        self.tile_size = 50
 
     def on_enter(self):
         # загрузить карту, спрайты, инициализировать положение игрока
-        self.bg = pygame.image.load("assets/textures/Трава_1.png")
-        width, height = self.game.screen.get_size()
-        self.bg = pygame.transform.scale(self.bg, (width, height))
+        with open("assets/maps/map.json", "r", encoding="utf-8") as f:
+            map_json = json.load(f)
+        self.map_data = map_json["data"]
+        self.tile_textures = {
+            0: pygame.image.load("assets/textures/tiles/Трава_1.png").convert_alpha(),
+            #1: pygame.image.load("assets/textures/tiles/stone.png").convert_alpha(),
+            #2: pygame.image.load("assets/textures/tiles/wood.png").convert_alpha(),
+        }
         self.player_img = pygame.image.load("assets/textures/ГГ_стоя_влево.png").convert_alpha()
         self.item_img = pygame.image.load("assets/textures/Дубовое_бревно_предмет.png")
         self.squad = pygame.image.load("assets/textures/Список_отряда.png")
@@ -70,7 +77,12 @@ class WorldState:
             self.near_item = True
 
     def draw(self, screen):
-        screen.blit(self.bg, (0, 0))
+        for row in range(len(self.map_data)):
+            for col in range(len(self.map_data[row])):
+                tile_type = self.map_data[row][col]
+                x = col * self.tile_size
+                y = row * self.tile_size
+                screen.blit(self.tile_textures[tile_type], (x, y))
         screen.blit(self.player_img, self.hero_rect)
         ramka = pygame.Rect(screen.get_width() - 250 - 30, 80, 250, 350)
         screen.blit(self.squad, ramka)
