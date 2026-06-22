@@ -9,6 +9,11 @@ class CharacterState:
         self.characters = []
         self.current_index = 0
         self.menu_buttons = []
+        self.field_width = 344
+        self.offset = 10
+        self.btn_width = self.field_width - 2 * self.offset  # 324
+        self.btn_height = 123
+        self.level_up_rect = pygame.Rect(1105, 528, 1363 - 1105, 590 - 528)
 
     def on_enter(self):
         # Загрузить актуальных персонажей из game.player.party
@@ -16,6 +21,31 @@ class CharacterState:
             self.characters = [self.create_test_character()]
         print("CharacterState: on_enter")
         self.GG_menu = pygame.image.load("assets/textures/Арсений.png")
+        self.button_images = {}
+        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        for name in button_names:
+            filename = f"assets/textures/buttons/Кнопка_{name}.png"
+            try:
+                img = pygame.image.load(filename).convert_alpha()
+                # Масштабируем под размер кнопки (btn_width, btn_height)
+                img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
+                self.button_images[name] = img
+            except pygame.error:
+                print(f"Не удалось загрузить картинку для кнопки {name}, используется заглушка")
+                # Можно создать цветной прямоугольник как запасной вариант
+                surf = pygame.Surface((self.btn_width, self.btn_height))
+                surf.fill((80, 80, 120))
+                self.button_images[name] = surf
+        filename = "assets/textures/buttons/Кнопка_Улучшение.png"
+        try:
+            img = pygame.image.load(filename).convert_alpha()
+            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
+            self.button_images["Повышение уровня"] = img
+        except pygame.error:
+            print("Не удалось загрузить картинку для кнопки Повышение уровня, используется заглушка")
+            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
+            surf.fill((80, 80, 120))
+            self.button_images["Повышение уровня"] = surf
 
     def create_test_character(self):
         # Возвращает словарь с данными персонажа
@@ -56,7 +86,20 @@ class CharacterState:
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):
-                    print("Повышение уровня")
+                    self.game.change_state("level_up")
+                for btn in self.menu_buttons:
+                    if btn["rect"].collidepoint(event.pos):
+                        if btn["text"] == "Характеристика":
+                            pass
+                        elif btn["text"] == "Оружие":
+                            self.game.change_state("weapon")
+                        elif btn["text"] == "Артефакты":
+                            self.game.change_state("artifact")
+                        elif btn["text"] == "Таланты":
+                            self.game.change_state("talents")
+                        elif btn["text"] == "Созвездия":
+                            self.game.change_state("constellations")
+                        break
 
     def draw(self, screen):
         screen.blit(self.GG_menu, (0,0))
@@ -64,7 +107,7 @@ class CharacterState:
 
         # Имя и уровень
         name_text = self.title_font.render(f"{char['name']}  Lv.{char['level']}", True, (255,255,200))
-        screen.blit(name_text, (50, 30))
+        screen.blit(name_text, (1150, 50))
 
         # Полоска опыта
         #exp_ratio = char['exp'] / char['exp_next'] if char['exp_next'] > 0 else 0
@@ -75,9 +118,8 @@ class CharacterState:
 
         x0 = 1102
         y0 = 92
-        offset = 10
-        x_left = x0 + offset
-        y_start = y0 + offset
+        x_left = x0 + self.offset
+        y_start = y0 + self.offset
         line_height = 30
 
         # Общий список всех характеристик (в один столбик)
@@ -95,7 +137,7 @@ class CharacterState:
         ]
 
         for i, (name, val) in enumerate(stats_all):
-            text = self.font.render(f"{name}: {val}", True, (220, 220, 220))
+            text = self.font.render(f"{name}: {val}", True, (255, 255, 255))
             screen.blit(text, (x_left, y_start + i * line_height))
 
         # Таланты
@@ -114,40 +156,19 @@ class CharacterState:
         # ---- Кнопки перехода (заглушки) ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
-        y0_btn = 162
-        field_width = 344  # ширина поля (0 до 344)
+        y0_btn = 30
         field_height = 785 - 162  # 623
-        offset = 10
-        btn_width = field_width - 2 * offset  # 324
-        btn_height = 123  # подобрано для 4 кнопок
-        btn_texts = ["Оружие", "Артефакты", "Таланты", "Созвездия"]
+        btn_texts = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
 
         # Очищаем список кнопок перед перерисовкой
         self.menu_buttons = []
 
         for i, text in enumerate(btn_texts):
-            y = y0_btn + offset + i * (btn_height + offset)
-            rect = pygame.Rect(x0_btn + offset, y, btn_width, btn_height)
-            # Рисуем фон кнопки
-            pygame.draw.rect(screen, (60, 60, 80), rect)
-            pygame.draw.rect(screen, (200, 200, 200), rect, 2)  # рамка
-            # Текст по центру
-            text_surf = self.font.render(text, True, (255, 255, 255))
-            text_rect = text_surf.get_rect(center=rect.center)
-            screen.blit(text_surf, text_rect)
+            y = y0_btn + self.offset + i * (self.btn_height + self.offset)
+            rect = pygame.Rect(x0_btn + self.offset, y, self.btn_width, self.btn_height)
+            # Рисуем картинку кнопки
+            screen.blit(self.button_images[text], rect)
             # Сохраняем для обработки кликов
             self.menu_buttons.append({"text": text, "rect": rect})
 
-        x0_lvl = 1105
-        y0_lvl = 528
-        width_lvl = 1363 - 1105
-        height_lvl = 590 - 528
-        # Создаём прямоугольник кнопки (можно с отступом 5, но я сделаю точно по границам поля)
-        self.level_up_rect = pygame.Rect(x0_lvl, y0_lvl, width_lvl, height_lvl)
-        # Рисуем фон кнопки
-        pygame.draw.rect(screen, (60, 60, 80), self.level_up_rect)
-        pygame.draw.rect(screen, (200, 200, 200), self.level_up_rect, 2)  # рамка
-        # Текст с отступом 10 от левого края и по вертикали по центру
-        text_surf = self.font.render("Повышение уровня", True, (255, 255, 255))
-        text_rect = text_surf.get_rect(center=self.level_up_rect.center)
-        screen.blit(text_surf, text_rect)
+        screen.blit(self.button_images["Повышение уровня"], self.level_up_rect)

@@ -44,6 +44,22 @@ class Game:
         self.states["settings"] = SettingsState(self)
         self.states["battle"] = BattleState(self)
 
+        from states.weapon_state import WeaponState
+        from states.weapon_upgrade_state import WeaponUpgradeState
+        from states.artifact_state import ArtifactState
+        from states.artifact_upgrade_state import ArtifactUpgradeState
+        from states.level_up_state import LevelUpState
+        from states.talents_state import TalentsState
+        from states.constellations_state import ConstellationsState
+
+        self.states["weapon"] = WeaponState(self)
+        self.states["weapon_upgrade"] = WeaponUpgradeState(self)
+        self.states["artifact"] = ArtifactState(self)
+        self.states["artifact_upgrade"] = ArtifactUpgradeState(self)
+        self.states["level_up"] = LevelUpState(self)
+        self.states["talents"] = TalentsState(self)
+        self.states["constellations"] = ConstellationsState(self)
+
     def change_state(self, new_state_name):
         if self.state:
             self.state.on_exit()
