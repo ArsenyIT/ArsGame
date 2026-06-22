@@ -3,7 +3,7 @@ from player import Player
 class Game:
     def __init__(self, screen, WIDTH, HEIGHT):
         self.screen = screen
-        self.state = None          # текущее состояние (объект состояния)
+        self.state = None          # текущее состояние
         self.states = {}           # словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # начальное состояние
@@ -27,6 +27,13 @@ class Game:
         from states.shop_state import ShopState
         from states.settings_state import SettingsState
         from states.battle_state import BattleState
+        from states.weapon_state import WeaponState
+        from states.weapon_upgrade_state import WeaponUpgradeState
+        from states.artifact_state import ArtifactState
+        from states.artifact_upgrade_state import ArtifactUpgradeState
+        from states.level_up_state import LevelUpState
+        from states.talents_state import TalentsState
+        from states.constellations_state import ConstellationsState
 
         self.states["world"] = WorldState(self)
         self.states["inventory"] = InventoryState(self)
@@ -43,15 +50,6 @@ class Game:
         self.states["shop"] = ShopState(self)
         self.states["settings"] = SettingsState(self)
         self.states["battle"] = BattleState(self)
-
-        from states.weapon_state import WeaponState
-        from states.weapon_upgrade_state import WeaponUpgradeState
-        from states.artifact_state import ArtifactState
-        from states.artifact_upgrade_state import ArtifactUpgradeState
-        from states.level_up_state import LevelUpState
-        from states.talents_state import TalentsState
-        from states.constellations_state import ConstellationsState
-
         self.states["weapon"] = WeaponState(self)
         self.states["weapon_upgrade"] = WeaponUpgradeState(self)
         self.states["artifact"] = ArtifactState(self)

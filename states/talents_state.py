@@ -6,7 +6,7 @@ class TalentsState:
         self.font = None
 
     def on_enter(self):
-        print("Вход в экран Таланты")   # меняй текст
+        print("Вход в экран Таланты")
         self.font = pygame.font.Font(None, 36)
 
     def on_exit(self):

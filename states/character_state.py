@@ -12,7 +12,7 @@ class CharacterState:
         self.field_width = 344
         self.offset = 10
         self.btn_width = self.field_width - 2 * self.offset  # 324
-        self.btn_height = 123
+        self.btn_height = 120
         self.level_up_rect = pygame.Rect(1105, 528, 1363 - 1105, 590 - 528)
 
     def on_enter(self):
@@ -156,7 +156,7 @@ class CharacterState:
         # ---- Кнопки перехода (заглушки) ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
-        y0_btn = 30
+        y0_btn = 40
         field_height = 785 - 162  # 623
         btn_texts = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
 

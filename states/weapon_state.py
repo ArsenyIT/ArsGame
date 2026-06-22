@@ -6,7 +6,7 @@ class WeaponState:
         self.font = None
 
     def on_enter(self):
-        print("Вход в экран Оружие")   # меняй текст
+        print("Вход в экран Оружие")
         self.font = pygame.font.Font(None, 36)
 
     def on_exit(self):

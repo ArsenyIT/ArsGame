@@ -6,7 +6,7 @@ class WeaponUpgradeState:
         self.font = None
 
     def on_enter(self):
-        print("Вход в экран Прокачка оружия")   # меняй текст
+        print("Вход в экран Прокачка оружия")
         self.font = pygame.font.Font(None, 36)
 
     def on_exit(self):
