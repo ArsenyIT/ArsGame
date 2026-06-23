@@ -1,4 +1,5 @@
 import pygame
+from game_data import Character
 
 class CharacterState:
     def __init__(self, game):
@@ -17,10 +18,33 @@ class CharacterState:
 
     def on_enter(self):
         # Загрузить актуальных персонажей из game.player.party
+        self.characters = self.game.player.party
         if not self.characters:
-            self.characters = [self.create_test_character()]
+            self.characters = [Character(
+                name="Герой",
+                exp=0,
+                exp_next=100,
+                base_hp=670,
+                base_atk=105,
+                base_defense=300,
+                crit_rate=5,
+                crit_dmg=150,
+                energy_recharge=100,
+                elemental_mastery=10,
+                phys_bonus=0,
+                resistance=1,
+                speed=10
+            )]
         print("CharacterState: on_enter")
         self.GG_menu = pygame.image.load("assets/textures/Арсений.png")
+        self.portrait_GG = "assets/textures/ГГ_меню.png"
+        try:
+            self.portrait_img = pygame.image.load(self.portrait_GG).convert_alpha()
+        except pygame.error:
+            print("Портрет не найден, используется заглушка")
+            # Создаём заглушку (цветной прямоугольник)
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
         self.button_images = {}
         button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
         for name in button_names:
@@ -47,28 +71,6 @@ class CharacterState:
             surf.fill((80, 80, 120))
             self.button_images["Повышение уровня"] = surf
 
-    def create_test_character(self):
-        # Возвращает словарь с данными персонажа
-        return {
-            "name": "Герой",
-            "level": 1,
-            "exp": 0,
-            "exp_next": 100,
-            "hp": 670,
-            "max_hp": 670,
-            "atk": 105,
-            "defense": 300,
-            "crit_rate": 5,
-            "crit_dmg": 150,
-            "energy_recharge": 100,
-            "elemental_mastery": 10,
-            "phys_bonus": 0,
-            "resistance": 1,
-            "talents": {"normal": 1, "skill": 1, "burst": 1},
-            "constellation": 0,
-            "speed": 10,
-        }
-
     def on_exit(self):
         print("CharacterState: on_exit")
 
@@ -79,10 +81,10 @@ class CharacterState:
                 if event.key == pygame.K_c or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
                 # Переключение персонажей
-                if event.key == pygame.K_q:
-                    self.current_index = (self.current_index - 1) % len(self.characters)
-                if event.key == pygame.K_e:
-                    self.current_index = (self.current_index + 1) % len(self.characters)
+                #if event.key == pygame.K_q:
+                #    self.current_index = (self.current_index - 1) % len(self.characters)
+                #if event.key == pygame.K_e:
+                #    self.current_index = (self.current_index + 1) % len(self.characters)
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):
@@ -103,10 +105,15 @@ class CharacterState:
 
     def draw(self, screen):
         screen.blit(self.GG_menu, (0,0))
+        screen.blit(self.portrait_img, (560, 180))
+
+        if not self.characters:
+            return
+
         char = self.characters[self.current_index]
 
         # Имя и уровень
-        name_text = self.title_font.render(f"{char['name']}  Lv.{char['level']}", True, (255,255,200))
+        name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,200))
         screen.blit(name_text, (1150, 50))
 
         # Полоска опыта
@@ -124,16 +131,16 @@ class CharacterState:
 
         # Общий список всех характеристик (в один столбик)
         stats_all = [
-            ("HP", f"{char['hp']}/{char['max_hp']}"),
-            ("Сила атаки", str(char['atk'])),
-            ("Защита", str(char['defense'])),
-            ("Шанс крита", f"{char['crit_rate']}%"),
-            ("Крит. урон", f"{char['crit_dmg']}%"),
-            ("Восст. энергии", f"{char['energy_recharge']}%"),
-            ("Мастерство стихий", str(char['elemental_mastery'])),
-            ("Бонус физ. урона", f"{char['phys_bonus']}%"),
-            ("Сопротивление", f"{char['resistance']}%"),
-            ("Скорость", str(char['speed'])),
+            ("HP", f"{char.base_hp}/{char.base_hp}"),
+            ("Сила атаки", str(char.base_atk)),
+            ("Защита", str(char.base_defense)),
+            ("Шанс крита", f"{char.crit_rate}%"),
+            ("Крит. урон", f"{char.crit_dmg}%"),
+            ("Восст. энергии", f"{char.energy_recharge}%"),
+            ("Мастерство стихий", str(char.elemental_mastery)),
+            ("Бонус физ. урона", f"{char.phys_bonus}%"),
+            ("Сопротивление", f"{char.resistance}%"),
+            ("Скорость", str(char.speed)),
         ]
 
         for i, (name, val) in enumerate(stats_all):
@@ -153,11 +160,11 @@ class CharacterState:
         #    t = self.font.render(f"{name}: ур. {lvl}", True, (200,200,200))
         #    screen.blit(t, (x_left, talent_y + 25 + i*25))
 
-        # ---- Кнопки перехода (заглушки) ----
+        # ---- Кнопки перехода ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
         y0_btn = 40
-        field_height = 785 - 162  # 623
+        #field_height = 785 - 162  # 623
         btn_texts = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
 
         # Очищаем список кнопок перед перерисовкой
