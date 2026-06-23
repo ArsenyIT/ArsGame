@@ -5,7 +5,7 @@ class WorldState:
     def __init__(self, game):
         self.game = game
         self.player = None   # объект игрока на карте
-        self.hero_rect = pygame.Rect(100, 100, 43, 85)
+        self.hero_rect = pygame.Rect(100, 100, 45, 90)
         self.item_rect = pygame.Rect(200, 200, 13, 32)
         self.hint_font = pygame.font.Font(None, 24)
         self.near_item = False
