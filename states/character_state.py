@@ -64,12 +64,22 @@ class CharacterState:
         try:
             img = pygame.image.load(filename).convert_alpha()
             img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
-            self.button_images["Повышение уровня"] = img
+            self.button_images["Улучшение"] = img
         except pygame.error:
             print("Не удалось загрузить картинку для кнопки Повышение уровня, используется заглушка")
             surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
             surf.fill((80, 80, 120))
-            self.button_images["Повышение уровня"] = surf
+            self.button_images["Улучшение"] = surf
+        filename = "assets/textures/buttons/Кнопка_Возвышение.png"
+        try:
+            img = pygame.image.load(filename).convert_alpha()
+            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
+            self.button_images["Возвышение"] = img
+        except pygame.error:
+            print("Не удалось загрузить картинку для кнопки Возвышение")
+            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
+            surf.fill((80, 80, 120))
+            self.button_images["Возвышение"] = surf
 
     def on_exit(self):
         print("CharacterState: on_exit")
@@ -172,4 +182,9 @@ class CharacterState:
             # Сохраняем для обработки кликов
             self.menu_buttons.append({"text": text, "rect": rect})
 
-        screen.blit(self.button_images["Повышение уровня"], self.level_up_rect)
+        if self.characters:
+            char = self.characters[self.current_index]
+            if char.can_ascend():
+                screen.blit(self.button_images["Возвышение"], self.level_up_rect)
+            else:
+                screen.blit(self.button_images["Улучшение"], self.level_up_rect)

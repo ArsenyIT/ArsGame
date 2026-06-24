@@ -33,6 +33,7 @@ class Character:
                  talents=None):
         self.name = name
         self.level = 1
+        self.max_level = 10
         self.exp = exp
         self.exp_next = exp_next
         self.base_hp = base_hp
@@ -78,5 +79,14 @@ class Character:
         self.base_defense += growth.get("def", 0)
         self.elemental_mastery += growth.get("em", 0)
         self.phys_bonus += growth.get("phys_bonus", 0)
-        self.exp_next = int(self.exp_next * 1.2) + 250  # пересчёт опыта
+        self.exp_next = int(self.exp_next * 1.5) + 250  # пересчёт опыта
         print(f"Уровень повышен до {self.level}")
+
+    def can_ascend(self):
+        ascend_levels = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+        return self.level in ascend_levels and self.level >= self.max_level
+
+    def ascend(self):
+        self.max_level += 10  # или на 20, в зависимости от уровня
+        self.exp = 0
+        print(f"Максимальный уровень повышен до {self.max_level}")

@@ -33,13 +33,15 @@ class Player:
         self.load_party("assets/data/party_save.json")
 
     def save_party(self, filename):
-        """Сохраняет данные всех персонажей в JSON"""
+        #Сохраняет данные всех персонажей в JSON
         data = []
         for char in self.party:
             char_data = {
                 "name": char.name,
                 "level": char.level,
+                "max_level": char.max_level,
                 "exp": char.exp,
+                "exp_next": char.exp_next,
                 "talents": char.talents,
                 "constellation": char.constellation,
                 # weapon и artifacts пока не реализованы, сохраняем как None
@@ -60,7 +62,7 @@ class Player:
         print("Партия сохранена")
 
     def load_party(self, filename):
-        """Загружает сохранённые данные и обновляет персонажей"""
+        #Загружает сохранённые данные и обновляет персонажей
         if os.path.exists(filename):
             with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -69,7 +71,9 @@ class Player:
                 if i < len(data):
                     saved = data[i]
                     char.level = saved.get("level", char.level)
+                    char.max_level = saved.get("level", char.max_level)
                     char.exp = saved.get("exp", char.exp)
+                    char.exp_next = saved.get("exp_next", char.exp_next)
                     char.talents = saved.get("talents", char.talents)
                     char.constellation = saved.get("constellation", char.constellation)
                     # weapon и artifacts пока пропускаем

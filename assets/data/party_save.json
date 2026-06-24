@@ -1,8 +1,10 @@
 [
   {
     "name": "Герой",
-    "level": 5,
-    "exp": 2922,
+    "level": 10,
+    "max_level": 20,
+    "exp": 0,
+    "exp_next": 57154,
     "talents": {
       "normal": 1,
       "skill": 1,
