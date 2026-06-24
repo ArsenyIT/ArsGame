@@ -64,8 +64,8 @@ class LevelUpState:
             level_text = self.font.render(f"Уровень: {char.level}", True, (255, 255, 255))
             screen.blit(level_text, (1150, 50))
             # Отображение количества книг
-            #books_text = self.font.render(f"Книг: {books}", True, (255, 255, 255))
-            #screen.blit(books_text, (100, 200))
+            books_text = self.font.render(f"Книг: {books}", True, (255, 255, 255))
+            screen.blit(books_text, (1150, 125))
 
             exp_ratio = char.exp / char.exp_next if char.exp_next > 0 else 0
             pygame.draw.rect(screen, (80, 80, 80), (1150, 80, 200, 15))

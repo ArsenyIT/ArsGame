@@ -42,6 +42,16 @@ class Player:
                 "max_level": char.max_level,
                 "exp": char.exp,
                 "exp_next": char.exp_next,
+                "base_hp": char.base_hp,
+                "base_atk": char.base_atk,
+                "base_defense": char.base_defense,
+                "crit_rate": char.crit_rate,
+                "crit_dmg": char.crit_dmg,
+                "energy_recharge": char.energy_recharge,
+                "elemental_mastery": char.elemental_mastery,
+                "phys_bonus": char.phys_bonus,
+                "resistance": char.resistance,
+                "speed": char.speed,
                 "talents": char.talents,
                 "constellation": char.constellation,
                 # weapon и artifacts пока не реализованы, сохраняем как None
@@ -74,6 +84,16 @@ class Player:
                     char.max_level = saved.get("level", char.max_level)
                     char.exp = saved.get("exp", char.exp)
                     char.exp_next = saved.get("exp_next", char.exp_next)
+                    char.base_hp = saved.get("base_hp", char.base_hp)
+                    char.base_atk = saved.get("base_atk", char.base_atk)
+                    char.base_defense = saved.get("base_defense", char.base_defense)
+                    char.crit_rate = saved.get("crit_rate", char.crit_rate)
+                    char.crit_dmg = saved.get("crit_dmg", char.crit_dmg)
+                    char.energy_recharge = saved.get("energy_recharge", char.energy_recharge)
+                    char.elemental_mastery = saved.get("elemental_mastery", char.elemental_mastery)
+                    char.phys_bonus = saved.get("phys_bonus", char.phys_bonus)
+                    char.resistance = saved.get("resistance", char.resistance)
+                    char.speed = saved.get("speed", char.speed)
                     char.talents = saved.get("talents", char.talents)
                     char.constellation = saved.get("constellation", char.constellation)
                     # weapon и artifacts пока пропускаем
