@@ -27,7 +27,7 @@ class Artifact:
 
 class Character:
     def __init__(self, name, exp, exp_next,
-                 base_hp, base_atk, base_defense,
+                 base_hp, base_atk, base_defense, portrait_path,
                  crit_rate, crit_dmg, energy_recharge, elemental_mastery, phys_bonus, resistance, speed,
                  talents=None):
         self.name = name
@@ -53,6 +53,7 @@ class Character:
             "sands": None,
             "goblet": None,
             "circlet": None}
+        self.portrait_path = portrait_path
 
     def calculate_total_stats(self):
         pass

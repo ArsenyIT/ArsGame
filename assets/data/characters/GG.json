@@ -1,0 +1,21 @@
+{
+  "name": "Герой",
+  "exp": 0,
+  "exp_next": 100,
+  "base_hp": 670,
+  "base_atk": 105,
+  "base_defense": 300,
+  "crit_rate": 5,
+  "crit_dmg": 150,
+  "energy_recharge": 100,
+  "elemental_mastery": 10,
+  "phys_bonus": 0,
+  "resistance": 1,
+  "speed": 10,
+  "talents": {
+    "normal": 1,
+    "skill": 1,
+    "burst": 1
+  },
+  "portrait_path": "assets/textures/ГГ_меню.png"
+}

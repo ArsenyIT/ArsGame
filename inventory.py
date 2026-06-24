@@ -2,36 +2,42 @@ import pygame
 import json
 import os
 
+ITEM_DATA = {
+    "oak_wood": {
+        "type": "resources",
+        "name": "Дубовое бревно",
+        "rarity": 1,
+    },
+    "story_of_the_Almighty": {
+        "type": "resources",
+        "name": "Сказание о Всемогущем",
+        "rarity": 4,
+        "exp_gain": 10000   # сколько опыта даёт книга
+    },
+    # Еда
+    #"apple": "food",
+    #"bread": "food",
+    # Зелья
+    #"health_potion": "potions",
+    #"mana_potion": "potions",
+    # Оружие
+    #"iron_sword": "weapons",
+    #"bow": "weapons",
+    # Артефакты
+    #"flower_of_life": "artifacts",
+    #"plume_of_death": "artifacts",
+    # Особые инструменты (если нужны)
+    #"special_key": "special_tools",
+    # Редкие ресурсы
+    #"rare_crystal": "rare_resources",
+}
+
 class Item:
     # Теперь конструктор принимает параметры
     def __init__(self, item_id, name, max_stack=1000):
         self.id = item_id          # уникальный идентификатор (строка или число)
-        self.name = name           # отображаемое имя
+        self.data = ITEM_DATA.get(item_id, {})
         self.max_stack = max_stack # максимальное количество в стопке
-
-ITEM_TYPES = {
-    # Ресурсы
-    "oak_wood": "resources",
-    "stone": "resources",
-    "iron_ore": "resources",
-    "gold_ore": "resources",
-    # Еда
-    "apple": "food",
-    "bread": "food",
-    # Зелья
-    "health_potion": "potions",
-    "mana_potion": "potions",
-    # Оружие
-    "iron_sword": "weapons",
-    "bow": "weapons",
-    # Артефакты
-    "flower_of_life": "artifacts",
-    "plume_of_death": "artifacts",
-    # Особые инструменты (если нужны)
-    "special_key": "special_tools",
-    # Редкие ресурсы
-    "rare_crystal": "rare_resources",
-}
 
 class Inventory:
     def __init__(self):
@@ -40,12 +46,12 @@ class Inventory:
 
     def get_item_type(self, item_id):
         #Возвращает раздел предмета или None, если неизвестен
-        return ITEM_TYPES.get(item_id)
+        return ITEM_DATA.get(item_id, {}).get("type")
 
     def add_item(self, item_id, amount):
         #Добавляет указанное количество предмета в инвентарь
-        if item_id not in ITEM_TYPES:
-            print(f"Предмет {item_id} не имеет типа! Добавьте его в ITEM_TYPES.")
+        if item_id not in ITEM_DATA:
+            print(f"Предмет {item_id} не имеет типа! Добавьте его в ITEM_DATA.")
             return
         if item_id in self.items:
             self.items[item_id] += amount

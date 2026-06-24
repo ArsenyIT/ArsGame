@@ -44,6 +44,13 @@ class InventoryState:
 
         self.empty_cell = pygame.image.load("assets/textures/Инвентарь/Ячейка_инвентаря.png").convert_alpha()
         self.oak_item_cell = pygame.image.load("assets/textures/Инвентарь/Дубовое_бревно_инвентарь.png").convert_alpha()
+        self.story_of_the_Almighty = pygame.image.load("assets/textures/Инвентарь/История_всевышнего_инвентарь.png").convert_alpha()
+
+        self.item_icons = {
+            "oak_wood": self.oak_item_cell,
+            "story_of_the_Almighty": self.story_of_the_Almighty,
+            # добавляй новые предметы по мере появления
+        }
 
     def on_exit(self):
         print("Выход из инвентаря")
@@ -121,14 +128,15 @@ class InventoryState:
                 y = self.grid_offset_y + row * (self.cell_size + self.cell_margin)
                 idx = row * self.cols + col
                 if idx < len(items_list):
-                    screen.blit(self.oak_item_cell, (x, y))
-                    item_id, quantity = items_list[idx]
-                    text = f"{item_id}:{quantity}"
-                    text_surf = self.font.render(text, True, (255, 255, 255))
-                    screen.blit(text_surf, (x + 5, y + 5))
+                    item_id, quantity = items_list[idx]  # сначала получаем данные
+                    icon = self.item_icons.get(item_id, self.oak_item_cell)  # если нет иконки, используем oak_item_cell
+                    screen.blit(icon, (x, y))
+                    # Текст с названием и количеством
+                    #text = f"{item_id}:{quantity}"
+                    #text_surf = self.font.render(text, True, (255, 255, 255))
+                    #screen.blit(text_surf, (x + 5, y + 5))
                 else:
                     screen.blit(self.empty_cell, (x, y))
-
         # Подсказка внизу
         hint = self.font.render("B/ESC - выход, Левая кнопка мыши - Выбор предмета и переход в другие разделы", True, (150, 150, 150))
         screen.blit(hint, (50, screen.get_height() - 40))
