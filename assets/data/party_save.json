@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Герой",
+    "level": 5,
+    "exp": 2922,
+    "talents": {
+      "normal": 1,
+      "skill": 1,
+      "burst": 1
+    },
+    "constellation": 0,
+    "weapon": null,
+    "artifacts": {
+      "flower": null,
+      "plume": null,
+      "sands": null,
+      "goblet": null,
+      "circlet": null
+    }
+  }
+]

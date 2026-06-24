@@ -73,6 +73,7 @@ class CharacterState:
 
     def on_exit(self):
         print("CharacterState: on_exit")
+        self.game.save_all()
 
     def update(self, dt, events):
         for event in events:
@@ -115,13 +116,6 @@ class CharacterState:
         # Имя и уровень
         name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,200))
         screen.blit(name_text, (1150, 50))
-
-        # Полоска опыта
-        #exp_ratio = char['exp'] / char['exp_next'] if char['exp_next'] > 0 else 0
-        #pygame.draw.rect(screen, (80,80,80), (50, 70, 300, 15))
-        #pygame.draw.rect(screen, (100,200,100), (50, 70, int(300 * exp_ratio), 15))
-        #exp_text = self.font.render(f"Опыт: {char['exp']}/{char['exp_next']}", True, (200,200,200))
-        #screen.blit(exp_text, (50, 90))
 
         x0 = 1102
         y0 = 92

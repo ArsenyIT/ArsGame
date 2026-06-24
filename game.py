@@ -71,3 +71,8 @@ class Game:
     def draw(self, screen):
         if self.state:
             self.state.draw(screen)
+
+    def save_all(self):
+        self.player.inventory.save("assets/data/inventory.json")
+        self.player.save_party("assets/data/party_save.json")
+        print("Всё сохранено")

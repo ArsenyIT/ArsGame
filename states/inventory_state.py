@@ -54,15 +54,13 @@ class InventoryState:
 
     def on_exit(self):
         print("Выход из инвентаря")
+        self.game.save_all()
 
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
-                elif event.key == pygame.K_s and (event.mod & pygame.KMOD_SHIFT):
-                    self.game.player.inventory.save("assets/data/inventory.json")
-                    print("Инвентарь сохранён (Shift+S)")
                 #elif event.key == pygame.K_UP:
                 #    self.selected_index -= 1
                 #elif event.key == pygame.K_DOWN:

@@ -15,6 +15,7 @@ class LevelUpState:
 
     def on_exit(self):
         print("Выход из экрана Улучшение")
+        self.game.save_all()
 
     def update(self, dt, events):
         for event in events:
@@ -50,3 +51,9 @@ class LevelUpState:
             # Отображение количества книг
             books_text = self.font.render(f"Книг: {books}", True, (255, 255, 255))
             screen.blit(books_text, (100, 200))
+
+            exp_ratio = char.exp / char.exp_next if char.exp_next > 0 else 0
+            pygame.draw.rect(screen, (80, 80, 80), (1150, 80, 200, 15))
+            pygame.draw.rect(screen, (100, 200, 100), (1150, 80, int(200 * exp_ratio), 15))
+            exp_text = self.font.render(f"Опыт: {char.exp}/{char.exp_next}", True, (200, 200, 200))
+            screen.blit(exp_text, (1150, 100))

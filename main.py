@@ -39,6 +39,8 @@ def main():
 
         # Показываем нарисованное на экране
         pygame.display.flip()
+        # Сохранение всех данных
+        game.save_all()
 
     # 6. Завершение работы
     pygame.quit()
