@@ -1,6 +1,27 @@
 import pygame
 import json
 
+TALENT_BOOK_REQUIREMENTS = {
+    1: (2, 2),   # с 1 на 2: 2 книги 2★
+    2: (2, 3),
+    3: (2, 4),
+    4: (2, 6),
+    5: (2, 8),
+    6: (3, 2),   # с 6 на 7: 2 книги 3★
+    7: (3, 3),
+    8: (3, 4),
+    9: (3, 6),
+    10: (3, 8),
+    11: (4, 2),  # с 11 на 12: 2 книги 4★
+    12: (4, 4),
+    13: (4, 6),
+    14: (4, 8),
+    15: (4, 10),
+    16: (4, 12),
+    17: (4, 14),
+    18: (4, 16),
+    19: (4, 18)}
+
 class Weapon:
     def __init__(self, name, weapon_type, rarity, base_atk):
         self.name = name
@@ -90,3 +111,46 @@ class Character:
         self.max_level += 10  # или на 20, в зависимости от уровня
         self.exp = 0
         print(f"Максимальный уровень повышен до {self.max_level}")
+
+    def get_talent_max_level(self):
+        if self.max_level <= 10:
+            return 2
+        elif self.max_level <= 20:
+            return 4
+        elif self.max_level <= 30:
+            return 6
+        elif self.max_level <= 40:
+            return 8
+        elif self.max_level <= 50:
+            return 10
+        elif self.max_level <= 60:
+            return 12
+        elif self.max_level <= 70:
+            return 14
+        elif self.max_level <= 80:
+            return 16
+        elif self.max_level <= 90:
+            return 18
+        else:
+            return 20
+
+    def get_talent_book_requirement(self, current_level):
+        #Возвращает (редкость, количество) книг для повышения таланта
+        return TALENT_BOOK_REQUIREMENTS.get(current_level, (None, 0))
+
+    def can_upgrade_talent(self, talent_name):
+        #Проверяет, можно ли улучшить талант
+        current_level = self.talents.get(talent_name, 1)
+        max_level = self.get_talent_max_level()
+        return current_level < max_level
+
+    #def get_passive_talents(self):
+        #Возвращает список активных пассивных талантов
+    #    passives = []
+    #    if self.level >= 1:
+    #        passives.append(("Пассивный талант 1", "Увеличивает силу атаки на 10%"))
+    #    if self.level >= 50:
+    #        passives.append(("Пассивный талант 2", "Увеличивает скорость передвижения на 15%"))
+    #    if self.level >= 100:
+    #        passives.append(("Пассивный талант 3", "При использовании сверхспособности восстанавливает 20% HP"))
+    #    return passives

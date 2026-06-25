@@ -72,29 +72,35 @@ class Player:
         print("Партия сохранена")
 
     def load_party(self, filename):
-        #Загружает сохранённые данные и обновляет персонажей
+        # Загружает сохранённые данные и обновляет персонажей
         if os.path.exists(filename):
-            with open(filename, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            # Обновляем персонажей по порядку
-            for i, char in enumerate(self.party):
-                if i < len(data):
-                    saved = data[i]
-                    char.level = saved.get("level", char.level)
-                    char.max_level = saved.get("level", char.max_level)
-                    char.exp = saved.get("exp", char.exp)
-                    char.exp_next = saved.get("exp_next", char.exp_next)
-                    char.base_hp = saved.get("base_hp", char.base_hp)
-                    char.base_atk = saved.get("base_atk", char.base_atk)
-                    char.base_defense = saved.get("base_defense", char.base_defense)
-                    char.crit_rate = saved.get("crit_rate", char.crit_rate)
-                    char.crit_dmg = saved.get("crit_dmg", char.crit_dmg)
-                    char.energy_recharge = saved.get("energy_recharge", char.energy_recharge)
-                    char.elemental_mastery = saved.get("elemental_mastery", char.elemental_mastery)
-                    char.phys_bonus = saved.get("phys_bonus", char.phys_bonus)
-                    char.resistance = saved.get("resistance", char.resistance)
-                    char.speed = saved.get("speed", char.speed)
-                    char.talents = saved.get("talents", char.talents)
-                    char.constellation = saved.get("constellation", char.constellation)
+            # Проверяем, что файл не пустой
+            if os.path.getsize(filename) > 0:
+                with open(filename, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                for i, char in enumerate(self.party):
+                    if i < len(data):
+                        saved = data[i]
+                        char.level = saved.get("level", char.level)
+                        char.max_level = saved.get("level", char.max_level)
+                        char.exp = saved.get("exp", char.exp)
+                        char.exp_next = saved.get("exp_next", char.exp_next)
+                        char.base_hp = saved.get("base_hp", char.base_hp)
+                        char.base_atk = saved.get("base_atk", char.base_atk)
+                        char.base_defense = saved.get("base_defense", char.base_defense)
+                        char.crit_rate = saved.get("crit_rate", char.crit_rate)
+                        char.crit_dmg = saved.get("crit_dmg", char.crit_dmg)
+                        char.energy_recharge = saved.get("energy_recharge", char.energy_recharge)
+                        char.elemental_mastery = saved.get("elemental_mastery", char.elemental_mastery)
+                        char.phys_bonus = saved.get("phys_bonus", char.phys_bonus)
+                        char.resistance = saved.get("resistance", char.resistance)
+                        char.speed = saved.get("speed", char.speed)
+                        char.talents = saved.get("talents", char.talents)
+                        char.constellation = saved.get("constellation", char.constellation)
                     # weapon и artifacts пока пропускаем
-            print("Прогресс партии загружен")
+                print("Прогресс партии загружен")
+            else:
+                print("Файл партии пуст, создаю новый")
+                # Можно создать пустой список или ничего не делать
+        else:
+            print("Файл партии не найден, создаю новый")

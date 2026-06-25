@@ -14,6 +14,11 @@ ITEM_DATA = {
         "rarity": 4,
         "exp_gain": 10000   # сколько опыта даёт книга
     },
+    "talent_book_2": {
+        "type": "resources",
+        "name": "Книга талантов 2★",
+        "rarity": 2,
+    },
     # Еда
     #"apple": "food",
     #"bread": "food",
