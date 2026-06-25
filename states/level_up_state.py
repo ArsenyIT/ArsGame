@@ -14,6 +14,7 @@ class LevelUpState:
         self.button_img = pygame.image.load("assets/textures/buttons/Кнопка_Улучшить.png").convert_alpha()
         self.ascend_img = pygame.image.load("assets/textures/buttons/Кнопка_Возвысить.png").convert_alpha()
         self.use_button_rect = pygame.Rect(900, 630, 258, 62)
+        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
 
     def on_exit(self):
         print("Выход из экрана Улучшение")
@@ -51,6 +52,7 @@ class LevelUpState:
 
     def draw(self, screen):
         screen.blit(self.background, (0, 0))
+        screen.blit(self.portrait_GG, (180, 180))
         char = self.game.player.party[0]
         if char.can_ascend():
             screen.blit(self.ascend_img, (900, 630))

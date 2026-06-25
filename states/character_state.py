@@ -151,19 +151,6 @@ class CharacterState:
             text = self.font.render(f"{name}: {val}", True, (255, 255, 255))
             screen.blit(text, (x_left, y_start + i * line_height))
 
-        # Таланты
-        #talent_y = y_start + len(stats_left)*line_height + 20
-        #title = self.font.render("Таланты:", True, (255,200,100))
-        #screen.blit(title, (x_left, talent_y))
-        #talents = [
-        #    ("Обычная атака", char['talents']['normal']),
-        #    ("Навык (E)", char['talents']['skill']),
-        #    ("Сверхспособность (Q)", char['talents']['burst']),
-        #]
-        #for i, (name, lvl) in enumerate(talents):
-        #    t = self.font.render(f"{name}: ур. {lvl}", True, (200,200,200))
-        #    screen.blit(t, (x_left, talent_y + 25 + i*25))
-
         # ---- Кнопки перехода ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0

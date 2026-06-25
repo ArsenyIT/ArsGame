@@ -34,6 +34,7 @@ class TalentsState:
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
         try:
             self.background = pygame.image.load("assets/textures/Арсений_Таланты.png").convert_alpha()
         except pygame.error:
@@ -172,10 +173,8 @@ class TalentsState:
 
     def draw(self, screen):
         # Отрисовка фона
-        if self.background:
-            screen.blit(self.background, (0, 0))
-        else:
-            screen.fill((40, 40, 60))
+        screen.blit(self.background, (0, 0))
+        screen.blit(self.portrait_GG, (560, 180))
 
         # Рисуем кнопки навигации (пока заглушка)
         for btn in self.nav_buttons:
