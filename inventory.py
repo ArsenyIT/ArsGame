@@ -19,6 +19,11 @@ ITEM_DATA = {
         "name": "Книга талантов 2★",
         "rarity": 2,
     },
+    "hero_duplicate": {
+        "type": "resources",
+        "name": "Дубликат героя",
+        "rarity": 5,
+    },
     # Еда
     #"apple": "food",
     #"bread": "food",

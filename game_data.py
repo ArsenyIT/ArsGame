@@ -154,3 +154,12 @@ class Character:
     #    if self.level >= 100:
     #        passives.append(("Пассивный талант 3", "При использовании сверхспособности восстанавливает 20% HP"))
     #    return passives
+
+    def activate_constellation(self):
+        if self.constellation >= 6:
+            print("Максимальный уровень созвездий достигнут!")
+            return False
+        # Увеличиваем уровень созвездия
+        self.constellation += 1
+        print(f"Созвездие активировано! Текущий уровень: {self.constellation}")
+        return True
