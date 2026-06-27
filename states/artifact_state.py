@@ -30,6 +30,7 @@ class ArtifactState:
         self.stats_font = pygame.font.Font(None, 28)
         self.bg = pygame.image.load("assets/textures/Арсений_Артефакты.png").convert_alpha()
         self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
 
         self.equip_btn = pygame.image.load("assets/textures/buttons/Кнопка_Экипировать.png").convert_alpha()
         self.unequip_btn = pygame.image.load("assets/textures/buttons/Кнопка_Сменить.png").convert_alpha()
@@ -138,17 +139,9 @@ class ArtifactState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
+        screen.blit(self.portrait_GG, (580, 200))
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
-
-        for slot_name, pos in self.circle_positions.items():
-            x, y = pos
-            color = (200, 200, 200) if self.active_slot != slot_name else (100, 200, 100)
-            pygame.draw.circle(screen, color, (x, y), self.circle_radius, 2)
-            # Название слота под кругом
-            text_surf = self.font.render(slot_name.capitalize(), True, (255, 255, 255))
-            text_rect = text_surf.get_rect(center=(x, y + self.circle_radius + 15))
-            screen.blit(text_surf, text_rect)
 
         if self.active_slot is not None:
             self.draw_popup(screen, self.active_slot)
@@ -180,7 +173,7 @@ class ArtifactState:
         char = self.game.player.party[0]
         current_artifact = char.artifacts.get(slot_name)
 
-        btn_rect = pygame.Rect(popup_rect.x + 20, popup_rect.y + 650, 200, 50)
+        btn_rect = pygame.Rect(popup_rect.x + 50, popup_rect.y + 630, 200, 50)
         if current_artifact is None:
             screen.blit(self.equip_btn, btn_rect)
         else:
