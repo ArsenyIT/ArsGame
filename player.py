@@ -56,13 +56,7 @@ class Player:
                 "constellation": char.constellation,
                 # weapon и artifacts пока не реализованы, сохраняем как None
                 "weapon": None,
-                "artifacts": {
-                    "flower": None,
-                    "plume": None,
-                    "sands": None,
-                    "goblet": None,
-                    "circlet": None
-                }
+                "artifacts": char.artifacts
             }
             data.append(char_data)
         # Создаём папку, если её нет
@@ -82,7 +76,7 @@ class Player:
                     if i < len(data):
                         saved = data[i]
                         char.level = saved.get("level", char.level)
-                        char.max_level = saved.get("level", char.max_level)
+                        char.max_level = saved.get("max_level", char.max_level)
                         char.exp = saved.get("exp", char.exp)
                         char.exp_next = saved.get("exp_next", char.exp_next)
                         char.base_hp = saved.get("base_hp", char.base_hp)
@@ -97,7 +91,8 @@ class Player:
                         char.speed = saved.get("speed", char.speed)
                         char.talents = saved.get("talents", char.talents)
                         char.constellation = saved.get("constellation", char.constellation)
-                    # weapon и artifacts пока пропускаем
+                        char.artifacts = saved.get("artifacts", char.artifacts)
+                    # weapon пока пропускаем
                 print("Прогресс партии загружен")
             else:
                 print("Файл партии пуст, создаю новый")

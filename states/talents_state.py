@@ -90,12 +90,12 @@ class TalentsState:
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    if event.key == pygame.K_ESCAPE:
-                        if self.active_talent:
-                            # Если открыта плашка, закрываем её
-                            self.active_talent = None
-                        else:
-                            pass
+                    if self.active_talent:
+                        # Если открыта плашка, закрываем её
+                        self.active_talent = None
+                    else:
+                        pass
+
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.active_talent:
                     # Если плашка открыта, обрабатываем клики внутри неё

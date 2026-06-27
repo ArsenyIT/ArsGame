@@ -163,3 +163,32 @@ class Character:
         self.constellation += 1
         print(f"Созвездие активировано! Текущий уровень: {self.constellation}")
         return True
+
+    def equip_artifact(self, slot, artifact_id, inventory):
+        # Проверяем, есть ли артефакт в инвентаре
+        if inventory.get_count(artifact_id) > 0:
+            # Если слот занят, сначала снимаем старый артефакт
+            if self.artifacts[slot] is not None:
+                self.unequip_artifact(slot, inventory)
+            # Удаляем артефакт из инвентаря
+            inventory.remove_item(artifact_id, 1)
+            # Экипируем в слот
+            self.artifacts[slot] = artifact_id
+            print(f"Экипирован {artifact_id} в слот {slot}")
+            return True
+        else:
+            print("Артефакта нет в инвентаре!")
+            return False
+
+    def unequip_artifact(self, slot, inventory):
+        artifact_id = self.artifacts[slot]
+        if artifact_id is not None:
+            # Добавляем артефакт обратно в инвентарь
+            inventory.add_item(artifact_id, 1)
+            # Очищаем слот
+            self.artifacts[slot] = None
+            print(f"Снят артефакт {artifact_id} со слота {slot}")
+            return True
+        else:
+            print("Слот пуст!")
+            return False

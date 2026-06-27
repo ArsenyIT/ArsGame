@@ -2,7 +2,7 @@
   {
     "name": "Герой",
     "level": 1,
-    "max_level": 1,
+    "max_level": 10,
     "exp": 0,
     "exp_next": 1000,
     "base_hp": 670,

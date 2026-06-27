@@ -24,6 +24,16 @@ ITEM_DATA = {
         "name": "Дубликат героя",
         "rarity": 5,
     },
+    "feather_1": {
+        "type": "artifacts",
+        "name": "Перо_1",
+        "rarity": 1,
+    },
+    "feather_2": {
+        "type": "artifacts",
+        "name": "Перо_2",
+        "rarity": 1,
+    },
     # Еда
     #"apple": "food",
     #"bread": "food",
