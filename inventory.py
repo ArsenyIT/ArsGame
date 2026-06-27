@@ -28,11 +28,13 @@ ITEM_DATA = {
         "type": "artifacts",
         "name": "Перо_1",
         "rarity": 1,
+        "slot": "plume"
     },
     "feather_2": {
         "type": "artifacts",
         "name": "Перо_2",
         "rarity": 1,
+        "slot": "plume"
     },
     # Еда
     #"apple": "food",
@@ -95,6 +97,9 @@ class Inventory:
 
     def save(self, filename):
         #Сохраняет инвентарь в JSON-файл
+        if not self.items:
+            print("Предупреждение: инвентарь пуст, сохранение отменено!")
+            return
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.items, f, ensure_ascii=False, indent=2)
         self.modified = False

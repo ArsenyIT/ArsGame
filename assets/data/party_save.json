@@ -24,7 +24,7 @@
     "weapon": null,
     "artifacts": {
       "flower": null,
-      "plume": null,
+      "plume": "feather_1",
       "sands": null,
       "goblet": null,
       "circlet": null

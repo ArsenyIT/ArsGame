@@ -45,10 +45,14 @@ class InventoryState:
         self.empty_cell = pygame.image.load("assets/textures/Инвентарь/Ячейка_инвентаря.png").convert_alpha()
         self.oak_item_cell = pygame.image.load("assets/textures/Инвентарь/Дубовое_бревно_инвентарь.png").convert_alpha()
         self.story_of_the_Almighty = pygame.image.load("assets/textures/Инвентарь/История_всевышнего_инвентарь.png").convert_alpha()
+        self.feather_1_inventory = pygame.image.load("assets/textures/Инвентарь/Перо_1_инвентарь.png").convert_alpha()
+        self.feather_2_inventory = pygame.image.load("assets/textures/Инвентарь/Перо_2_инвентарь.png").convert_alpha()
 
         self.item_icons = {
             "oak_wood": self.oak_item_cell,
             "story_of_the_Almighty": self.story_of_the_Almighty,
+            "feather_1": self.feather_1_inventory,
+            "feather_2": self.feather_2_inventory,
             # добавляй новые предметы по мере появления
         }
 
