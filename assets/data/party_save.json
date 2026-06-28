@@ -28,6 +28,17 @@
       "sands": null,
       "goblet": null,
       "circlet": null
+    },
+    "artifact_data": {
+      "feather_1": {
+        "level": 17,
+        "sub_stats": [
+          "ATK",
+          "ATK",
+          "Crit Rate",
+          "ATK"
+        ]
+      }
     }
   }
 ]

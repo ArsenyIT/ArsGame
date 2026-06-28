@@ -36,6 +36,7 @@ class LevelUpState:
                             if self.game.player.inventory.get_count(shard_id) > 0:
                                 self.game.player.inventory.remove_item(shard_id, 1)
                                 char.ascend()
+                                self.game.player.mark_modified()
                                 print("Возвышение выполнено!")
                             else:
                                 print("Нет материалов возвышения!")
@@ -46,6 +47,7 @@ class LevelUpState:
                                 exp_gain = ITEM_DATA[book_id].get("exp_gain", 0)
                                 self.game.player.inventory.remove_item(book_id, 1)
                                 char.add_exp(exp_gain)
+                                self.game.player.mark_modified()
                                 print(f"Добавлено {exp_gain} опыта. Уровень: {char.level}")
                             else:
                                 print("Нет книг!")

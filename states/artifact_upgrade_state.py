@@ -95,6 +95,7 @@ class ArtifactUpgradeState:
             if self.equipped_artifact is not None:
                 # Если есть экипированный – снимаем
                 char.unequip_artifact(self.slot, inventory)
+                self.game.player.mark_modified()
                 self.equipped_artifact = None
                 self.selected_artifact = None
                 self.update_popup_list()
@@ -104,6 +105,7 @@ class ArtifactUpgradeState:
                 if self.selected_artifact is not None:
                     if inventory.get_count(self.selected_artifact) > 0:
                         char.equip_artifact(self.slot, self.selected_artifact, inventory)
+                        self.game.player.mark_modified()
                         self.equipped_artifact = self.selected_artifact
                         self.selected_artifact = None
                         self.update_popup_list()
@@ -115,6 +117,18 @@ class ArtifactUpgradeState:
                     # Если нет выбранного – открываем плашку
                     self.show_popup = True
                     self.update_popup_list()
+
+        if hasattr(self, 'upgrade_btn_rect') and self.upgrade_btn_rect.collidepoint(pos):
+            if self.equipped_artifact is not None:
+                char = self.game.player.party[0]
+                inventory = self.game.player.inventory
+                success = char.upgrade_artifact(self.equipped_artifact, inventory)
+                if success:
+                    self.game.player.mark_modified()
+                else:
+                    print("Не удалось улучшить")
+            else:
+                print("Нет экипированного артефакта для улучшения!")
 
     def handle_popup_click(self, pos):
         if hasattr(self, 'popup_cell_rects'):
@@ -148,7 +162,12 @@ class ArtifactUpgradeState:
             screen.blit(equip_text, (700, 60))
 
         if self.equipped_artifact:
-            # Загружаем иконку по ID (сейчас только для перьев)
+            art_data = ITEM_DATA.get(self.equipped_artifact, {})
+            name = art_data.get("name", "Неизвестно")
+            equip_text = self.stats_font.render(f"Экипировано: {name}", True, (220, 220, 220))
+            screen.blit(equip_text, (700, 60))
+
+            # Иконка
             icon_map = {
                 "feather_1": self.feather_1,
                 "feather_2": self.feather_2,
@@ -158,11 +177,49 @@ class ArtifactUpgradeState:
                 icon_rect = icon.get_rect(topleft=(700, 120))
                 screen.blit(icon, icon_rect)
 
+            # Уровень и субстаты
+            char = self.game.player.party[0]
+            data = char.artifact_data.get(self.equipped_artifact, {})
+            level = data.get("level", 0)
+            sub_stats = data.get("sub_stats", [])
+            level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
+            screen.blit(level_text, (1050, 30))
+            # Отображение субстатов в столбик
+            y_sub = 50
+            if sub_stats:
+                for sub in sub_stats:
+                    sub_surf = self.stats_font.render(f"- {sub}", True, (200, 200, 200))
+                    screen.blit(sub_surf, (1050, y_sub))
+                    y_sub += 25
+            else:
+                sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
+                screen.blit(sub_surf, (1050, y_sub))
+        else:
+            equip_text = self.stats_font.render("Слот пуст", True, (200, 200, 200))
+            screen.blit(equip_text, (1050, 60))
+
         if self.selected_artifact is not None:
             art_data = ITEM_DATA.get(self.selected_artifact, {})
             name = art_data.get("name", "Неизвестно")
             sel_text = self.stats_font.render(f"Выбрано: {name}", True, (255, 255, 0))
             screen.blit(sel_text, (700, 85))
+
+            # Отображение уровня и субстатов для выбранного артефакта
+            char = self.game.player.party[0]
+            data = char.artifact_data.get(self.selected_artifact, {})
+            level = data.get("level", 0)
+            sub_stats = data.get("sub_stats", [])
+            level_sel = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
+            screen.blit(level_sel, (1050, 30))
+            y_sel_sub = 145
+            if sub_stats:
+                for sub in sub_stats:
+                    sub_surf = self.stats_font.render(f"- {sub}", True, (200, 200, 200))
+                    screen.blit(sub_surf, (1050, y_sel_sub))
+                    y_sel_sub += 25
+            else:
+                sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
+                screen.blit(sub_surf, (1050, y_sel_sub))
         else:
             sel_text = self.stats_font.render("Ничего не выбрано", True, (200, 200, 200))
             screen.blit(sel_text, (700, 85))

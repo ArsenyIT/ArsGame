@@ -43,6 +43,7 @@ def main():
         game.save_all()
 
     # 6. Завершение работы
+    game.save_all()
     pygame.quit()
 
 if __name__ == "__main__":

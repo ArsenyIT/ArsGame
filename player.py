@@ -27,10 +27,15 @@ class Player:
             resistance=data["resistance"],
             speed=data["speed"],
             talents=data["talents"],
-            portrait_path=data.get("portrait_path", None)  # если поле отсутствует, ставим None
+            portrait_path=data.get("portrait_path", None)
         )
         self.party = [hero]
         self.load_party("assets/data/party_save.json")
+        self.modified = False
+
+    def mark_modified(self):
+        self.modified = True
+
 
     def save_party(self, filename):
         #Сохраняет данные всех персонажей в JSON
@@ -56,13 +61,15 @@ class Player:
                 "constellation": char.constellation,
                 # weapon и artifacts пока не реализованы, сохраняем как None
                 "weapon": None,
-                "artifacts": char.artifacts
+                "artifacts": char.artifacts,
+                "artifact_data": char.artifact_data
             }
             data.append(char_data)
         # Создаём папку, если её нет
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        self.modified = False
         print("Партия сохранена")
 
     def load_party(self, filename):
@@ -92,6 +99,7 @@ class Player:
                         char.talents = saved.get("talents", char.talents)
                         char.constellation = saved.get("constellation", char.constellation)
                         char.artifacts = saved.get("artifacts", char.artifacts)
+                        char.artifact_data = saved.get("artifact_data", {})
                     # weapon пока пропускаем
                 print("Прогресс партии загружен")
             else:

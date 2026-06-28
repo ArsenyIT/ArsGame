@@ -1,5 +1,6 @@
 import pygame
 import json
+from inventory import ITEM_DATA
 
 TALENT_BOOK_REQUIREMENTS = {
     1: (2, 2),   # с 1 на 2: 2 книги 2★
@@ -76,6 +77,7 @@ class Character:
             "sands": None,
             "goblet": None,
             "circlet": None}
+        self.artifact_data = {}
         self.portrait_path = portrait_path
         self.load_growth_data()
 
@@ -192,3 +194,44 @@ class Character:
         else:
             print("Слот пуст!")
             return False
+
+    def upgrade_artifact(self, artifact_id, inventory):
+        if artifact_id not in self.artifact_data:
+            self.artifact_data[artifact_id] = {"level": 0, "sub_stats": []}
+
+        data = self.artifact_data[artifact_id]
+        current_level = data["level"]
+        max_level = 20
+
+        if current_level >= max_level:
+            print(f"Артефакт {artifact_id} уже достиг максимального уровня!")
+            return False
+
+        # Расход ресурса
+        cost = (current_level + 1) * 10  # например, 10, 20, 30...
+        if inventory.get_count("artifact_exp") < cost:
+            print(f"Недостаточно артефактного опыта! Нужно {cost}, есть {inventory.get_count('artifact_exp')}")
+            return False
+        inventory.remove_item("artifact_exp", cost)
+        print(f"После траты ресурса: инвентарь содержит {inventory.items}")
+
+        # Повышаем уровень
+        data["level"] += 1
+        new_level = data["level"]
+
+        # Добавляем субстаты на уровнях 4, 8, 12, 16
+        if new_level in [4, 8, 12, 16]:
+            art_data = ITEM_DATA.get(artifact_id, {})
+            pool = art_data.get("sub_stats_pool", [])
+            if pool:
+                import random
+                new_sub = random.choice(pool)
+                if len(data["sub_stats"]) < 4:
+                    data["sub_stats"].append(new_sub)
+                else:
+                    # Если уже 4 субстата, улучшаем существующий (пока просто увеличиваем его, но нужно хранить значения)
+                    # Для простоты оставим заглушку
+                    print("Уже 4 субстата, улучшение пока не реализовано")
+
+        print(f"Артефакт {artifact_id} улучшен до уровня {new_level}")
+        return True

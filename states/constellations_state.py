@@ -108,6 +108,7 @@ class ConstellationsState:
                                 if self.game.player.inventory.get_count("hero_duplicate") > 0:
                                     self.game.player.inventory.remove_item("hero_duplicate", 1)
                                     char.activate_constellation()
+                                    self.game.player.mark_modified()
                                     self.game.save_all()
                                     print("Созвездие активировано!")
                                 else:

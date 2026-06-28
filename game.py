@@ -73,6 +73,12 @@ class Game:
             self.state.draw(screen)
 
     def save_all(self):
-        self.player.inventory.save("assets/data/inventory.json")
-        self.player.save_party("assets/data/party_save.json")
-        print("Всё сохранено")
+        saved = False
+        if self.player.inventory.modified:
+            self.player.inventory.save("assets/data/inventory.json")
+            saved = True
+        if self.player.modified:
+            self.player.save_party("assets/data/party_save.json")
+            saved = True
+        if saved:
+            print("Всё сохранено")
