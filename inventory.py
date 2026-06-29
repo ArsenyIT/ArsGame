@@ -151,17 +151,17 @@ ITEM_DATA = {
         "name": "Артефактный опыт",
         "rarity": 2,
     },
-    "sword_1": {
+    "Sword_of_steel": {
         "type": "weapons",
-        "name": "Меч из стали",
+        "name": "Стальной меч",
         "weapon_type": "sword",
         "rarity": 1,
         "base_atk": 50,
         "secondary_stat": {"stat": "ATK%", "value": 10}
     },
-    "sword_2": {
+    "Rusted_sword": {
         "type": "weapons",
-        "name": "Проржавевший меч",
+        "name": "Ржавый меч",
         "weapon_type": "sword",
         "rarity": 1,
         "base_atk": 40,

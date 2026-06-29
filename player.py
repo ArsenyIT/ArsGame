@@ -153,7 +153,7 @@ class Player:
         return True
 
     def remove_artifact(self, unique_id):
-        """Удаляет артефакт из инвентаря (при экипировке)"""
+        # Удаляет артефакт из инвентаря (при экипировке)
         if unique_id in self.artifact_inventory:
             self.artifact_inventory.remove(unique_id)
             return True
