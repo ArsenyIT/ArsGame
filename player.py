@@ -37,11 +37,6 @@ class Player:
         self.load_party("assets/data/party_save.json")
         self.modified = False
 
-        if not self.artifact_inventory:
-            test_artifacts = ["flower_1", "sands_1", "goblet_1", "feather_1", "feather_2"]
-            for art_id in test_artifacts:
-                self.add_artifact(art_id)
-
     def mark_modified(self):
         self.modified = True
 

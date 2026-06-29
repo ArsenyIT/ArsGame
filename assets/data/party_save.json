@@ -27,7 +27,7 @@
         "flower": null,
         "plume": "feather_2_1782718953799_4",
         "sands": null,
-        "goblet": null,
+        "goblet": "goblet_1_1782718953799_2",
         "circlet": null
       },
       "artifact_data": {
@@ -48,8 +48,25 @@
           "artifact_id": "sands_1"
         },
         "goblet_1_1782718953799_2": {
-          "level": 0,
-          "sub_stats": [],
+          "level": 20,
+          "sub_stats": [
+            {
+              "stat": "DEF%",
+              "value": 4.3
+            },
+            {
+              "stat": "ATK%",
+              "value": 2.0
+            },
+            {
+              "stat": "DEF",
+              "value": 17.4
+            },
+            {
+              "stat": "Energy Recharge%",
+              "value": 5.0
+            }
+          ],
           "main_stat": {
             "elec_dmg_percent": 5.0
           },
@@ -94,7 +111,6 @@
   "artifact_inventory": [
     "flower_1_1782718953799_0",
     "sands_1_1782718953799_1",
-    "goblet_1_1782718953799_2",
     "feather_1_1782718953799_3"
   ],
   "weapon_inventory": []

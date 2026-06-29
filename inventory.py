@@ -151,6 +151,22 @@ ITEM_DATA = {
         "name": "Артефактный опыт",
         "rarity": 2,
     },
+    "sword_1": {
+        "type": "weapons",
+        "name": "Меч из стали",
+        "weapon_type": "sword",
+        "rarity": 1,
+        "base_atk": 50,
+        "secondary_stat": {"stat": "ATK%", "value": 10}
+    },
+    "sword_2": {
+        "type": "weapons",
+        "name": "Проржавевший меч",
+        "weapon_type": "sword",
+        "rarity": 1,
+        "base_atk": 40,
+        "secondary_stat": {"stat": "Crit Rate%", "value": 5}
+    }
     # Еда
     #"apple": "food",
     #"bread": "food",

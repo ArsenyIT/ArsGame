@@ -1,0 +1,16 @@
+{
+  "sword_1": {
+    "1": {"atk_bonus": 0, "secondary_bonus": 0},
+    "2": {"atk_bonus": 5, "secondary_bonus": 1},
+    "3": {"atk_bonus": 10, "secondary_bonus": 2},
+    "4": {"atk_bonus": 15, "secondary_bonus": 3},
+    "5": {"atk_bonus": 20, "secondary_bonus": 4}
+  },
+  "sword_2": {
+    "1": {"atk_bonus": 0, "secondary_bonus": 0},
+    "2": {"atk_bonus": 4, "secondary_bonus": 1},
+    "3": {"atk_bonus": 8, "secondary_bonus": 2},
+    "4": {"atk_bonus": 12, "secondary_bonus": 3},
+    "5": {"atk_bonus": 16, "secondary_bonus": 4}
+  }
+}
