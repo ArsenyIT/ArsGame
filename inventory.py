@@ -25,18 +25,126 @@ ITEM_DATA = {
         "rarity": 5,
     },
     "feather_1": {
-        "type": "artifacts",
-        "name": "Перо_1",
-        "rarity": 1,
-        "slot": "plume",
-        "sub_stats_pool": ["HP", "ATK", "DEF", "Crit Rate", "Crit DMG", "Energy Recharge", "Elemental Mastery"]
+    "type": "artifacts",
+    "name": "Перо_1",
+    "rarity": 1,
+    "slot": "plume",
+    "possible_main_stats": [
+        {"atk": 100},
+        {"atk": 110}
+    ],
+    "possible_sub_stats": [
+            "HP",          # плоское значение HP
+            "ATK",         # плоское значение ATK
+            "DEF",         # плоское значение DEF
+            "HP%",         # процент HP
+            "ATK%",        # процент ATK
+            "DEF%",        # процент DEF
+            "Crit Rate%",
+            "Crit DMG%",
+            "Energy Recharge%",
+            "Elemental Mastery"
+        ]
     },
     "feather_2": {
         "type": "artifacts",
         "name": "Перо_2",
         "rarity": 1,
         "slot": "plume",
-        "sub_stats_pool": ["HP", "ATK", "DEF", "Crit Rate", "Crit DMG", "Energy Recharge", "Elemental Mastery"]
+        "possible_main_stats": [
+            {"atk": 105},
+            {"atk": 115}
+        ],
+        "possible_sub_stats": [
+            "HP",          # плоское значение HP
+            "ATK",         # плоское значение ATK
+            "DEF",         # плоское значение DEF
+            "HP%",         # процент HP
+            "ATK%",        # процент ATK
+            "DEF%",        # процент DEF
+            "Crit Rate%",
+            "Crit DMG%",
+            "Energy Recharge%",
+            "Elemental Mastery"
+        ]
+    },
+    "flower_1": {
+        "type": "artifacts",
+        "name": "Цветок_1",
+        "rarity": 1,
+        "slot": "flower",
+        "possible_main_stats": [
+            {"hp": 1000},
+            {"hp": 1100}
+        ],
+        "possible_sub_stats": [
+            "HP",          # плоское значение HP
+            "ATK",         # плоское значение ATK
+            "DEF",         # плоское значение DEF
+            "HP%",         # процент HP
+            "ATK%",        # процент ATK
+            "DEF%",        # процент DEF
+            "Crit Rate%",
+            "Crit DMG%",
+            "Energy Recharge%",
+            "Elemental Mastery"
+        ]
+    },
+    "sands_1": {
+        "type": "artifacts",
+        "name": "Часы_1",
+        "rarity": 1,
+        "slot": "sands",
+        "possible_main_stats": [
+            {"atk_percent": 4.0},
+            {"hp_percent": 4.0},
+            {"def_percent": 4.0},
+            {"energy_recharge": 4.0},
+            {"elemental_mastery": 20}
+        ],
+        "possible_sub_stats": [
+            "HP",          # плоское значение HP
+            "ATK",         # плоское значение ATK
+            "DEF",         # плоское значение DEF
+            "HP%",         # процент HP
+            "ATK%",        # процент ATK
+            "DEF%",        # процент DEF
+            "Crit Rate%",
+            "Crit DMG%",
+            "Energy Recharge%",
+            "Elemental Mastery"
+        ]
+    },
+    "goblet_1": {
+        "type": "artifacts",
+        "name": "Кубок_1",
+        "rarity": 1,
+        "slot": "goblet",
+        "possible_main_stats": [
+            {"atk_percent": 4.0},
+            {"hp_percent": 4.0},
+            {"def_percent": 4.0},
+            {"phys_dmg_percent": 5.0},
+            {"elec_dmg_percent": 5.0},
+            {"hydro_dmg_percent": 5.0},
+            {"pyro_dmg_percent": 5.0},
+            {"cryo_dmg_percent": 5.0},
+            {"anemo_dmg_percent": 5.0},
+            {"geo_dmg_percent": 5.0},
+            {"dendro_dmg_percent": 5.0}
+        ],
+        "possible_sub_stats": [
+            "HP",          # плоское значение HP
+            "ATK",         # плоское значение ATK
+            "DEF",         # плоское значение DEF
+            "HP%",         # процент HP
+            "ATK%",        # процент ATK
+            "DEF%",        # процент DEF
+            "Crit Rate%",
+            "Crit DMG%",
+            "Energy Recharge%",
+            "Elemental Mastery"
+        ]
     },
     "artifact_exp": {
         "type": "resources",

@@ -1,44 +1,101 @@
-[
-  {
-    "name": "Герой",
-    "level": 1,
-    "max_level": 10,
-    "exp": 0,
-    "exp_next": 1000,
-    "base_hp": 670,
-    "base_atk": 105,
-    "base_defense": 300,
-    "crit_rate": 5,
-    "crit_dmg": 150,
-    "energy_recharge": 100,
-    "elemental_mastery": 15,
-    "phys_bonus": 0,
-    "resistance": 1,
-    "speed": 10,
-    "talents": {
-      "normal": 1,
-      "skill": 1,
-      "burst": 1
-    },
-    "constellation": 0,
-    "weapon": null,
-    "artifacts": {
-      "flower": null,
-      "plume": "feather_1",
-      "sands": null,
-      "goblet": null,
-      "circlet": null
-    },
-    "artifact_data": {
-      "feather_1": {
-        "level": 17,
-        "sub_stats": [
-          "ATK",
-          "ATK",
-          "Crit Rate",
-          "ATK"
-        ]
+{
+  "characters": [
+    {
+      "name": "Герой",
+      "level": 1,
+      "max_level": 10,
+      "exp": 0,
+      "exp_next": 1000,
+      "base_hp": 670,
+      "base_atk": 105,
+      "base_defense": 300,
+      "crit_rate": 5,
+      "crit_dmg": 150,
+      "energy_recharge": 100,
+      "elemental_mastery": 15,
+      "phys_bonus": 0,
+      "resistance": 1,
+      "speed": 10,
+      "talents": {
+        "normal": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "constellation": 0,
+      "weapon": null,
+      "artifacts": {
+        "flower": null,
+        "plume": "feather_2_1782718953799_4",
+        "sands": null,
+        "goblet": null,
+        "circlet": null
+      },
+      "artifact_data": {
+        "flower_1_1782718953799_0": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "hp": 1100
+          },
+          "artifact_id": "flower_1"
+        },
+        "sands_1_1782718953799_1": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "energy_recharge": 4.0
+          },
+          "artifact_id": "sands_1"
+        },
+        "goblet_1_1782718953799_2": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "elec_dmg_percent": 5.0
+          },
+          "artifact_id": "goblet_1"
+        },
+        "feather_1_1782718953799_3": {
+          "level": 20,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 100
+          },
+          "artifact_id": "feather_1"
+        },
+        "feather_2_1782718953799_4": {
+          "level": 20,
+          "sub_stats": [
+            {
+              "stat": "DEF",
+              "value": 9.0
+            },
+            {
+              "stat": "HP",
+              "value": 15.4
+            },
+            {
+              "stat": "Crit DMG%",
+              "value": 4.2
+            },
+            {
+              "stat": "Energy Recharge%",
+              "value": 4.4
+            }
+          ],
+          "main_stat": {
+            "atk": 115
+          },
+          "artifact_id": "feather_2"
+        }
       }
     }
-  }
-]
+  ],
+  "artifact_inventory": [
+    "flower_1_1782718953799_0",
+    "sands_1_1782718953799_1",
+    "goblet_1_1782718953799_2",
+    "feather_1_1782718953799_3"
+  ],
+  "weapon_inventory": []
+}

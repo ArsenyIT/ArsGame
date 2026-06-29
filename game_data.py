@@ -1,6 +1,7 @@
 import pygame
 import json
 from inventory import ITEM_DATA
+import random
 
 TALENT_BOOK_REQUIREMENTS = {
     1: (2, 2),   # с 1 на 2: 2 книги 2★
@@ -22,6 +23,16 @@ TALENT_BOOK_REQUIREMENTS = {
     17: (4, 14),
     18: (4, 16),
     19: (4, 18)}
+
+def generate_artifact_main_stat(artifact_id):
+    #Возвращает случайный основной стат для артефакта.
+    #Если для артефакта нет possible_main_stats, возвращает None.
+    art_data = ITEM_DATA.get(artifact_id, {})
+    possible_main = art_data.get("possible_main_stats", [])
+    if not possible_main:
+        print(f"Для артефакта {artifact_id} не заданы возможные основные статы!")
+        return None
+    return random.choice(possible_main)
 
 class Weapon:
     def __init__(self, name, weapon_type, rarity, base_atk):
@@ -166,72 +177,107 @@ class Character:
         print(f"Созвездие активировано! Текущий уровень: {self.constellation}")
         return True
 
-    def equip_artifact(self, slot, artifact_id, inventory):
-        # Проверяем, есть ли артефакт в инвентаре
-        if inventory.get_count(artifact_id) > 0:
-            # Если слот занят, сначала снимаем старый артефакт
-            if self.artifacts[slot] is not None:
-                self.unequip_artifact(slot, inventory)
-            # Удаляем артефакт из инвентаря
-            inventory.remove_item(artifact_id, 1)
-            # Экипируем в слот
-            self.artifacts[slot] = artifact_id
-            print(f"Экипирован {artifact_id} в слот {slot}")
-            return True
-        else:
+    def equip_artifact(self, slot, unique_id, player):
+        # Проверяем, что артефакт есть в инвентаре
+        if unique_id not in player.artifact_inventory:
             print("Артефакта нет в инвентаре!")
             return False
+        # Если слот занят, снимаем старый
+        if self.artifacts[slot] is not None:
+            self.unequip_artifact(slot, player)
+        # Удаляем из инвентаря
+        player.artifact_inventory.remove(unique_id)
+        # Экипируем
+        self.artifacts[slot] = unique_id
+        print(f"Экипирован артефакт {unique_id} в слот {slot}")
+        return True
 
-    def unequip_artifact(self, slot, inventory):
-        artifact_id = self.artifacts[slot]
-        if artifact_id is not None:
-            # Добавляем артефакт обратно в инвентарь
-            inventory.add_item(artifact_id, 1)
-            # Очищаем слот
+    def unequip_artifact(self, slot, player):
+        unique_id = self.artifacts[slot]
+        if unique_id is not None:
+            player.artifact_inventory.append(unique_id)
             self.artifacts[slot] = None
-            print(f"Снят артефакт {artifact_id} со слота {slot}")
+            print(f"Снят артефакт {unique_id} со слота {slot}")
             return True
-        else:
-            print("Слот пуст!")
+        return False
+
+    def upgrade_artifact(self, unique_id, inventory):
+        if unique_id not in self.artifact_data:
+            print(f"Артефакт {unique_id} не найден в данных!")
             return False
 
-    def upgrade_artifact(self, artifact_id, inventory):
-        if artifact_id not in self.artifact_data:
-            self.artifact_data[artifact_id] = {"level": 0, "sub_stats": []}
-
-        data = self.artifact_data[artifact_id]
-        current_level = data["level"]
+        data = self.artifact_data[unique_id]
+        current_level = data.get("level", 0)
         max_level = 20
 
         if current_level >= max_level:
-            print(f"Артефакт {artifact_id} уже достиг максимального уровня!")
+            print(f"Артефакт {unique_id} уже достиг максимального уровня!")
             return False
 
-        # Расход ресурса
-        cost = (current_level + 1) * 10  # например, 10, 20, 30...
+        cost = (current_level + 1) * 10
         if inventory.get_count("artifact_exp") < cost:
-            print(f"Недостаточно артефактного опыта! Нужно {cost}, есть {inventory.get_count('artifact_exp')}")
+            print(f"Недостаточно опыта! Нужно {cost}, есть {inventory.get_count('artifact_exp')}")
             return False
         inventory.remove_item("artifact_exp", cost)
-        print(f"После траты ресурса: инвентарь содержит {inventory.items}")
 
-        # Повышаем уровень
         data["level"] += 1
         new_level = data["level"]
 
-        # Добавляем субстаты на уровнях 4, 8, 12, 16
+        template_id = data.get("artifact_id")
+        if not template_id:
+            print("Нет template_id для артефакта!")
+            return False
+
+        art_data = ITEM_DATA.get(template_id, {})
+        pool = art_data.get("possible_sub_stats", [])
+
         if new_level in [4, 8, 12, 16]:
-            art_data = ITEM_DATA.get(artifact_id, {})
-            pool = art_data.get("sub_stats_pool", [])
             if pool:
                 import random
-                new_sub = random.choice(pool)
-                if len(data["sub_stats"]) < 4:
-                    data["sub_stats"].append(new_sub)
-                else:
-                    # Если уже 4 субстата, улучшаем существующий (пока просто увеличиваем его, но нужно хранить значения)
-                    # Для простоты оставим заглушку
-                    print("Уже 4 субстата, улучшение пока не реализовано")
+                existing_names = {sub["stat"] for sub in data["sub_stats"]}
+                available = [s for s in pool if s not in existing_names]
 
-        print(f"Артефакт {artifact_id} улучшен до уровня {new_level}")
+                if available:
+                    new_stat_name = random.choice(available)
+                    new_value = self.get_initial_sub_stat_value(new_stat_name)
+                    data["sub_stats"].append({"stat": new_stat_name, "value": new_value})
+                    print(f"Добавлен субстат: {new_stat_name} +{new_value}")
+                else:
+                    if data["sub_stats"]:
+                        sub_to_upgrade = random.choice(data["sub_stats"])
+                        upgrade_amount = self.get_sub_stat_upgrade_amount(sub_to_upgrade["stat"])
+                        sub_to_upgrade["value"] += upgrade_amount
+                        print(f"Улучшен субстат {sub_to_upgrade['stat']} до {sub_to_upgrade['value']}")
+            else:
+                print(f"Нет возможных субстатов для {template_id}")
+
+        print(f"Артефакт {unique_id} улучшен до уровня {new_level}")
         return True
+
+    def get_initial_sub_stat_value(self, stat_name):
+        #Возвращает начальное значение для нового субстата
+        import random
+        # Диапазоны для разных типов статов (примерные)
+        ranges = {
+            "HP": (10, 50),
+            "ATK": (5, 20),
+            "DEF": (5, 20),
+            "HP%": (2.0, 5.0),
+            "ATK%": (2.0, 5.0),
+            "DEF%": (2.0, 5.0),
+            "Crit Rate%": (2.0, 4.0),
+            "Crit DMG%": (4.0, 8.0),
+            "Energy Recharge%": (2.0, 5.0),
+            "Elemental Mastery": (5, 20)
+        }
+        low, high = ranges.get(stat_name, (1, 5))
+        return round(random.uniform(low, high), 1)
+
+    def get_sub_stat_upgrade_amount(self, stat_name):
+        #Возвращает величину улучшения для существующего субстата
+        import random
+        # Можно сделать небольшие прибавки (например, +1 или +0.5)
+        if "%" in stat_name:
+            return round(random.uniform(0.5, 1.5), 1)
+        else:
+            return round(random.uniform(1, 5))

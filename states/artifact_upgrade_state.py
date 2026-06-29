@@ -57,16 +57,18 @@ class ArtifactUpgradeState:
         self.feather_2_inventory = pygame.image.load("assets/textures/Инвентарь/Перо_2_инвентарь.png").convert_alpha()
 
     def update_popup_list(self):
-        all_items = self.game.player.inventory.items
         self.popup_artifacts = []
-        for item_id, quantity in all_items.items():
-            if quantity <= 0:
+        for unique_id in self.game.player.artifact_inventory:
+            # Получаем данные из hero.artifact_data
+            char = self.game.player.party[0]
+            data = char.artifact_data.get(unique_id, {})
+            artifact_id = data.get("artifact_id")
+            if not artifact_id:
                 continue
-            if self.game.player.inventory.get_item_type(item_id) != "artifacts":
-                continue
-            art_data = ITEM_DATA.get(item_id, {})
+            # Проверяем слот
+            art_data = ITEM_DATA.get(artifact_id, {})
             if art_data.get("slot") == self.slot:
-                self.popup_artifacts.append(item_id)
+                self.popup_artifacts.append(unique_id)
         self.popup_selected_index = -1
 
     def on_exit(self):
@@ -91,30 +93,25 @@ class ArtifactUpgradeState:
     def handle_main_click(self, pos):
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
             char = self.game.player.party[0]
-            inventory = self.game.player.inventory
             if self.equipped_artifact is not None:
-                # Если есть экипированный – снимаем
-                char.unequip_artifact(self.slot, inventory)
+                # Снимаем
+                char.unequip_artifact(self.slot, self.game.player)
                 self.game.player.mark_modified()
                 self.equipped_artifact = None
                 self.selected_artifact = None
                 self.update_popup_list()
                 print(f"Артефакт снят со слота {self.slot}")
             else:
-                # Если слота пуст – пытаемся экипировать выбранный
+                # Экипируем, если есть выбранный
                 if self.selected_artifact is not None:
-                    if inventory.get_count(self.selected_artifact) > 0:
-                        char.equip_artifact(self.slot, self.selected_artifact, inventory)
-                        self.game.player.mark_modified()
-                        self.equipped_artifact = self.selected_artifact
-                        self.selected_artifact = None
-                        self.update_popup_list()
-                        print(f"Экипирован {self.equipped_artifact} в слот {self.slot}")
-                    else:
-                        print("Артефакта больше нет в инвентаре!")
-                        self.selected_artifact = None
+                    char.equip_artifact(self.slot, self.selected_artifact, self.game.player)
+                    self.game.player.mark_modified()
+                    self.equipped_artifact = self.selected_artifact
+                    self.selected_artifact = None
+                    self.update_popup_list()
+                    print(f"Экипирован {self.equipped_artifact} в слот {self.slot}")
                 else:
-                    # Если нет выбранного – открываем плашку
+                    # Открываем плашку для выбора
                     self.show_popup = True
                     self.update_popup_list()
 
@@ -152,79 +149,124 @@ class ArtifactUpgradeState:
         title = self.font.render(f"Слот: {slot_display}", True, (255, 255, 255))
         screen.blit(title, (700, 30))
 
+        char = self.game.player.party[0]
+
+        # ---- Отображение экипированного артефакта ----
         if self.equipped_artifact:
-            art_data = ITEM_DATA.get(self.equipped_artifact, {})
-            name = art_data.get("name", "Неизвестно")
-            equip_text = self.stats_font.render(f"Экипировано: {name}", True, (220, 220, 220))
-            screen.blit(equip_text, (700, 60))
-        else:
-            equip_text = self.stats_font.render("Слот пуст", True, (200, 200, 200))
-            screen.blit(equip_text, (700, 60))
-
-        if self.equipped_artifact:
-            art_data = ITEM_DATA.get(self.equipped_artifact, {})
-            name = art_data.get("name", "Неизвестно")
-            equip_text = self.stats_font.render(f"Экипировано: {name}", True, (220, 220, 220))
-            screen.blit(equip_text, (700, 60))
-
-            # Иконка
-            icon_map = {
-                "feather_1": self.feather_1,
-                "feather_2": self.feather_2,
-            }
-            icon = icon_map.get(self.equipped_artifact)
-            if icon:
-                icon_rect = icon.get_rect(topleft=(700, 120))
-                screen.blit(icon, icon_rect)
-
-            # Уровень и субстаты
-            char = self.game.player.party[0]
+            # Получаем данные по уникальному ID
             data = char.artifact_data.get(self.equipped_artifact, {})
-            level = data.get("level", 0)
-            sub_stats = data.get("sub_stats", [])
-            level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
-            screen.blit(level_text, (1050, 30))
-            # Отображение субстатов в столбик
-            y_sub = 50
-            if sub_stats:
-                for sub in sub_stats:
-                    sub_surf = self.stats_font.render(f"- {sub}", True, (200, 200, 200))
+            template_id = data.get("artifact_id")
+            if template_id:
+                art_data = ITEM_DATA.get(template_id, {})
+                name = art_data.get("name", "Неизвестно")
+                equip_text = self.stats_font.render(f"Экипировано: {name}", True, (220, 220, 220))
+                screen.blit(equip_text, (700, 60))
+
+                # Иконка
+                icon_map = {
+                    "feather_1": self.feather_1,
+                    "feather_2": self.feather_2,
+                    # добавьте иконки для других артефактов
+                }
+                icon = icon_map.get(template_id)
+                if icon:
+                    icon_rect = icon.get_rect(topleft=(700, 120))
+                    screen.blit(icon, icon_rect)
+
+                # Уровень, основной стат, субстаты
+                level = data.get("level", 0)
+                main_stat = data.get("main_stat", {})
+                sub_stats = data.get("sub_stats", [])
+
+                level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
+                screen.blit(level_text, (1050, 30))
+
+                if main_stat:
+                    stat_name = list(main_stat.keys())[0]
+                    stat_value = list(main_stat.values())[0]
+                    if "%" in stat_name:
+                        main_display = f"Основной: {stat_name} +{stat_value}%"
+                    else:
+                        main_display = f"Основной: {stat_name} +{stat_value}"
+                    main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
+                    screen.blit(main_surf, (1050, 60))
+                else:
+                    main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
+                    screen.blit(main_surf, (1050, 60))
+
+                y_sub = 100
+                if sub_stats:
+                    for sub in sub_stats:
+                        stat_name = sub["stat"]
+                        value = sub["value"]
+                        if "%" in stat_name:
+                            display = f"{stat_name} +{value}%"
+                        else:
+                            display = f"{stat_name} +{value}"
+                        sub_surf = self.stats_font.render(display, True, (200, 200, 200))
+                        screen.blit(sub_surf, (1050, y_sub))
+                        y_sub += 25
+                else:
+                    sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
                     screen.blit(sub_surf, (1050, y_sub))
-                    y_sub += 25
             else:
-                sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
-                screen.blit(sub_surf, (1050, y_sub))
+                equip_text = self.stats_font.render("Экипировано: неизвестно", True, (200, 200, 200))
+                screen.blit(equip_text, (700, 60))
         else:
             equip_text = self.stats_font.render("Слот пуст", True, (200, 200, 200))
-            screen.blit(equip_text, (1050, 60))
+            screen.blit(equip_text, (700, 60))
 
+        # ---- Отображение выбранного артефакта (из инвентаря) ----
         if self.selected_artifact is not None:
             art_data = ITEM_DATA.get(self.selected_artifact, {})
             name = art_data.get("name", "Неизвестно")
             sel_text = self.stats_font.render(f"Выбрано: {name}", True, (255, 255, 0))
             screen.blit(sel_text, (700, 85))
 
-            # Отображение уровня и субстатов для выбранного артефакта
-            char = self.game.player.party[0]
             data = char.artifact_data.get(self.selected_artifact, {})
             level = data.get("level", 0)
+            main_stat = data.get("main_stat", {})
             sub_stats = data.get("sub_stats", [])
+
+            # Уровень
             level_sel = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
-            screen.blit(level_sel, (1050, 30))
-            y_sel_sub = 145
+            screen.blit(level_sel, (700, 115))
+
+            # Основной стат
+            if main_stat:
+                stat_name = list(main_stat.keys())[0]
+                stat_value = list(main_stat.values())[0]
+                if "%" in stat_name:
+                    main_display = f"Основной: {stat_name} +{stat_value}%"
+                else:
+                    main_display = f"Основной: {stat_name} +{stat_value}"
+                main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
+                screen.blit(main_surf, (700, 145))
+            else:
+                main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
+                screen.blit(main_surf, (700, 145))
+
+            # Субстаты
+            y_sel_sub = 175
             if sub_stats:
                 for sub in sub_stats:
-                    sub_surf = self.stats_font.render(f"- {sub}", True, (200, 200, 200))
-                    screen.blit(sub_surf, (1050, y_sel_sub))
+                    stat_name = sub["stat"]
+                    value = sub["value"]
+                    if "%" in stat_name:
+                        display = f"{stat_name} +{value}%"
+                    else:
+                        display = f"{stat_name} +{value}"
+                    sub_surf = self.stats_font.render(display, True, (200, 200, 200))
+                    screen.blit(sub_surf, (700, y_sel_sub))
                     y_sel_sub += 25
             else:
                 sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
-                screen.blit(sub_surf, (1050, y_sel_sub))
+                screen.blit(sub_surf, (700, y_sel_sub))
         else:
             sel_text = self.stats_font.render("Ничего не выбрано", True, (200, 200, 200))
             screen.blit(sel_text, (700, 85))
 
-        # Кнопки (подбери координаты под свой фон)
+        # ---- Кнопки ----
         btn_y = 630
         btn_width = 278
         btn_height = 62
@@ -281,9 +323,15 @@ class ArtifactUpgradeState:
         popup_icons = {
             "feather_1": self.feather_1_inventory,
             "feather_2": self.feather_2_inventory,
+            # Добавьте иконки для других артефактов по мере необходимости
+            # "flower_1": self.flower_1_inventory,
+            # "sands_1": self.sands_1_inventory,
+            # "goblet_1": self.goblet_1_inventory,
         }
 
-        for idx, art_id in enumerate(self.popup_artifacts):
+        char = self.game.player.party[0]  # получаем персонажа
+
+        for idx, unique_id in enumerate(self.popup_artifacts):
             row = idx // cols
             col = idx % cols
             x = start_x + col * (cell_size + margin)
@@ -293,15 +341,25 @@ class ArtifactUpgradeState:
             color = (100, 100, 150) if idx != self.popup_selected_index else (255, 255, 100)
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (200, 200, 200), rect, 1)
-            art_data = ITEM_DATA.get(art_id, {})
-            name = art_data.get("name", "?")
-            icon = popup_icons.get(art_id)
-            if icon:
-                screen.blit(icon, rect)
+
+            # Получаем данные артефакта по уникальному ID
+            data = char.artifact_data.get(unique_id, {})
+            artifact_template_id = data.get("artifact_id")
+            if artifact_template_id:
+                art_data = ITEM_DATA.get(artifact_template_id, {})
+                name = art_data.get("name", "?")
+                # Ищем иконку по шаблонному ID
+                icon = popup_icons.get(artifact_template_id)
+                if icon:
+                    screen.blit(icon, rect)
+                else:
+                    text_surf = self.stats_font.render(name, True, (255, 255, 255))
+                    text_rect = text_surf.get_rect(center=rect.center)
+                    screen.blit(text_surf, text_rect)
             else:
-                text_surf = self.stats_font.render(name, True, (255, 255, 255))
-                text_rect = text_surf.get_rect(center=rect.center)
-                screen.blit(text_surf, text_rect)
+                # fallback
+                text_surf = self.stats_font.render("?", True, (255, 255, 255))
+                screen.blit(text_surf, rect)
 
         esc_text = self.stats_font.render("ESC для закрытия", True, (0, 0, 0))
         screen.blit(esc_text, (20, 675))
