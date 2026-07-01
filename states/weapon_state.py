@@ -1,5 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
+from inventory import PREFIX_ARTIFACT, PREFIX_WEAPON
 
 class WeaponState:
     def __init__(self, game):
@@ -91,8 +92,9 @@ class WeaponState:
 
     def update_popup_list(self):
         self.popup_weapons = []
-        for unique_id in self.game.player.weapon_inventory:
-            char = self.game.player.party[0]
+        all_weapon_ids = self.game.player.inventory.get_unique_items(PREFIX_WEAPON)
+        char = self.game.player.party[0]
+        for unique_id in all_weapon_ids:
             data = char.weapon_data.get(unique_id, {})
             weapon_id = data.get("weapon_id")
             if weapon_id:
@@ -122,31 +124,31 @@ class WeaponState:
         # Навигация
         for btn in self.nav_buttons:
             if btn["rect"].collidepoint(pos):
-                text = btn["text"]
-                if text == "Характеристика":
+                if btn["text"] == "Характеристика":
                     self.game.change_state("character")
-                elif text == "Оружие":
+                elif btn["text"] == "Оружие":
                     pass
-                elif text == "Артефакты":
+                elif btn["text"] == "Артефакты":
                     self.game.change_state("artifact")
-                elif text == "Таланты":
+                elif btn["text"] == "Таланты":
                     self.game.change_state("talents")
-                elif text == "Созвездия":
+                elif btn["text"] == "Созвездия":
                     self.game.change_state("constellations")
-                return
+                break
 
         # Кнопка "Экипировать/Сменить"
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
             char = self.game.player.party[0]
+            inventory = self.game.player.inventory
             if self.equipped_weapon is not None:
-                char.unequip_weapon(self.game.player)
+                char.unequip_weapon(inventory)
                 self.game.player.mark_modified()
                 self.equipped_weapon = None
                 self.selected_weapon = None
                 print("Оружие снято")
             else:
                 if self.selected_weapon is not None:
-                    char.equip_weapon(self.selected_weapon, self.game.player)
+                    char.equip_weapon(self.selected_weapon, inventory)
                     self.game.player.mark_modified()
                     self.equipped_weapon = self.selected_weapon
                     self.selected_weapon = None
@@ -165,7 +167,7 @@ class WeaponState:
                     self.game.player.mark_modified()
                     print("Оружие улучшено!")
                 else:
-                    print("Не удалось улучшить оружие")
+                    print("Не удалось улучшить")
             else:
                 print("Нет экипированного оружия для улучшения!")
 
@@ -176,9 +178,10 @@ class WeaponState:
                     if idx < len(self.popup_weapons):
                         unique_id = self.popup_weapons[idx]
                         char = self.game.player.party[0]
+                        inventory = self.game.player.inventory
                         if self.equipped_weapon is not None:
-                            char.unequip_weapon(self.game.player)
-                        char.equip_weapon(unique_id, self.game.player)
+                            char.unequip_weapon(inventory)
+                        char.equip_weapon(unique_id, inventory)
                         self.game.player.mark_modified()
                         self.equipped_weapon = unique_id
                         self.selected_weapon = None

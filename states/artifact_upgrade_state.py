@@ -1,5 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
+from inventory import PREFIX_ARTIFACT, PREFIX_WEAPON
 
 class ArtifactUpgradeState:
     def __init__(self, game):
@@ -58,14 +59,14 @@ class ArtifactUpgradeState:
 
     def update_popup_list(self):
         self.popup_artifacts = []
-        for unique_id in self.game.player.artifact_inventory:
-            # Получаем данные из hero.artifact_data
-            char = self.game.player.party[0]
+        # Получаем все уникальные ID артефактов из инвентаря
+        all_artifact_ids = self.game.player.inventory.get_unique_items(PREFIX_ARTIFACT)
+        char = self.game.player.party[0]
+        for unique_id in all_artifact_ids:
             data = char.artifact_data.get(unique_id, {})
             artifact_id = data.get("artifact_id")
             if not artifact_id:
                 continue
-            # Проверяем слот
             art_data = ITEM_DATA.get(artifact_id, {})
             if art_data.get("slot") == self.slot:
                 self.popup_artifacts.append(unique_id)
@@ -93,25 +94,24 @@ class ArtifactUpgradeState:
     def handle_main_click(self, pos):
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
             char = self.game.player.party[0]
+            inventory = self.game.player.inventory
             if self.equipped_artifact is not None:
                 # Снимаем
-                char.unequip_artifact(self.slot, self.game.player)
+                char.unequip_artifact(self.slot, inventory)
                 self.game.player.mark_modified()
                 self.equipped_artifact = None
                 self.selected_artifact = None
                 self.update_popup_list()
-                print(f"Артефакт снят со слота {self.slot}")
+                print("Артефакт снят")
             else:
-                # Экипируем, если есть выбранный
                 if self.selected_artifact is not None:
-                    char.equip_artifact(self.slot, self.selected_artifact, self.game.player)
+                    char.equip_artifact(self.slot, self.selected_artifact, inventory)
                     self.game.player.mark_modified()
                     self.equipped_artifact = self.selected_artifact
                     self.selected_artifact = None
                     self.update_popup_list()
-                    print(f"Экипирован {self.equipped_artifact} в слот {self.slot}")
+                    print(f"Экипирован артефакт {self.equipped_artifact}")
                 else:
-                    # Открываем плашку для выбора
                     self.show_popup = True
                     self.update_popup_list()
 
@@ -132,10 +132,17 @@ class ArtifactUpgradeState:
             for idx, rect in enumerate(self.popup_cell_rects):
                 if rect.collidepoint(pos):
                     if idx < len(self.popup_artifacts):
-                        self.selected_artifact = self.popup_artifacts[idx]
-                        self.popup_selected_index = idx
+                        unique_id = self.popup_artifacts[idx]
+                        char = self.game.player.party[0]
+                        inventory = self.game.player.inventory
+                        if self.equipped_artifact is not None:
+                            char.unequip_artifact(self.slot, inventory)
+                        char.equip_artifact(self.slot, unique_id, inventory)
+                        self.game.player.mark_modified()
+                        self.equipped_artifact = unique_id
+                        self.selected_artifact = None
                         self.show_popup = False
-                        print(f"Выбран артефакт {self.selected_artifact}")
+                        print(f"Экипирован артефакт {unique_id}")
                     break
 
     def draw(self, screen):

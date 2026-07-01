@@ -205,25 +205,26 @@ class Character:
         print(f"Созвездие активировано! Текущий уровень: {self.constellation}")
         return True
 
-    def equip_artifact(self, slot, unique_id, player):
-        # Проверяем, что артефакт есть в инвентаре
-        if unique_id not in player.artifact_inventory:
+    def equip_artifact(self, slot, unique_id, inventory):
+        # Проверяем, есть ли артефакт в инвентаре
+        if unique_id not in inventory.items:
             print("Артефакта нет в инвентаре!")
             return False
         # Если слот занят, снимаем старый
         if self.artifacts[slot] is not None:
-            self.unequip_artifact(slot, player)
-        # Удаляем из инвентаря
-        player.artifact_inventory.remove(unique_id)
+            self.unequip_artifact(slot, inventory)
+        # Удаляем из инвентаря (уникальный предмет)
+        inventory.remove_item(unique_id, 1)
         # Экипируем
         self.artifacts[slot] = unique_id
         print(f"Экипирован артефакт {unique_id} в слот {slot}")
         return True
 
-    def unequip_artifact(self, slot, player):
+    def unequip_artifact(self, slot, inventory):
         unique_id = self.artifacts[slot]
         if unique_id is not None:
-            player.artifact_inventory.append(unique_id)
+            # Добавляем обратно в инвентарь (уникальный предмет)
+            inventory.items[unique_id] = 1
             self.artifacts[slot] = None
             print(f"Снят артефакт {unique_id} со слота {slot}")
             return True
@@ -309,6 +310,25 @@ class Character:
             return round(random.uniform(0.5, 1.5), 1)
         else:
             return round(random.uniform(1, 5))
+
+    def equip_weapon(self, unique_id, inventory):
+        if unique_id not in inventory.items:
+            print("Оружия нет в инвентаре!")
+            return False
+        if self.weapon is not None:
+            self.unequip_weapon(inventory)
+        inventory.remove_item(unique_id, 1)
+        self.weapon = unique_id
+        print(f"Экипировано оружие {unique_id}")
+        return True
+
+    def unequip_weapon(self, inventory):
+        if self.weapon is not None:
+            inventory.items[self.weapon] = 1
+            self.weapon = None
+            print("Оружие снято")
+            return True
+        return False
 
     def upgrade_weapon(self, unique_id, inventory):
         if unique_id not in self.weapon_data:

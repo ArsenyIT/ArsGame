@@ -2,6 +2,9 @@ import pygame
 import json
 import os
 
+PREFIX_ARTIFACT = "artifact_"
+PREFIX_WEAPON = "weapon_"
+
 ITEM_DATA = {
     "oak_wood": {
         "type": "resources",
@@ -191,6 +194,9 @@ class Item:
         self.id = item_id          # уникальный идентификатор (строка или число)
         self.data = ITEM_DATA.get(item_id, {})
         self.max_stack = max_stack # максимальное количество в стопке
+        self.items = {}
+        self.modified = False
+        self.counter = 0  # для генерации уникальных ID
 
 class Inventory:
     def __init__(self):
@@ -201,26 +207,53 @@ class Inventory:
         #Возвращает раздел предмета или None, если неизвестен
         return ITEM_DATA.get(item_id, {}).get("type")
 
-    def add_item(self, item_id, amount):
-        #Добавляет указанное количество предмета в инвентарь
-        if item_id not in ITEM_DATA:
-            print(f"Предмет {item_id} не имеет типа! Добавьте его в ITEM_DATA.")
-            return
-        if item_id in self.items:
-            self.items[item_id] += amount
+    def add_item(self, item_id, amount=1):
+        item_data = ITEM_DATA.get(item_id, {})
+        item_type = item_data.get("type")
+        if item_type == "resources":
+            if item_id in self.items:
+                self.items[item_id] += amount
+            else:
+                self.items[item_id] = amount
             self.modified = True
+            return None  # ресурсы не имеют уникального ID
+        elif item_type in ["artifacts", "weapons"]:
+            # Генерируем уникальный ID с префиксом
+            if item_type == "artifacts":
+                prefix = PREFIX_ARTIFACT
+            else:
+                prefix = PREFIX_WEAPON
+            self.counter += 1
+            import time
+            unique_id = f"{prefix}{item_id}_{int(time.time() * 1000)}_{self.counter}"
+            self.items[unique_id] = 1
+            self.modified = True
+            return unique_id
         else:
-            self.items[item_id] = amount
+            print(f"Неизвестный тип предмета: {item_type}")
+            return None
 
-    def remove_item(self, item_id, amount):
-        #Удаляет указанное количество предмета (если достаточно)
-        if item_id in self.items:
-            self.items[item_id] -= amount
+    def remove_item(self, item_id, amount=1):
+        if item_id not in self.items:
+            return False
+        if item_id.startswith(PREFIX_ARTIFACT) or item_id.startswith(PREFIX_WEAPON):
+            del self.items[item_id]
             self.modified = True
+            return True
+        else:
+            self.items[item_id] -= amount
             if self.items[item_id] <= 0:
                 del self.items[item_id]
+            self.modified = True
             return True
-        return False
+
+    def get_unique_items(self, prefix):
+        # Возвращает список уникальных ID, начинающихся с указанного префикса
+        result = []
+        for key in self.items:
+            if key.startswith(prefix):
+                result.append(key)
+        return result
 
     def get_count(self, item_id):
         #Возвращает количество предмета (0 если нет)

@@ -25,7 +25,7 @@
       "weapon": null,
       "artifacts": {
         "flower": null,
-        "plume": "feather_2_1782718953799_4",
+        "plume": null,
         "sands": null,
         "goblet": "goblet_1_1782718953799_2",
         "circlet": null
@@ -105,13 +105,8 @@
           },
           "artifact_id": "feather_2"
         }
-      }
+      },
+      "weapon_data": {}
     }
-  ],
-  "artifact_inventory": [
-    "flower_1_1782718953799_0",
-    "sands_1_1782718953799_1",
-    "feather_1_1782718953799_3"
-  ],
-  "weapon_inventory": []
+  ]
 }
