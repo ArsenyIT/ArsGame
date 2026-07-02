@@ -36,7 +36,7 @@ class CharacterState:
                 speed=10
             )]
         print("CharacterState: on_enter")
-        self.GG_menu = pygame.image.load("assets/textures/Арсений.png")
+        self.GG_menu = pygame.image.load("assets/textures/GG.png")
         self.portrait_GG = self.characters[self.current_index].portrait_path
         try:
             self.portrait_img = pygame.image.load(self.portrait_GG).convert_alpha()

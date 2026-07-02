@@ -24,12 +24,12 @@ class ArtifactState:
     def on_enter(self):
         print("Вход в экран Артефакты")
         self.font = pygame.font.Font(None, 36)
-        self.bg = pygame.image.load("assets/textures/Арсений_Артефакты.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
+        self.bg = pygame.image.load("assets/textures/GG_artifacts.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
 
         self.artifact_icons = {
-            "feather_1": pygame.image.load("assets/textures/Перо_1.png").convert_alpha(),
-            "feather_2": pygame.image.load("assets/textures/Перо_2.png").convert_alpha(),
+            "plume_1": pygame.image.load("assets/textures/Plume_1.png").convert_alpha(),
+            "plume_2": pygame.image.load("assets/textures/Plume_2.png").convert_alpha(),
         }
 
         self.button_images = {}

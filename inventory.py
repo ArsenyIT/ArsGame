@@ -27,7 +27,7 @@ ITEM_DATA = {
         "name": "Дубликат героя",
         "rarity": 5,
     },
-    "feather_1": {
+    "plume_1": {
     "type": "artifacts",
     "name": "Перо_1",
     "rarity": 1,
@@ -49,7 +49,7 @@ ITEM_DATA = {
             "Elemental Mastery"
         ]
     },
-    "feather_2": {
+    "plume_2": {
         "type": "artifacts",
         "name": "Перо_2",
         "rarity": 1,

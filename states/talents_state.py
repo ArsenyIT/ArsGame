@@ -33,10 +33,10 @@ class TalentsState:
         print("Вход в экран Таланты")
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
+        self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
         try:
-            self.background = pygame.image.load("assets/textures/Арсений_Таланты.png").convert_alpha()
+            self.background = pygame.image.load("assets/textures/GG_talents.png").convert_alpha()
         except pygame.error:
             self.background = None
         self.button_images = {}

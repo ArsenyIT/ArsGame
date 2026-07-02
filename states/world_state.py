@@ -18,13 +18,13 @@ class WorldState:
             map_json = json.load(f)
         self.map_data = map_json["data"]
         self.tile_textures = {
-            0: pygame.image.load("assets/textures/tiles/Трава_1.png").convert_alpha(),
+            0: pygame.image.load("assets/textures/tiles/Grass_1.png").convert_alpha(),
             #1: pygame.image.load("assets/textures/tiles/stone.png").convert_alpha(),
             #2: pygame.image.load("assets/textures/tiles/wood.png").convert_alpha(),
         }
-        self.player_img = pygame.image.load("assets/textures/ГГ_стоя_влево.png").convert_alpha()
-        self.item_img = pygame.image.load("assets/textures/Дубовое_бревно_предмет.png")
-        self.squad = pygame.image.load("assets/textures/Список_отряда.png")
+        self.player_img = pygame.image.load("assets/textures/GG_left.png").convert_alpha()
+        self.item_img = pygame.image.load("assets/textures/Oak_wood_item.png")
+        self.squad = pygame.image.load("assets/textures/Squad_list.png")
 
     def on_exit(self):
         # сохранить данные, очистить ресурсы

@@ -35,7 +35,7 @@ class DialogState:
 
     def on_enter(self):
         print("Вход в диалог")
-        self.dialog_window = pygame.image.load("assets/textures/Диалоговое_окно.png")
+        self.dialog_window = pygame.image.load("assets/textures/Dialog_box.png")
         if hasattr(self.game, "temp_scene"):
             filename = self.game.temp_scene
         else:

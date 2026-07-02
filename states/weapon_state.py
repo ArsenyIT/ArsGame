@@ -22,11 +22,11 @@ class WeaponState:
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         try:
-            self.bg = pygame.image.load("assets/textures/Арсений_Оружие.png").convert_alpha()
+            self.bg = pygame.image.load("assets/textures/GG_weapon.png").convert_alpha()
         except:
             self.bg = None
         try:
-            self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
+            self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
         except:
             self.popup_bg = None
 
@@ -48,13 +48,13 @@ class WeaponState:
         self.weapon_icons = {}
         weapon_ids = ["Sword_of_steel", "Rusted_sword"]
         for w_id in weapon_ids:
-            icon_path = f"assets/textures/Инвентарь/{w_id}_inventory.png"
+            icon_path = f"assets/textures/Inventory/{w_id}_inventory.png"
             try:
                 icon = pygame.image.load(icon_path).convert_alpha()
                 icon = pygame.transform.scale(icon, (32, 32))
                 self.weapon_icons[w_id] = icon
             except pygame.error:
-                icon_path2 = f"assets/textures/Инвентарь/{w_id}.png"
+                icon_path2 = f"assets/textures/Inventory/{w_id}.png"
                 try:
                     icon = pygame.image.load(icon_path2).convert_alpha()
                     icon = pygame.transform.scale(icon, (32, 32))

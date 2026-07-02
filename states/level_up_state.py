@@ -10,11 +10,11 @@ class LevelUpState:
         print("Вход в экран Улучшение")
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.background = pygame.image.load("assets/textures/Арсений_Улучшение.png").convert_alpha()
+        self.background = pygame.image.load("assets/textures/GG_upgrade.png").convert_alpha()
         self.button_img = pygame.image.load("assets/textures/buttons/Кнопка_Улучшить.png").convert_alpha()
         self.ascend_img = pygame.image.load("assets/textures/buttons/Кнопка_Возвысить.png").convert_alpha()
         self.use_button_rect = pygame.Rect(900, 630, 258, 62)
-        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
+        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
 
     def on_exit(self):
         print("Выход из экрана Улучшение")

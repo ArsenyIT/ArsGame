@@ -26,11 +26,11 @@ class ArtifactUpgradeState:
             del self.game.temp_slot
 
         try:
-            self.bg = pygame.image.load("assets/textures/Арсений_Улучшение.png").convert_alpha()
+            self.bg = pygame.image.load("assets/textures/GG_upgrade.png").convert_alpha()
         except:
             self.bg = None
         try:
-            self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
+            self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
         except:
             self.popup_bg = None
 
@@ -51,11 +51,11 @@ class ArtifactUpgradeState:
         self.equipped_artifact = char.artifacts.get(self.slot)
         self.update_popup_list()
 
-        self.feather_1 = pygame.image.load("assets/textures/Перо_1.png").convert_alpha()
-        self.feather_2 = pygame.image.load("assets/textures/Перо_2.png").convert_alpha()
+        self.plume_1 = pygame.image.load("assets/textures/Plume_1.png").convert_alpha()
+        self.plume_2 = pygame.image.load("assets/textures/Plume_2.png").convert_alpha()
 
-        self.feather_1_inventory = pygame.image.load("assets/textures/Инвентарь/Перо_1_инвентарь.png").convert_alpha()
-        self.feather_2_inventory = pygame.image.load("assets/textures/Инвентарь/Перо_2_инвентарь.png").convert_alpha()
+        self.plume_1_inventory = pygame.image.load("assets/textures/Inventory/Plume_1_inventory.png").convert_alpha()
+        self.plume_2_inventory = pygame.image.load("assets/textures/Inventory/Plume_2_inventory.png").convert_alpha()
 
     def update_popup_list(self):
         self.popup_artifacts = []
@@ -171,8 +171,8 @@ class ArtifactUpgradeState:
 
                 # Иконка
                 icon_map = {
-                    "feather_1": self.feather_1,
-                    "feather_2": self.feather_2,
+                    "plume_1": self.plume_1,
+                    "plume_2": self.plume_2,
                     # добавьте иконки для других артефактов
                 }
                 icon = icon_map.get(template_id)
@@ -328,8 +328,8 @@ class ArtifactUpgradeState:
         self.popup_cell_rects = []
 
         popup_icons = {
-            "feather_1": self.feather_1_inventory,
-            "feather_2": self.feather_2_inventory,
+            "plume_1": self.plume_1_inventory,
+            "plume_2": self.plume_2_inventory,
             # Добавьте иконки для других артефактов по мере необходимости
             # "flower_1": self.flower_1_inventory,
             # "sands_1": self.sands_1_inventory,

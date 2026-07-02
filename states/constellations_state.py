@@ -50,9 +50,9 @@ class ConstellationsState:
         print("Вход в экран Созвездия")
         self.font = pygame.font.Font(None, 36)
         self.const_font = pygame.font.Font(None, 28)
-        self.popup_bg = pygame.image.load("assets/textures/Плашка.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/ГГ_меню.png")
-        self.bg = pygame.image.load("assets/textures/Арсений_Созвездия.png").convert_alpha()
+        self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
+        self.bg = pygame.image.load("assets/textures/GG_constellations.png").convert_alpha()
 
         self.button_images = {}
         button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
