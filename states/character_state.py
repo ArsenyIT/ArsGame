@@ -36,7 +36,7 @@ class CharacterState:
                 speed=10
             )]
         print("CharacterState: on_enter")
-        self.GG_menu = pygame.image.load("assets/textures/GG.png")
+        self.GG_menu = pygame.image.load("assets/textures/characters_menu/GG/GG_menu.png")
         self.portrait_GG = self.characters[self.current_index].portrait_path
         try:
             self.portrait_img = pygame.image.load(self.portrait_GG).convert_alpha()
@@ -46,9 +46,9 @@ class CharacterState:
             self.portrait_img = pygame.Surface((290, 415))
             self.portrait_img.fill((150, 150, 200))
         self.button_images = {}
-        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Кнопка_{name}.png"
+            filename = f"assets/textures/buttons/Button_{name}.png"
             try:
                 img = pygame.image.load(filename).convert_alpha()
                 # Масштабируем под размер кнопки (btn_width, btn_height)
@@ -60,7 +60,7 @@ class CharacterState:
                 surf = pygame.Surface((self.btn_width, self.btn_height))
                 surf.fill((80, 80, 120))
                 self.button_images[name] = surf
-        filename = "assets/textures/buttons/Кнопка_Улучшение.png"
+        filename = "assets/textures/buttons/Button_improvement.png"
         try:
             img = pygame.image.load(filename).convert_alpha()
             img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
@@ -70,7 +70,7 @@ class CharacterState:
             surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
             surf.fill((80, 80, 120))
             self.button_images["Улучшение"] = surf
-        filename = "assets/textures/buttons/Кнопка_Возвышение.png"
+        filename = "assets/textures/buttons/Button_elevation.png"
         try:
             img = pygame.image.load(filename).convert_alpha()
             img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
@@ -102,15 +102,15 @@ class CharacterState:
                     self.game.change_state("level_up")
                 for btn in self.menu_buttons:
                     if btn["rect"].collidepoint(event.pos):
-                        if btn["text"] == "Характеристика":
+                        if btn["text"] == "characteristic":
                             pass
-                        elif btn["text"] == "Оружие":
+                        elif btn["text"] == "weapon":
                             self.game.change_state("weapon")
-                        elif btn["text"] == "Артефакты":
+                        elif btn["text"] == "artifacts":
                             self.game.change_state("artifact")
-                        elif btn["text"] == "Таланты":
+                        elif btn["text"] == "talents":
                             self.game.change_state("talents")
-                        elif btn["text"] == "Созвездия":
+                        elif btn["text"] == "constellations":
                             self.game.change_state("constellations")
                         break
 
@@ -156,7 +156,7 @@ class CharacterState:
         x0_btn = 0
         y0_btn = 40
         #field_height = 785 - 162  # 623
-        btn_texts = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        btn_texts = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
 
         # Очищаем список кнопок перед перерисовкой
         self.menu_buttons = []

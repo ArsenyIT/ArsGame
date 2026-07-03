@@ -34,15 +34,15 @@ class TalentsState:
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
+        self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
         try:
-            self.background = pygame.image.load("assets/textures/GG_talents.png").convert_alpha()
+            self.background = pygame.image.load("assets/textures/characters_menu/GG/GG_talents.png").convert_alpha()
         except pygame.error:
             self.background = None
         self.button_images = {}
-        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Кнопка_{name}.png"
+            filename = f"assets/textures/buttons/Button_{name}.png"
             try:
                 img = pygame.image.load(filename).convert_alpha()
                 # Масштабируем под размер кнопки (btn_width, btn_height)
@@ -55,7 +55,7 @@ class TalentsState:
                 surf.fill((80, 80, 120))
                 self.button_images[name] = surf
         self.nav_buttons = []
-        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         x0_btn = 0
         y0_btn = 40
         offset = 10
@@ -77,7 +77,7 @@ class TalentsState:
         #        self.icons[name] = None
 
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Улучшить.png").convert_alpha()
+            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
         except pygame.error:
             self.upgrade_btn_img = None
             print("Не удалось загрузить картинку кнопки 'Улучшить'")
@@ -115,15 +115,15 @@ class TalentsState:
                     self.active_talent = None
                 # Переход на соответствующий экран
                 text = btn["text"]
-                if text == "Характеристика":
+                if text == "characteristic":
                     self.game.change_state("character")
-                elif text == "Оружие":
+                elif text == "weapon":
                     self.game.change_state("weapon")
-                elif text == "Артефакты":
+                elif text == "artifacts":
                     self.game.change_state("artifact")
-                elif text == "Таланты":
+                elif text == "talents":
                     pass
-                elif text == "Созвездия":
+                elif text == "constellations":
                     self.game.change_state("constellations")
                 break
 

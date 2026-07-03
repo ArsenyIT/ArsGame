@@ -23,7 +23,7 @@ class WorldState:
             #2: pygame.image.load("assets/textures/tiles/wood.png").convert_alpha(),
         }
         self.player_img = pygame.image.load("assets/textures/GG_left.png").convert_alpha()
-        self.item_img = pygame.image.load("assets/textures/Oak_wood_item.png")
+        self.item_img = pygame.image.load("assets/textures/items/Oak_wood_item.png")
         self.squad = pygame.image.load("assets/textures/Squad_list.png")
 
     def on_exit(self):

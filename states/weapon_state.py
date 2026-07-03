@@ -22,7 +22,7 @@ class WeaponState:
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         try:
-            self.bg = pygame.image.load("assets/textures/GG_weapon.png").convert_alpha()
+            self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_weapon.png").convert_alpha()
         except:
             self.bg = None
         try:
@@ -32,15 +32,15 @@ class WeaponState:
 
         # Кнопки
         try:
-            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Экипировать.png").convert_alpha()
+            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Button_equip.png").convert_alpha()
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Сменить.png").convert_alpha()
+            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Button_change.png").convert_alpha()
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Улучшить.png").convert_alpha()
+            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
         except:
             self.upgrade_btn_img = None
 
@@ -48,19 +48,13 @@ class WeaponState:
         self.weapon_icons = {}
         weapon_ids = ["Sword_of_steel", "Rusted_sword"]
         for w_id in weapon_ids:
-            icon_path = f"assets/textures/Inventory/{w_id}_inventory.png"
+            icon_path = f"assets/textures/inventory/weapon_cell/{w_id}_inventory.png"
             try:
                 icon = pygame.image.load(icon_path).convert_alpha()
                 icon = pygame.transform.scale(icon, (32, 32))
                 self.weapon_icons[w_id] = icon
             except pygame.error:
-                icon_path2 = f"assets/textures/Inventory/{w_id}.png"
-                try:
-                    icon = pygame.image.load(icon_path2).convert_alpha()
-                    icon = pygame.transform.scale(icon, (32, 32))
-                    self.weapon_icons[w_id] = icon
-                except pygame.error:
-                    self.weapon_icons[w_id] = None
+                self.weapon_icons[w_id] = None
 
         self.load_navigation_buttons()
 
@@ -70,9 +64,9 @@ class WeaponState:
 
     def load_navigation_buttons(self):
         self.button_images = {}
-        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Кнопка_{name}.png"
+            filename = f"assets/textures/buttons/Button_{name}.png"
             try:
                 img = pygame.image.load(filename).convert_alpha()
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
@@ -124,15 +118,15 @@ class WeaponState:
         # Навигация
         for btn in self.nav_buttons:
             if btn["rect"].collidepoint(pos):
-                if btn["text"] == "Характеристика":
+                if btn["text"] == "characteristic":
                     self.game.change_state("character")
-                elif btn["text"] == "Оружие":
+                elif btn["text"] == "weapon":
                     pass
-                elif btn["text"] == "Артефакты":
+                elif btn["text"] == "artifacts":
                     self.game.change_state("artifact")
-                elif btn["text"] == "Таланты":
+                elif btn["text"] == "talents":
                     self.game.change_state("talents")
-                elif btn["text"] == "Созвездия":
+                elif btn["text"] == "constellations":
                     self.game.change_state("constellations")
                 break
 

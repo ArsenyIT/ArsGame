@@ -31,22 +31,22 @@ class InventoryState:
         # Здесь можно загрузить данные инвентаря из глобального объекта
         print("Вход в инвентарь")
         self.font = pygame.font.Font(None, 28)
-        self.inventory_menu_1 = pygame.image.load("assets/textures/Inventory/Menu_inventory_1.png")
-        self.inventory_menu_2 = pygame.image.load("assets/textures/Inventory/Menu_inventory_2.png")
+        self.inventory_menu_1 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_1.png")
+        self.inventory_menu_2 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_2.png")
 
-        self.weapon_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_weapons.png")
-        self.food_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_foods.png")
-        self.potion_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_potions.png")
-        self.resurs_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_resources.png")
-        self.artifact_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_artifacts.png")
-        self.rare_resurse_iсon = pygame.image.load("assets/textures/Inventory/Icons/Icon_rare_resources.png")
-        self.special_tools_icon = pygame.image.load("assets/textures/Inventory/Icons/Icon_special_tools.png")
+        self.weapon_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_weapons.png")
+        self.food_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_foods.png")
+        self.potion_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_potions.png")
+        self.resurs_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_resources.png")
+        self.artifact_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_artifacts.png")
+        self.rare_resurse_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_rare_resources.png")
+        self.special_tools_icon = pygame.image.load("assets/textures/inventory/icons/Icon_special_tools.png")
 
-        self.empty_cell = pygame.image.load("assets/textures/Inventory/Cell_inventory.png").convert_alpha()
-        self.oak_item_cell = pygame.image.load("assets/textures/Inventory/Oak_wood_inventory.png").convert_alpha()
-        self.story_of_the_Almighty = pygame.image.load("assets/textures/Inventory/story_of_the_Almighty_inventory.png").convert_alpha()
-        self.plume_1_inventory = pygame.image.load("assets/textures/Inventory/Plume_1_inventory.png").convert_alpha()
-        self.plume_2_inventory = pygame.image.load("assets/textures/Inventory/Plume_2_inventory.png").convert_alpha()
+        self.empty_cell = pygame.image.load("assets/textures/inventory/Cell_inventory.png").convert_alpha()
+        self.oak_item_cell = pygame.image.load("assets/textures/inventory/Oak_wood_inventory.png").convert_alpha()
+        self.story_of_the_Almighty = pygame.image.load("assets/textures/inventory/Story_of_the_Almighty_inventory.png").convert_alpha()
+        self.plume_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_1_inventory.png").convert_alpha()
+        self.plume_2_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_2_inventory.png").convert_alpha()
 
         self.item_icons = {
             "oak_wood": self.oak_item_cell,

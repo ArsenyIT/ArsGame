@@ -24,18 +24,18 @@ class ArtifactState:
     def on_enter(self):
         print("Вход в экран Артефакты")
         self.font = pygame.font.Font(None, 36)
-        self.bg = pygame.image.load("assets/textures/GG_artifacts.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/GG_menu.png")
+        self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_artifacts.png").convert_alpha()
+        self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
 
         self.artifact_icons = {
-            "plume_1": pygame.image.load("assets/textures/Plume_1.png").convert_alpha(),
-            "plume_2": pygame.image.load("assets/textures/Plume_2.png").convert_alpha(),
+            "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
+            "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
         }
 
         self.button_images = {}
-        button_names = ["Характеристика", "Оружие", "Артефакты", "Таланты", "Созвездия"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Кнопка_{name}.png"
+            filename = f"assets/textures/buttons/Button_{name}.png"
             try:
                 img = pygame.image.load(filename).convert_alpha()
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
@@ -72,15 +72,15 @@ class ArtifactState:
                 for btn in self.nav_buttons:
                     if btn["rect"].collidepoint(event.pos):
                         text = btn["text"]
-                        if text == "Характеристика":
+                        if text == "characteristic":
                             self.game.change_state("character")
-                        elif text == "Оружие":
+                        elif text == "weapon":
                             self.game.change_state("weapon")
-                        elif text == "Артефакты":
+                        elif text == "artifacts":
                             pass
-                        elif text == "Таланты":
+                        elif text == "talents":
                             self.game.change_state("talents")
-                        elif text == "Созвездия":
+                        elif text == "constellations":
                             self.game.change_state("constellations")
                         break
 

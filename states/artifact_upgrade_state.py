@@ -26,7 +26,7 @@ class ArtifactUpgradeState:
             del self.game.temp_slot
 
         try:
-            self.bg = pygame.image.load("assets/textures/GG_upgrade.png").convert_alpha()
+            self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
         except:
             self.bg = None
         try:
@@ -35,15 +35,15 @@ class ArtifactUpgradeState:
             self.popup_bg = None
 
         try:
-            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Экипировать.png").convert_alpha()
+            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Button_equip.png").convert_alpha()
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Сменить.png").convert_alpha()
+            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Button_change.png").convert_alpha()
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Кнопка_Улучшить.png").convert_alpha()
+            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
         except:
             self.upgrade_btn_img = None
 
@@ -51,11 +51,11 @@ class ArtifactUpgradeState:
         self.equipped_artifact = char.artifacts.get(self.slot)
         self.update_popup_list()
 
-        self.plume_1 = pygame.image.load("assets/textures/Plume_1.png").convert_alpha()
-        self.plume_2 = pygame.image.load("assets/textures/Plume_2.png").convert_alpha()
+        self.plume_1 = pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha()
+        self.plume_2 = pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha()
 
-        self.plume_1_inventory = pygame.image.load("assets/textures/Inventory/Plume_1_inventory.png").convert_alpha()
-        self.plume_2_inventory = pygame.image.load("assets/textures/Inventory/Plume_2_inventory.png").convert_alpha()
+        self.plume_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_1_inventory.png").convert_alpha()
+        self.plume_2_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_2_inventory.png").convert_alpha()
 
     def update_popup_list(self):
         self.popup_artifacts = []
