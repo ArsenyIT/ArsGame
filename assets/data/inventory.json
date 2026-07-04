@@ -1,11 +1,14 @@
 {
   "oak_wood": 10,
   "artifact_exp": 187400,
-  "feather_1": 1,
+  "plume_1": 1,
   "flower_1": 1,
   "sands_1": 1,
   "goblet_1": 1,
-  "feather_2": 1,
-  "Sword_of_steel": 1,
-  "Rusted_sword": 1
+  "plume_2": 1,
+  "sword_of_steel": 1,
+  "rusted_sword": 1,
+  "story_of_the_Almighty": 10,
+  "talent_book_2": 1,
+  "hero_duplicate": 1
 }

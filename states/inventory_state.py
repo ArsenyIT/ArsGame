@@ -28,9 +28,10 @@ class InventoryState:
         return list(inv_dict.items())
 
     def on_enter(self):
-        # Здесь можно загрузить данные инвентаря из глобального объекта
+        # Загрузка данных инвентаря из глобального объекта
         print("Вход в инвентарь")
         self.font = pygame.font.Font(None, 28)
+        self.quantity_font = pygame.font.Font(None, 14)
         self.inventory_menu_1 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_1.png")
         self.inventory_menu_2 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_2.png")
 
@@ -43,17 +44,32 @@ class InventoryState:
         self.special_tools_icon = pygame.image.load("assets/textures/inventory/icons/Icon_special_tools.png")
 
         self.empty_cell = pygame.image.load("assets/textures/inventory/Cell_inventory.png").convert_alpha()
-        self.oak_item_cell = pygame.image.load("assets/textures/inventory/Oak_wood_inventory.png").convert_alpha()
-        self.story_of_the_Almighty = pygame.image.load("assets/textures/inventory/Story_of_the_Almighty_inventory.png").convert_alpha()
+        self.oak_wood_inventory = pygame.image.load("assets/textures/inventory/Oak_wood_inventory.png").convert_alpha()
+        self.story_of_the_Almighty_inventory = pygame.image.load("assets/textures/inventory/Story_of_the_Almighty_inventory.png").convert_alpha()
         self.plume_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_1_inventory.png").convert_alpha()
         self.plume_2_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_2_inventory.png").convert_alpha()
+        self.goblet_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Goblet_1_inventory.png").convert_alpha()
+        self.sands_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Sands_1_inventory.png").convert_alpha()
+        self.flower_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Flower_1_inventory.png").convert_alpha()
+        self.artifact_exp_inventory = pygame.image.load("assets/textures/inventory/Artifact_exp_inventory.png").convert_alpha()
+        self.sword_of_steel_inventory = pygame.image.load("assets/textures/inventory/weapon_cell/Sword_of_steel_inventory.png").convert_alpha()
+        self.rusted_sword_inventory = pygame.image.load("assets/textures/inventory/weapon_cell/Rusted_sword_inventory.png").convert_alpha()
+        self.hero_duplicate_inventory = pygame.image.load("assets/textures/inventory/Hero_duplicate_inventory.png").convert_alpha()
+        self.talent_book_2_inventory = pygame.image.load("assets/textures/inventory/Talent_book_2_inventory.png").convert_alpha()
 
         self.item_icons = {
-            "oak_wood": self.oak_item_cell,
-            "story_of_the_Almighty": self.story_of_the_Almighty,
+            "oak_wood": self.oak_wood_inventory,
+            "story_of_the_Almighty": self.story_of_the_Almighty_inventory,
             "plume_1": self.plume_1_inventory,
             "plume_2": self.plume_2_inventory,
-            # добавляй новые предметы по мере появления
+            "goblet_1": self.goblet_1_inventory,
+            "sands_1": self.sands_1_inventory,
+            "flower_1": self.flower_1_inventory,
+            "artifact_exp": self.artifact_exp_inventory,
+            "sword_of_steel": self.sword_of_steel_inventory,
+            "rusted_sword": self.rusted_sword_inventory,
+            "hero_duplicate": self.hero_duplicate_inventory,
+            "talent_book_2": self.talent_book_2_inventory
         }
 
     def on_exit(self):
@@ -131,12 +147,12 @@ class InventoryState:
                 idx = row * self.cols + col
                 if idx < len(items_list):
                     item_id, quantity = items_list[idx]  # сначала получаем данные
-                    icon = self.item_icons.get(item_id, self.oak_item_cell)  # если нет иконки, используем oak_item_cell
+                    icon = self.item_icons.get(item_id, self.oak_wood_inventory)  # если нет иконки, используем oak_wood_inventory
                     screen.blit(icon, (x, y))
-                    # Текст с названием и количеством
-                    #text = f"{item_id}:{quantity}"
-                    #text_surf = self.font.render(text, True, (255, 255, 255))
-                    #screen.blit(text_surf, (x + 5, y + 5))
+                    # Текст с кол-вом предметов
+                    text = f"х{quantity}"
+                    text_surf = self.quantity_font.render(text, True, (255, 255, 255))
+                    screen.blit(text_surf, (x, y + 21))
                 else:
                     screen.blit(self.empty_cell, (x, y))
         # Подсказка внизу
