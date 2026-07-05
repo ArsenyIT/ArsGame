@@ -4,7 +4,6 @@ import json
 class WorldState:
     def __init__(self, game):
         self.game = game
-        self.player = None   # объект игрока на карте
         self.hero_rect = pygame.Rect(100, 100, 45, 90)
         self.item_rect = pygame.Rect(200, 200, 13, 32)
         self.hint_font = pygame.font.Font(None, 24)
@@ -19,8 +18,6 @@ class WorldState:
         self.map_data = map_json["data"]
         self.tile_textures = {
             0: pygame.image.load("assets/textures/tiles/Grass_1.png").convert_alpha(),
-            #1: pygame.image.load("assets/textures/tiles/stone.png").convert_alpha(),
-            #2: pygame.image.load("assets/textures/tiles/wood.png").convert_alpha(),
         }
         self.player_img = pygame.image.load("assets/textures/GG_left.png").convert_alpha()
         self.item_img = pygame.image.load("assets/textures/items/Oak_wood_item.png")
@@ -50,7 +47,6 @@ class WorldState:
                     if self.near_item == True:
                         print('Получен Предмет')
                         self.game.player.inventory.add_item("oak_wood", 1)
-                        print(self.game.player.inventory.items)
                         self.item = False
                     else:
                         self.game.change_state("dialog")

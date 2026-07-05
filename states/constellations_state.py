@@ -47,7 +47,6 @@ class ConstellationsState:
         return lines
 
     def on_enter(self):
-        print("Вход в экран Созвездия")
         self.font = pygame.font.Font(None, 36)
         self.const_font = pygame.font.Font(None, 28)
         self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
@@ -64,7 +63,6 @@ class ConstellationsState:
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
             except pygame.error:
-                print(f"Не удалось загрузить картинку для кнопки {name}, используется заглушка")
                 # Можно создать цветной прямоугольник как запасной вариант
                 surf = pygame.Surface((self.btn_width, self.btn_height))
                 surf.fill((80, 80, 120))
@@ -85,7 +83,6 @@ class ConstellationsState:
         self.activate_btn = pygame.image.load("assets/textures/buttons/Button_activate.png").convert_alpha()
 
     def on_exit(self):
-        print("Выход из экрана Созвездия")
         self.game.save_all()
 
     def update(self, dt, events):
@@ -94,8 +91,6 @@ class ConstellationsState:
                 if event.key == pygame.K_ESCAPE:
                     if self.active_circle is not None:
                         self.active_circle = None
-                    else:
-                        pass
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 # Обработка клика по кнопке активации (если плашка открыта)
@@ -110,13 +105,7 @@ class ConstellationsState:
                                     char.activate_constellation()
                                     self.game.player.mark_modified()
                                     self.game.save_all()
-                                    print("Созвездие активировано!")
-                                else:
-                                    print("Нет дубликатов персонажа!")
-                            else:
-                                print("Максимальный уровень достигнут")
-                        else:
-                            print("Это созвездие нельзя активировать сейчас (нарушен порядок)")
+
                 # Если плашка закрыта, проверяем клики по кругам и навигации
                 if self.active_circle is None:
                     # Проверка кликов по кругам
@@ -126,7 +115,6 @@ class ConstellationsState:
                         radius = 62
                         if (mouse_x - circle_x) ** 2 + (mouse_y - circle_y) ** 2 <= radius ** 2:
                             self.active_circle = idx
-                            print(f"Открыто созвездие {idx + 1}")
                             break
                     # Проверка навигационных кнопок
                     for btn in self.nav_buttons:

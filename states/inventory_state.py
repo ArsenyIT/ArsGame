@@ -4,7 +4,6 @@ class InventoryState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.selected_index = 0
         self.current_section = "resources"
         self.cols = 23
         self.rows = 13
@@ -81,32 +80,12 @@ class InventoryState:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
-                #elif event.key == pygame.K_UP:
-                #    self.selected_index -= 1
-                #elif event.key == pygame.K_DOWN:
-                #    self.selected_index += 1
-                #elif event.key == pygame.K_RETURN:
-                #    items = self.get_item_list()
-                #    if items and 0 <= self.selected_index < len(items):
-                #        item_id, amount = items[self.selected_index]
-                #        print(f"Использовать {item_id} (количество {amount})")
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                print(f"Клик в позиции {event.pos}")
                 for btn in self.section_buttons:
-                    print(f"  Проверяем {btn['section']} с rect {btn['rect']}")
                     if btn["rect"].collidepoint(event.pos):
                         self.current_section = btn["section"]
                         print(f"Раздел изменён на {btn['section']}")
                         break
-
-        items = self.get_item_list()
-        if items:
-            if self.selected_index < 0:
-                self.selected_index = 0
-            if self.selected_index >= len(items):
-                self.selected_index = len(items) - 1
-        else:
-            self.selected_index = 0
 
     def draw(self, screen):
         screen.blit(self.inventory_menu_1, (0, 0))

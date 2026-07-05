@@ -7,7 +7,6 @@ class LevelUpState:
         self.font = None
 
     def on_enter(self):
-        print("Вход в экран Улучшение")
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         self.background = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
@@ -17,7 +16,6 @@ class LevelUpState:
         self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
 
     def on_exit(self):
-        print("Выход из экрана Улучшение")
         self.game.save_all()
 
     def update(self, dt, events):
@@ -37,9 +35,6 @@ class LevelUpState:
                                 self.game.player.inventory.remove_item(shard_id, 1)
                                 char.ascend()
                                 self.game.player.mark_modified()
-                                print("Возвышение выполнено!")
-                            else:
-                                print("Нет материалов возвышения!")
                         else:
                             # Логика прокачки (книга опыта)
                             book_id = "story_of_the_Almighty"
@@ -48,9 +43,6 @@ class LevelUpState:
                                 self.game.player.inventory.remove_item(book_id, 1)
                                 char.add_exp(exp_gain)
                                 self.game.player.mark_modified()
-                                print(f"Добавлено {exp_gain} опыта. Уровень: {char.level}")
-                            else:
-                                print("Нет книг!")
 
     def draw(self, screen):
         screen.blit(self.background, (0, 0))

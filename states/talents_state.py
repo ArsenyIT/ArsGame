@@ -26,11 +26,8 @@ class TalentsState:
         self.active_talent = None
         # Кнопка "Улучшить" внутри плашки
         self.upgrade_button_rect = pygame.Rect(400, 400, 150, 40)
-        # Кнопка закрытия плашки (крестик)
-        self.close_button_rect = pygame.Rect(600, 200, 30, 30)
 
     def on_enter(self):
-        print("Вход в экран Таланты")
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
@@ -49,7 +46,6 @@ class TalentsState:
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
             except pygame.error:
-                print(f"Не удалось загрузить картинку для кнопки {name}, используется заглушка")
                 # Можно создать цветной прямоугольник как запасной вариант
                 surf = pygame.Surface((self.btn_width, self.btn_height))
                 surf.fill((80, 80, 120))
@@ -80,10 +76,8 @@ class TalentsState:
             self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
         except pygame.error:
             self.upgrade_btn_img = None
-            print("Не удалось загрузить картинку кнопки 'Улучшить'")
 
     def on_exit(self):
-        print("Выход из экрана Таланты")
         self.game.save_all()
 
     def update(self, dt, events):
@@ -93,8 +87,6 @@ class TalentsState:
                     if self.active_talent:
                         # Если открыта плашка, закрываем её
                         self.active_talent = None
-                    else:
-                        pass
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.active_talent:
@@ -132,15 +124,10 @@ class TalentsState:
         for name, rect in self.circle_rects.items():
             if rect.collidepoint(pos):
                 self.active_talent = name
-                print(f"Открыта плашка таланта {name}")
                 break
 
     def handle_click_inside_popup(self, pos):
-        """Обработка кликов внутри плашки"""
-        # Закрытие плашки
-        #if self.close_button_rect.collidepoint(pos):
-        #    self.active_talent = None
-        #    return
+        # Обработка кликов внутри плашки
         # Улучшение таланта
         if self.upgrade_button_rect.collidepoint(pos):
             self.try_upgrade_talent()
@@ -153,12 +140,10 @@ class TalentsState:
         talent_name = self.active_talent
         current_level = char.talents[talent_name]
         if not char.can_upgrade_talent(talent_name):
-            print(f"Талант {talent_name} уже достиг максимального уровня!")
             return
         # Получаем требования для текущего уровня
         required_rarity, required_amount = char.get_talent_book_requirement(current_level)
         if required_rarity is None:
-            print("Нет требований для этого уровня!")
             return
         # Проверяем наличие книг в инвентаре
         book_id = f"talent_book_{required_rarity}"  # например, "talent_book_2"
@@ -167,9 +152,6 @@ class TalentsState:
             self.game.player.inventory.remove_item(book_id, required_amount)
             # Повышаем уровень таланта
             char.talents[talent_name] += 1
-            print(f"Талант {talent_name} повышен до {char.talents[talent_name]} уровня!")
-        else:
-            print(f"Недостаточно книг! Нужно {required_amount} книг {required_rarity}★")
 
     def draw(self, screen):
         # Отрисовка фона
@@ -201,9 +183,8 @@ class TalentsState:
             self.draw_popup(screen, char)
 
     def draw_popup(self, screen, char):
-        #Рисует плашку с описанием таланта
-        # Затемнение фона
-        dark = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+        # Рисует плашку с описанием таланта
+        dark = pygame.Surface(screen.get_size(), pygame.SRCALPHA) # Затемнение фона
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))
 
@@ -246,11 +227,6 @@ class TalentsState:
             btn_text = self.font.render("Улучшить", True, (255, 255, 255))
             screen.blit(btn_text, (self.upgrade_button_rect.x + 10, self.upgrade_button_rect.y + 5))
 
-        # Кнопка закрытия (крестик)
-        #pygame.draw.rect(screen, (200, 50, 50), self.close_button_rect)
-        #close_text = self.font.render("X", True, (255, 255, 255))
-        #screen.blit(close_text, (self.close_button_rect.x + 5, self.close_button_rect.y))
-
         # Отображение требований к улучшению
         #req_rarity, req_amount = char.get_talent_book_requirement(current_level)
         #if req_rarity:
@@ -259,7 +235,7 @@ class TalentsState:
         #    screen.blit(req_text, (popup_rect.x + 20, popup_rect.y + 200))
 
     def wrap_text(self, text, font, max_width):
-        """Разбивает текст на строки по ширине"""
+        # Разбивает текст на строки по ширине
         words = text.split(' ')
         lines = []
         current_line = ""

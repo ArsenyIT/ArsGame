@@ -1,4 +1,3 @@
-import pygame
 from inventory import Inventory
 from game_data import Character
 import json

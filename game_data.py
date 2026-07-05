@@ -1,4 +1,3 @@
-import pygame
 import json
 from inventory import ITEM_DATA
 import random

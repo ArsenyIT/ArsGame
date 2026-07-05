@@ -1,6 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
-from inventory import PREFIX_ARTIFACT, PREFIX_WEAPON
+from inventory import PREFIX_WEAPON
 
 class WeaponState:
     def __init__(self, game):
@@ -139,14 +139,12 @@ class WeaponState:
                 self.game.player.mark_modified()
                 self.equipped_weapon = None
                 self.selected_weapon = None
-                print("Оружие снято")
             else:
                 if self.selected_weapon is not None:
                     char.equip_weapon(self.selected_weapon, inventory)
                     self.game.player.mark_modified()
                     self.equipped_weapon = self.selected_weapon
                     self.selected_weapon = None
-                    print(f"Экипировано оружие {self.equipped_weapon}")
                 else:
                     self.show_popup = True
                     self.update_popup_list()
@@ -159,11 +157,6 @@ class WeaponState:
                 success = char.upgrade_weapon(self.equipped_weapon, inventory)
                 if success:
                     self.game.player.mark_modified()
-                    print("Оружие улучшено!")
-                else:
-                    print("Не удалось улучшить")
-            else:
-                print("Нет экипированного оружия для улучшения!")
 
     def handle_popup_click(self, pos):
         if hasattr(self, 'popup_cell_rects'):
@@ -180,7 +173,6 @@ class WeaponState:
                         self.equipped_weapon = unique_id
                         self.selected_weapon = None
                         self.show_popup = False
-                        print(f"Экипировано оружие {unique_id}")
                     break
 
     def draw(self, screen):

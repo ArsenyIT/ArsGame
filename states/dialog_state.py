@@ -28,13 +28,10 @@ class DialogState:
             self.dialog_lines = data
         else:
             # Если data — словарь, нужно извлечь первую сцену или использовать переданный ключ
-            print(f"Ошибка: файл {full_path} не является массивом реплик")
             self.dialog_lines = []
         self.current_line = 0
-        print(f"Загружена глава {filename}, реплик: {len(self.dialog_lines)}")
 
     def on_enter(self):
-        print("Вход в диалог")
         self.dialog_window = pygame.image.load("assets/textures/Dialog_box.png")
         if hasattr(self.game, "temp_scene"):
             filename = self.game.temp_scene
@@ -73,7 +70,6 @@ class DialogState:
     def on_exit(self):
         if hasattr(self.game, "temp_scene"):
             del self.game.temp_scene
-        print("Выход из диалога")
 
     def update(self, dt, events):
         for event in events:

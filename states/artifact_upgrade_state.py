@@ -1,6 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
-from inventory import PREFIX_ARTIFACT, PREFIX_WEAPON
+from inventory import PREFIX_ARTIFACT
 
 class ArtifactUpgradeState:
     def __init__(self, game):

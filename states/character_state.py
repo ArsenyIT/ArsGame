@@ -35,7 +35,6 @@ class CharacterState:
                 resistance=1,
                 speed=10
             )]
-        print("CharacterState: on_enter")
         self.GG_menu = pygame.image.load("assets/textures/characters_menu/GG/GG_menu.png")
         self.portrait_GG = self.characters[self.current_index].portrait_path
         try:
@@ -82,7 +81,6 @@ class CharacterState:
             self.button_images["Возвышение"] = surf
 
     def on_exit(self):
-        print("CharacterState: on_exit")
         self.game.save_all()
 
     def update(self, dt, events):
@@ -155,7 +153,6 @@ class CharacterState:
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
         y0_btn = 40
-        #field_height = 785 - 162  # 623
         btn_texts = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
 
         # Очищаем список кнопок перед перерисовкой

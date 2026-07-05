@@ -1,6 +1,6 @@
-import pygame
 import json
 import os
+import time
 
 PREFIX_ARTIFACT = "artifact_"
 PREFIX_WEAPON = "weapon_"
@@ -171,21 +171,16 @@ ITEM_DATA = {
         "secondary_stat": {"stat": "Crit Rate%", "value": 5}
     }
     # Еда
-    #"apple": "food",
-    #"bread": "food",
+
     # Зелья
-    #"health_potion": "potions",
-    #"mana_potion": "potions",
+
     # Оружие
-    #"iron_sword": "weapons",
-    #"bow": "weapons",
+
     # Артефакты
-    #"flower_of_life": "artifacts",
-    #"plume_of_death": "artifacts",
-    # Особые инструменты (если нужны)
-    #"special_key": "special_tools",
+
+    # Особые инструменты
+
     # Редкие ресурсы
-    #"rare_crystal": "rare_resources",
 }
 
 class Item:
@@ -202,6 +197,7 @@ class Inventory:
     def __init__(self):
         self.items = {}  # словарь: ключ - item_id, значение - количество
         self.modified = False
+        self.counter = 0
 
     def get_item_type(self, item_id):
         #Возвращает раздел предмета или None, если неизвестен
@@ -224,7 +220,6 @@ class Inventory:
             else:
                 prefix = PREFIX_WEAPON
             self.counter += 1
-            import time
             unique_id = f"{prefix}{item_id}_{int(time.time() * 1000)}_{self.counter}"
             self.items[unique_id] = 1
             self.modified = True
