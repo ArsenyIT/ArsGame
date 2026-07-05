@@ -55,6 +55,7 @@ class InventoryState:
         self.rusted_sword_inventory = pygame.image.load("assets/textures/inventory/weapon_cell/Rusted_sword_inventory.png").convert_alpha()
         self.hero_duplicate_inventory = pygame.image.load("assets/textures/inventory/Hero_duplicate_inventory.png").convert_alpha()
         self.talent_book_2_inventory = pygame.image.load("assets/textures/inventory/Talent_book_2_inventory.png").convert_alpha()
+        self.crystal_of_true_power_inventory = pygame.image.load("assets/textures/inventory/Crystal_of_true_power_inventory.png").convert_alpha()
 
         self.item_icons = {
             "oak_wood": self.oak_wood_inventory,
@@ -68,7 +69,8 @@ class InventoryState:
             "sword_of_steel": self.sword_of_steel_inventory,
             "rusted_sword": self.rusted_sword_inventory,
             "hero_duplicate": self.hero_duplicate_inventory,
-            "talent_book_2": self.talent_book_2_inventory
+            "talent_book_2": self.talent_book_2_inventory,
+            "crystal_of_true_power": self.crystal_of_true_power_inventory
         }
 
     def on_exit(self):

@@ -6,6 +6,7 @@ PREFIX_ARTIFACT = "artifact_"
 PREFIX_WEAPON = "weapon_"
 
 ITEM_DATA = {
+    # Ресурсы
     "oak_wood": {
         "type": "resources",
         "name": "Дубовое бревно",
@@ -27,6 +28,17 @@ ITEM_DATA = {
         "name": "Дубликат героя",
         "rarity": 5,
     },
+    "artifact_exp": {
+        "type": "resources",
+        "name": "Артефактный опыт",
+        "rarity": 2,
+    },
+    "crystal_of_true_power": {
+        "type": "resources",
+        "name": "Кристалл истинной силы",
+        "rarity": 3,
+    },
+    # Артефакты
     "plume_1": {
     "type": "artifacts",
     "name": "Перо_1",
@@ -149,11 +161,7 @@ ITEM_DATA = {
             "Elemental Mastery"
         ]
     },
-    "artifact_exp": {
-        "type": "resources",
-        "name": "Артефактный опыт",
-        "rarity": 2,
-    },
+    # Оружие
     "sword_of_steel": {
         "type": "weapons",
         "name": "Стальной меч",
@@ -173,10 +181,6 @@ ITEM_DATA = {
     # Еда
 
     # Зелья
-
-    # Оружие
-
-    # Артефакты
 
     # Особые инструменты
 
