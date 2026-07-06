@@ -204,8 +204,14 @@ class Inventory:
         self.counter = 0
 
     def get_item_type(self, item_id):
-        #Возвращает раздел предмета или None, если неизвестен
-        return ITEM_DATA.get(item_id, {}).get("type")
+        if item_id in ITEM_DATA:
+            return ITEM_DATA[item_id].get("type")
+        elif item_id.startswith(PREFIX_WEAPON):
+            return "weapons"
+        elif item_id.startswith(PREFIX_ARTIFACT):
+            return "artifacts"
+        else:
+            return None
 
     def add_item(self, item_id, amount=1):
         item_data = ITEM_DATA.get(item_id, {})

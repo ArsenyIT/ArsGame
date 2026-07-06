@@ -2,18 +2,18 @@
   "characters": [
     {
       "name": "Герой",
-      "level": 1,
+      "level": 4,
       "max_level": 10,
-      "exp": 0,
-      "exp_next": 1000,
-      "base_hp": 670,
-      "base_atk": 105,
-      "base_defense": 300,
+      "exp": 4375,
+      "exp_next": 4562,
+      "base_hp": 835,
+      "base_atk": 130,
+      "base_defense": 340,
       "crit_rate": 5,
       "crit_dmg": 150,
       "energy_recharge": 100,
-      "elemental_mastery": 15,
-      "phys_bonus": 0,
+      "elemental_mastery": 25,
+      "phys_bonus": 1,
       "resistance": 1,
       "speed": 10,
       "talents": {
@@ -106,7 +106,16 @@
           "artifact_id": "feather_2"
         }
       },
-      "weapon_data": {}
+      "weapon_data": {
+        "weapon_sword_of_steel_1783324301412_1": {
+          "level": 1,
+          "weapon_id": "sword"
+        },
+        "weapon_rusted_sword_1783324301412_2": {
+          "level": 1,
+          "weapon_id": "rusted"
+        }
+      }
     }
   ]
 }

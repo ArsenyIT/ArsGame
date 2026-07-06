@@ -1,4 +1,5 @@
 import pygame
+from inventory import PREFIX_WEAPON, PREFIX_ARTIFACT
 
 class InventoryState:
     def __init__(self, game):
@@ -89,6 +90,30 @@ class InventoryState:
                         print(f"Раздел изменён на {btn['section']}")
                         break
 
+    def get_grouped_items(self, section):
+        """Возвращает словарь {шаблонный_ид: количество} для указанного раздела"""
+        char = self.game.player.party[0]
+        grouped = {}
+        inventory = self.game.player.inventory
+        for item_id, quantity in inventory.items.items():
+            item_type = inventory.get_item_type(item_id)
+            if item_type != section:
+                continue
+            if item_id.startswith(PREFIX_WEAPON):
+                data = char.weapon_data.get(item_id, {})
+                template_id = data.get("weapon_id")
+                if not template_id:
+                    # Парсим из уникального ID
+                    parts = item_id.split('_')
+                    if len(parts) >= 3:
+                        template_id = parts[1]
+                if template_id:
+                    grouped[template_id] = grouped.get(template_id, 0) + quantity
+            else:
+                # Ресурсы и обычные предметы
+                grouped[item_id] = grouped.get(item_id, 0) + quantity
+        return grouped
+
     def draw(self, screen):
         screen.blit(self.inventory_menu_1, (0, 0))
         menu_2 = pygame.Rect(0, 119, 1000, 768)
@@ -114,11 +139,8 @@ class InventoryState:
 
         all_items = self.game.player.inventory.items
         # Фильтруем по текущему разделу
-        filtered_items = {
-            item_id: amount for item_id, amount in all_items.items()
-            if self.game.player.inventory.get_item_type(item_id) == self.current_section
-        }
-        items_list = list(filtered_items.items())
+        grouped_items = self.get_grouped_items(self.current_section)
+        items_list = list(grouped_items.items())
 
         # Рисуем сетку
         for row in range(self.rows):

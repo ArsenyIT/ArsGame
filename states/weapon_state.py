@@ -46,9 +46,9 @@ class WeaponState:
 
         # Загрузка иконок для оружия
         self.weapon_icons = {}
-        weapon_ids = ["Sword_of_steel", "Rusted_sword"]
+        weapon_ids = ["sword_of_steel", "rusted_sword"]
         for w_id in weapon_ids:
-            icon_path = f"assets/textures/inventory/weapon_cell/{w_id}_inventory.png"
+            icon_path = f"assets/textures/inventory/weapon_cell/{w_id.capitalize()}_inventory.png"
             try:
                 icon = pygame.image.load(icon_path).convert_alpha()
                 icon = pygame.transform.scale(icon, (32, 32))
@@ -61,6 +61,9 @@ class WeaponState:
         char = self.game.player.party[0]
         self.equipped_weapon = char.weapon
         self.update_popup_list()
+
+    def on_exit(self):
+        self.game.save_all()
 
     def load_navigation_buttons(self):
         self.button_images = {}
@@ -87,16 +90,17 @@ class WeaponState:
     def update_popup_list(self):
         self.popup_weapons = []
         all_weapon_ids = self.game.player.inventory.get_unique_items(PREFIX_WEAPON)
+        print("=== weapon_state debug ===")
+        print("all_weapon_ids:", all_weapon_ids)
         char = self.game.player.party[0]
         for unique_id in all_weapon_ids:
             data = char.weapon_data.get(unique_id, {})
             weapon_id = data.get("weapon_id")
+            print(f"  unique_id: {unique_id}, weapon_id: {weapon_id}")
             if weapon_id:
                 self.popup_weapons.append(unique_id)
         self.popup_selected_index = -1
-
-    def on_exit(self):
-        self.game.save_all()
+        print("popup_weapons:", self.popup_weapons)
 
     def update(self, dt, events):
         for event in events:
@@ -259,6 +263,8 @@ class WeaponState:
             self.draw_popup(screen)
 
     def draw_popup(self, screen):
+        print("draw_popup called")
+        print("popup_weapons length:", len(self.popup_weapons))
         dark = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))

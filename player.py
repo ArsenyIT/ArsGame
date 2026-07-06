@@ -3,6 +3,7 @@ from game_data import Character
 import json
 import os
 from game_data import generate_artifact_main_stat
+from inventory import PREFIX_WEAPON
 
 class Player:
     def __init__(self):
@@ -33,6 +34,7 @@ class Player:
 
         # Загружаем данные персонажей
         self.load_party("assets/data/party_save.json")
+        self.convert_weapons_to_unique()
 
         # Если инвентарь пуст, добавляем тестовые предметы
         if not self.inventory.items:
@@ -158,6 +160,33 @@ class Player:
                             main_stat = generate_artifact_main_stat(data.get("artifact_id", ""))
                             if main_stat:
                                 data["main_stat"] = main_stat
+
+                    # Восстанавливаем weapon_data для оружия, если оно потеряно
+                    inventory = self.inventory
+                    for item_id in inventory.get_unique_items(PREFIX_WEAPON):
+                        if item_id not in char.weapon_data:
+                            # Извлекаем weapon_id из уникального ID
+                            # формат: weapon_{weapon_id}_{timestamp}_{counter}
+                            parts = item_id.split('_')
+                            if len(parts) >= 3:
+                                weapon_id = parts[1]  # второй элемент
+                                char.weapon_data[item_id] = {
+                                    "level": 1,
+                                    "weapon_id": weapon_id
+                                }
+                                print(f"Восстановлена запись для {item_id} -> {weapon_id}")
             print("Прогресс партии загружен")
         else:
             print("Файл партии не найден или пуст")
+
+    def convert_weapons_to_unique(self):
+        hero = self.party[0]
+        to_convert = []
+        for item_id, quantity in self.inventory.items.items():
+            if self.inventory.get_item_type(item_id) == "weapons" and not item_id.startswith(PREFIX_WEAPON):
+                to_convert.append((item_id, quantity))
+        for old_id, quantity in to_convert:
+            for _ in range(quantity):
+                unique_id = self.add_weapon(old_id)
+                if unique_id:
+                    self.inventory.remove_item(old_id, 1)
