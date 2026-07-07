@@ -34,54 +34,89 @@ class Player:
 
         # Загружаем данные персонажей
         self.load_party("assets/data/party_save.json")
-        self.convert_weapons_to_unique()
 
-        # Если инвентарь пуст, добавляем тестовые предметы
-        if not self.inventory.items:
+        # Если нет оружия в инвентаре, добавляем тестовое
+        if not self.inventory.get_all_uids("weapons"):
+            self.add_weapon("sword_of_steel")
+            self.add_weapon("rusted_sword")
+
+        # Если нет артефактов, добавляем тестовые
+        if not self.inventory.get_all_uids("artifacts"):
             self.add_artifact("flower_1")
             self.add_artifact("sands_1")
             self.add_artifact("goblet_1")
             self.add_artifact("plume_1")
             self.add_artifact("plume_2")
-            self.add_weapon("Sword_of_steel")
-            self.add_weapon("Rusted_sword")
-            self.inventory.add_item("artifact_exp", 50)
-            self.inventory.add_item("weapon_exp", 50)
-            self.inventory.add_item("story_of_the_Almighty", 5)
-            self.inventory.add_item("talent_book_2", 10)
 
         self.modified = False
+
+        hero = self.party[0]
+        for uid in self.inventory.get_all_uids("weapons"):
+            if uid not in hero.weapon_data:
+                # Находим weapon_id по UID
+                for item_id, uids in self.inventory.items.items():
+                    if isinstance(uids, list) and uid in uids:
+                        if self.inventory.get_item_type(item_id) == "weapons":
+                            hero.weapon_data[uid] = {
+                                "level": 1,
+                                "weapon_id": item_id
+                            }
+                            print(f"Восстановлена запись для оружия {item_id} с UID {uid}")
+                        break
+
+        # Восстанавливаем artifact_data для существующих UID артефактов
+        for uid in self.inventory.get_all_uids("artifacts"):
+            if uid not in hero.artifact_data:
+                for item_id, uids in self.inventory.items.items():
+                    if isinstance(uids, list) and uid in uids:
+                        if self.inventory.get_item_type(item_id) == "artifacts":
+                            # Генерируем основной стат, если его нет
+                            main_stat = generate_artifact_main_stat(item_id)
+                            if not main_stat:
+                                main_stat = {}
+                            hero.artifact_data[uid] = {
+                                "level": 0,
+                                "sub_stats": [],
+                                "main_stat": main_stat,
+                                "artifact_id": item_id
+                            }
+                            print(f"Восстановлена запись для артефакта {item_id} с UID {uid}")
+                        break
+
+        # Сохраняем партию, чтобы в следующий раз данные уже были
+        self.save_party("assets/data/party_save.json")
 
     def mark_modified(self):
         self.modified = True
 
     def add_artifact(self, artifact_id):
-        unique_id = self.inventory.add_item(artifact_id, 1)
-        if unique_id:
+        uid = self.inventory.add_item(artifact_id, 1)
+        if uid:
             hero = self.party[0]
             main_stat = generate_artifact_main_stat(artifact_id)
             if not main_stat:
-                self.inventory.remove_item(unique_id)
+                # если не удалось сгенерировать стат, удаляем созданный UID из инвентаря
+                self.inventory.remove_item(artifact_id, uid)
                 return False
-            hero.artifact_data[unique_id] = {
+            hero.artifact_data[uid] = {
                 "level": 0,
                 "sub_stats": [],
                 "main_stat": main_stat,
                 "artifact_id": artifact_id
             }
-            print(f"Добавлен артефакт {artifact_id} с ID {unique_id}")
+            print(f"Добавлен артефакт {artifact_id} с UID {uid}")
             return True
         return False
 
     def add_weapon(self, weapon_id):
-        unique_id = self.inventory.add_item(weapon_id, 1)
-        if unique_id:
+        uid = self.inventory.add_item(weapon_id, 1)
+        if uid:
             hero = self.party[0]
-            hero.weapon_data[unique_id] = {
+            hero.weapon_data[uid] = {
                 "level": 1,
                 "weapon_id": weapon_id
             }
-            print(f"Добавлено оружие {weapon_id} с ID {unique_id}")
+            print(f"Добавлено оружие {weapon_id} с UID {uid}")
             return True
         return False
 
@@ -160,33 +195,6 @@ class Player:
                             main_stat = generate_artifact_main_stat(data.get("artifact_id", ""))
                             if main_stat:
                                 data["main_stat"] = main_stat
-
-                    # Восстанавливаем weapon_data для оружия, если оно потеряно
-                    inventory = self.inventory
-                    for item_id in inventory.get_unique_items(PREFIX_WEAPON):
-                        if item_id not in char.weapon_data:
-                            # Извлекаем weapon_id из уникального ID
-                            # формат: weapon_{weapon_id}_{timestamp}_{counter}
-                            parts = item_id.split('_')
-                            if len(parts) >= 3:
-                                weapon_id = parts[1]  # второй элемент
-                                char.weapon_data[item_id] = {
-                                    "level": 1,
-                                    "weapon_id": weapon_id
-                                }
-                                print(f"Восстановлена запись для {item_id} -> {weapon_id}")
             print("Прогресс партии загружен")
         else:
             print("Файл партии не найден или пуст")
-
-    def convert_weapons_to_unique(self):
-        hero = self.party[0]
-        to_convert = []
-        for item_id, quantity in self.inventory.items.items():
-            if self.inventory.get_item_type(item_id) == "weapons" and not item_id.startswith(PREFIX_WEAPON):
-                to_convert.append((item_id, quantity))
-        for old_id, quantity in to_convert:
-            for _ in range(quantity):
-                unique_id = self.add_weapon(old_id)
-                if unique_id:
-                    self.inventory.remove_item(old_id, 1)

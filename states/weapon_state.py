@@ -1,16 +1,15 @@
 import pygame
 from inventory import ITEM_DATA
-from inventory import PREFIX_WEAPON
 
 class WeaponState:
     def __init__(self, game):
         self.game = game
         self.font = None
         self.stats_font = None
-        self.selected_weapon = None
-        self.equipped_weapon = None
+        self.selected_uid = None          # UID выбранного оружия
+        self.equipped_uid = None          # UID экипированного оружия
         self.show_popup = False
-        self.popup_weapons = []
+        self.popup_uids = []              # список UID для отображения в плашке
         self.popup_selected_index = -1
         self.popup_cell_rects = []
         self.field_width = 344
@@ -44,11 +43,12 @@ class WeaponState:
         except:
             self.upgrade_btn_img = None
 
-        # Загрузка иконок для оружия
+        # Загрузка иконок для оружия (по шаблонному ID)
         self.weapon_icons = {}
         weapon_ids = ["sword_of_steel", "rusted_sword"]
         for w_id in weapon_ids:
-            icon_path = f"assets/textures/inventory/weapon_cell/{w_id.capitalize()}_inventory.png"
+            icon_name = w_id.capitalize()
+            icon_path = f"assets/textures/inventory/weapon_cell/{icon_name}_inventory.png"
             try:
                 icon = pygame.image.load(icon_path).convert_alpha()
                 icon = pygame.transform.scale(icon, (32, 32))
@@ -59,11 +59,8 @@ class WeaponState:
         self.load_navigation_buttons()
 
         char = self.game.player.party[0]
-        self.equipped_weapon = char.weapon
+        self.equipped_uid = char.weapon  # UID экипированного оружия
         self.update_popup_list()
-
-    def on_exit(self):
-        self.game.save_all()
 
     def load_navigation_buttons(self):
         self.button_images = {}
@@ -88,19 +85,21 @@ class WeaponState:
             self.nav_buttons.append({"text": text, "rect": rect})
 
     def update_popup_list(self):
-        self.popup_weapons = []
-        all_weapon_ids = self.game.player.inventory.get_unique_items(PREFIX_WEAPON)
-        print("=== weapon_state debug ===")
-        print("all_weapon_ids:", all_weapon_ids)
+        """Обновляет список UID оружия для плашки"""
+        self.popup_uids = []
+        inventory = self.game.player.inventory
         char = self.game.player.party[0]
-        for unique_id in all_weapon_ids:
-            data = char.weapon_data.get(unique_id, {})
-            weapon_id = data.get("weapon_id")
-            print(f"  unique_id: {unique_id}, weapon_id: {weapon_id}")
-            if weapon_id:
-                self.popup_weapons.append(unique_id)
+        # Получаем все UID оружия
+        all_uids = inventory.get_all_uids("weapons")
+        for uid in all_uids:
+            # Проверяем, что запись в weapon_data существует
+            data = char.weapon_data.get(uid, {})
+            if data:  # если есть данные, значит оружие корректно
+                self.popup_uids.append(uid)
         self.popup_selected_index = -1
-        print("popup_weapons:", self.popup_weapons)
+
+    def on_exit(self):
+        self.game.save_all()
 
     def update(self, dt, events):
         for event in events:
@@ -138,27 +137,28 @@ class WeaponState:
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
             char = self.game.player.party[0]
             inventory = self.game.player.inventory
-            if self.equipped_weapon is not None:
-                char.unequip_weapon(inventory)
+            if self.equipped_uid is not None:
+                # Снимаем оружие
+                char.unequip_weapon()
                 self.game.player.mark_modified()
-                self.equipped_weapon = None
-                self.selected_weapon = None
+                self.equipped_uid = None
+                self.selected_uid = None
             else:
-                if self.selected_weapon is not None:
-                    char.equip_weapon(self.selected_weapon, inventory)
+                if self.selected_uid is not None:
+                    char.equip_weapon(self.selected_uid)
                     self.game.player.mark_modified()
-                    self.equipped_weapon = self.selected_weapon
-                    self.selected_weapon = None
+                    self.equipped_uid = self.selected_uid
+                    self.selected_uid = None
                 else:
                     self.show_popup = True
                     self.update_popup_list()
 
         # Кнопка "Улучшить"
         if hasattr(self, 'upgrade_btn_rect') and self.upgrade_btn_rect.collidepoint(pos):
-            if self.equipped_weapon is not None:
+            if self.equipped_uid is not None:
                 char = self.game.player.party[0]
                 inventory = self.game.player.inventory
-                success = char.upgrade_weapon(self.equipped_weapon, inventory)
+                success = char.upgrade_weapon(self.equipped_uid, inventory)
                 if success:
                     self.game.player.mark_modified()
 
@@ -166,16 +166,15 @@ class WeaponState:
         if hasattr(self, 'popup_cell_rects'):
             for idx, rect in enumerate(self.popup_cell_rects):
                 if rect.collidepoint(pos):
-                    if idx < len(self.popup_weapons):
-                        unique_id = self.popup_weapons[idx]
+                    if idx < len(self.popup_uids):
+                        uid = self.popup_uids[idx]
                         char = self.game.player.party[0]
-                        inventory = self.game.player.inventory
-                        if self.equipped_weapon is not None:
-                            char.unequip_weapon(inventory)
-                        char.equip_weapon(unique_id, inventory)
+                        if self.equipped_uid is not None:
+                            char.unequip_weapon()
+                        char.equip_weapon(uid)
                         self.game.player.mark_modified()
-                        self.equipped_weapon = unique_id
-                        self.selected_weapon = None
+                        self.equipped_uid = uid
+                        self.selected_uid = None
                         self.show_popup = False
                     break
 
@@ -193,8 +192,8 @@ class WeaponState:
         title = self.font.render("Оружие", True, (255, 255, 255))
         screen.blit(title, (1111, 50))
 
-        if self.equipped_weapon:
-            data = char.weapon_data.get(self.equipped_weapon, {})
+        if self.equipped_uid is not None:
+            data = char.weapon_data.get(self.equipped_uid, {})
             weapon_id = data.get("weapon_id")
             level = data.get("level", 1)
             if weapon_id:
@@ -204,7 +203,6 @@ class WeaponState:
                 sec_stat = template.get("secondary_stat", {})
                 sec_name = sec_stat.get("stat", "")
                 sec_value = sec_stat.get("value", 0)
-                # Иконка экипированного оружия
                 icon = self.weapon_icons.get(weapon_id)
                 if icon:
                     icon_display = pygame.transform.scale(icon, (40, 40))
@@ -220,8 +218,8 @@ class WeaponState:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
             screen.blit(equip_text, (1111, 80))
 
-        if self.selected_weapon is not None:
-            data = char.weapon_data.get(self.selected_weapon, {})
+        if self.selected_uid is not None:
+            data = char.weapon_data.get(self.selected_uid, {})
             weapon_id = data.get("weapon_id")
             level = data.get("level", 1)
             if weapon_id:
@@ -230,11 +228,12 @@ class WeaponState:
                 sel_text = self.stats_font.render(f"Выбрано: {name} (ур. {level})", True, (255, 255, 0))
                 screen.blit(sel_text, (1111, 150))
 
+        # Кнопки
         btn_y = 640
         btn_width = 278
         btn_height = 62
 
-        if self.equipped_weapon is not None:
+        if self.equipped_uid is not None:
             btn_img = self.unequip_btn_img
             btn_text = "Сменить"
         else:
@@ -263,8 +262,6 @@ class WeaponState:
             self.draw_popup(screen)
 
     def draw_popup(self, screen):
-        print("draw_popup called")
-        print("popup_weapons length:", len(self.popup_weapons))
         dark = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))
@@ -288,7 +285,7 @@ class WeaponState:
 
         char = self.game.player.party[0]
 
-        for idx, unique_id in enumerate(self.popup_weapons):
+        for idx, uid in enumerate(self.popup_uids):
             row = idx // cols
             col = idx % cols
             x = start_x + col * (cell_size + margin)
@@ -299,7 +296,7 @@ class WeaponState:
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (200, 200, 200), rect, 1)
 
-            data = char.weapon_data.get(unique_id, {})
+            data = char.weapon_data.get(uid, {})
             weapon_id = data.get("weapon_id")
             if weapon_id:
                 template = ITEM_DATA.get(weapon_id, {})

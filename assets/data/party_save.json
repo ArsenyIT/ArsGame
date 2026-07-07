@@ -27,11 +27,11 @@
         "flower": null,
         "plume": null,
         "sands": null,
-        "goblet": "goblet_1_1782718953799_2",
+        "goblet": null,
         "circlet": null
       },
       "artifact_data": {
-        "flower_1_1782718953799_0": {
+        "3": {
           "level": 0,
           "sub_stats": [],
           "main_stat": {
@@ -39,7 +39,47 @@
           },
           "artifact_id": "flower_1"
         },
-        "sands_1_1782718953799_1": {
+        "4": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "elemental_mastery": 20
+          },
+          "artifact_id": "sands_1"
+        },
+        "5": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "elec_dmg_percent": 5.0
+          },
+          "artifact_id": "goblet_1"
+        },
+        "6": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 100
+          },
+          "artifact_id": "plume_1"
+        },
+        "7": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 115
+          },
+          "artifact_id": "plume_2"
+        },
+        "3": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "hp": 1100
+          },
+          "artifact_id": "flower_1"
+        },
+        "4": {
           "level": 0,
           "sub_stats": [],
           "main_stat": {
@@ -47,73 +87,47 @@
           },
           "artifact_id": "sands_1"
         },
-        "goblet_1_1782718953799_2": {
-          "level": 20,
-          "sub_stats": [
-            {
-              "stat": "DEF%",
-              "value": 4.3
-            },
-            {
-              "stat": "ATK%",
-              "value": 2.0
-            },
-            {
-              "stat": "DEF",
-              "value": 17.4
-            },
-            {
-              "stat": "Energy Recharge%",
-              "value": 5.0
-            }
-          ],
+        "5": {
+          "level": 0,
+          "sub_stats": [],
           "main_stat": {
-            "elec_dmg_percent": 5.0
+            "pyro_dmg_percent": 5.0
           },
           "artifact_id": "goblet_1"
         },
-        "feather_1_1782718953799_3": {
-          "level": 20,
+        "6": {
+          "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "atk": 100
+            "atk": 110
           },
-          "artifact_id": "feather_1"
+          "artifact_id": "plume_1"
         },
-        "feather_2_1782718953799_4": {
-          "level": 20,
-          "sub_stats": [
-            {
-              "stat": "DEF",
-              "value": 9.0
-            },
-            {
-              "stat": "HP",
-              "value": 15.4
-            },
-            {
-              "stat": "Crit DMG%",
-              "value": 4.2
-            },
-            {
-              "stat": "Energy Recharge%",
-              "value": 4.4
-            }
-          ],
+        "7": {
+          "level": 0,
+          "sub_stats": [],
           "main_stat": {
             "atk": 115
           },
-          "artifact_id": "feather_2"
+          "artifact_id": "plume_2"
         }
       },
       "weapon_data": {
-        "weapon_sword_of_steel_1783324301412_1": {
+        "1": {
           "level": 1,
-          "weapon_id": "sword"
+          "weapon_id": "sword_of_steel"
         },
-        "weapon_rusted_sword_1783324301412_2": {
+        "2": {
           "level": 1,
-          "weapon_id": "rusted"
+          "weapon_id": "rusted_sword"
+        },
+        "1": {
+          "level": 1,
+          "weapon_id": "sword_of_steel"
+        },
+        "2": {
+          "level": 1,
+          "weapon_id": "rusted_sword"
         }
       }
     }

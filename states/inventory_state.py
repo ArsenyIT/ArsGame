@@ -92,26 +92,19 @@ class InventoryState:
 
     def get_grouped_items(self, section):
         """Возвращает словарь {шаблонный_ид: количество} для указанного раздела"""
-        char = self.game.player.party[0]
         grouped = {}
         inventory = self.game.player.inventory
-        for item_id, quantity in inventory.items.items():
+        for item_id, value in inventory.items.items():
             item_type = inventory.get_item_type(item_id)
             if item_type != section:
                 continue
-            if item_id.startswith(PREFIX_WEAPON):
-                data = char.weapon_data.get(item_id, {})
-                template_id = data.get("weapon_id")
-                if not template_id:
-                    # Парсим из уникального ID
-                    parts = item_id.split('_')
-                    if len(parts) >= 3:
-                        template_id = parts[1]
-                if template_id:
-                    grouped[template_id] = grouped.get(template_id, 0) + quantity
+            if item_type in ["artifacts", "weapons"]:
+                # value – список UID
+                count = len(value)
+                grouped[item_id] = grouped.get(item_id, 0) + count
             else:
-                # Ресурсы и обычные предметы
-                grouped[item_id] = grouped.get(item_id, 0) + quantity
+                # ресурсы – число
+                grouped[item_id] = grouped.get(item_id, 0) + value
         return grouped
 
     def draw(self, screen):

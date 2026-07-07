@@ -116,6 +116,7 @@ class Character:
             "goblet": None,
             "circlet": None}
         self.artifact_data = {}
+        self.weapon_data = {}
         self.portrait_path = portrait_path
         self.load_growth_data()
 
@@ -204,28 +205,27 @@ class Character:
         print(f"Созвездие активировано! Текущий уровень: {self.constellation}")
         return True
 
-    def equip_artifact(self, slot, unique_id, inventory):
-        # Проверяем, есть ли артефакт в инвентаре
-        if unique_id not in inventory.items:
-            print("Артефакта нет в инвентаре!")
+        # ----- Артефакты -----
+    def equip_artifact(self, slot, uid):
+        """Экипирует артефакт по UID в указанный слот"""
+        if uid not in self.artifact_data:
+            print(f"Артефакт с UID {uid} не найден в данных!")
+            return False
+        if slot not in self.artifacts:
+            print(f"Неверный слот: {slot}")
             return False
         # Если слот занят, снимаем старый
         if self.artifacts[slot] is not None:
-            self.unequip_artifact(slot, inventory)
-        # Удаляем из инвентаря (уникальный предмет)
-        inventory.remove_item(unique_id, 1)
-        # Экипируем
-        self.artifacts[slot] = unique_id
-        print(f"Экипирован артефакт {unique_id} в слот {slot}")
+            self.unequip_artifact(slot)
+        self.artifacts[slot] = uid
+        print(f"Экипирован артефакт с UID {uid} в слот {slot}")
         return True
 
-    def unequip_artifact(self, slot, inventory):
-        unique_id = self.artifacts[slot]
-        if unique_id is not None:
-            # Добавляем обратно в инвентарь (уникальный предмет)
-            inventory.items[unique_id] = 1
+    def unequip_artifact(self, slot):
+        """Снимает артефакт из слота (не добавляет в инвентарь)"""
+        if slot in self.artifacts and self.artifacts[slot] is not None:
             self.artifacts[slot] = None
-            print(f"Снят артефакт {unique_id} со слота {slot}")
+            print(f"Снят артефакт из слота {slot}")
             return True
         return False
 
@@ -310,20 +310,22 @@ class Character:
         else:
             return round(random.uniform(1, 5))
 
-    def equip_weapon(self, unique_id, inventory):
-        if unique_id not in inventory.items:
-            print("Оружия нет в инвентаре!")
-            return False
-        if self.weapon is not None:
-            self.unequip_weapon(inventory)
-        inventory.remove_item(unique_id, 1)
-        self.weapon = unique_id
-        print(f"Экипировано оружие {unique_id}")
-        return True
+    # ----- Оружие -----
+    def equip_weapon(self, uid):
+        """Экипирует оружие по UID (не удаляет из инвентаря)"""
+        if uid in self.weapon_data:
+            # Если уже есть оружие, снимаем его
+            if self.weapon is not None:
+                self.unequip_weapon()
+            self.weapon = uid
+            print(f"Экипировано оружие с UID {uid}")
+            return True
+        print(f"Оружие с UID {uid} не найдено в данных!")
+        return False
 
-    def unequip_weapon(self, inventory):
+    def unequip_weapon(self):
+        """Снимает оружие (не добавляет в инвентарь, оно там и так есть)"""
         if self.weapon is not None:
-            inventory.items[self.weapon] = 1
             self.weapon = None
             print("Оружие снято")
             return True

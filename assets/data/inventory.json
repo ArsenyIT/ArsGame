@@ -1,15 +1,13 @@
 {
-  "oak_wood": 11,
-  "artifact_exp": 187400,
-  "plume_1": 1,
-  "flower_1": 1,
-  "sands_1": 1,
-  "goblet_1": 1,
-  "plume_2": 1,
-  "story_of_the_Almighty": 9,
-  "talent_book_2": 1,
-  "hero_duplicate": 1,
-  "crystal_of_true_power": 1,
-  "sword_of_steel": 1,
-  "rusted_sword": 1
+  "sword_of_steel": [1],
+  "rusted_sword": [2],
+  "flower_1": [3],
+  "sands_1": [4],
+  "goblet_1": [5],
+  "plume_1": [6],
+  "plume_2": [7],
+  "artifact_exp": 200,
+  "story_of_the_Almighty": 19,
+  "talent_book_2": 40,
+  "oak_wood": 1
 }

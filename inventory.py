@@ -199,9 +199,9 @@ class Item:
 
 class Inventory:
     def __init__(self):
-        self.items = {}  # словарь: ключ - item_id, значение - количество
+        self.items = {} # для ресурсов: {"id": количество}; для уникальных: {"id": [UID1, UID2]}
         self.modified = False
-        self.counter = 0
+        self.uid_counter = 0  # глобальный счётчик UID
 
     def get_item_type(self, item_id):
         if item_id in ITEM_DATA:
@@ -222,62 +222,78 @@ class Inventory:
             else:
                 self.items[item_id] = amount
             self.modified = True
-            return None  # ресурсы не имеют уникального ID
+            return None
         elif item_type in ["artifacts", "weapons"]:
-            # Генерируем уникальный ID с префиксом
-            if item_type == "artifacts":
-                prefix = PREFIX_ARTIFACT
-            else:
-                prefix = PREFIX_WEAPON
-            self.counter += 1
-            unique_id = f"{prefix}{item_id}_{int(time.time() * 1000)}_{self.counter}"
-            self.items[unique_id] = 1
+            # Генерируем новый UID
+            self.uid_counter += 1
+            uid = self.uid_counter
+            if item_id not in self.items:
+                self.items[item_id] = []
+            self.items[item_id].append(uid)
             self.modified = True
-            return unique_id
+            return uid
         else:
             print(f"Неизвестный тип предмета: {item_type}")
             return None
 
-    def remove_item(self, item_id, amount=1):
-        if item_id not in self.items:
-            return False
-        if item_id.startswith(PREFIX_ARTIFACT) or item_id.startswith(PREFIX_WEAPON):
-            del self.items[item_id]
-            self.modified = True
-            return True
-        else:
-            self.items[item_id] -= amount
+    def remove_item(self, item_id, uid=None):
+        # Для ресурсов уменьшаем количество
+        if item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") == "resources":
+            if item_id not in self.items:
+                return False
+            self.items[item_id] -= 1
             if self.items[item_id] <= 0:
                 del self.items[item_id]
             self.modified = True
             return True
-
-    def get_unique_items(self, prefix):
-        # Возвращает список уникальных ID, начинающихся с указанного префикса
-        result = []
-        for key in self.items:
-            if key.startswith(prefix):
-                result.append(key)
-        return result
+        # Для уникальных предметов удаляем указанный UID (если не указан, удаляем последний)
+        elif item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") in ["artifacts", "weapons"]:
+            if item_id not in self.items:
+                return False
+            if uid is None:
+                if self.items[item_id]:
+                    uid = self.items[item_id].pop()
+                else:
+                    return False
+            else:
+                if uid in self.items[item_id]:
+                    self.items[item_id].remove(uid)
+                else:
+                    return False
+            if not self.items[item_id]:
+                del self.items[item_id]
+            self.modified = True
+            return uid
+        else:
+            return False
 
     def get_count(self, item_id):
-        #Возвращает количество предмета (0 если нет)
-        return self.items.get(item_id, 0)
+        if item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") == "resources":
+            return self.items.get(item_id, 0)
+        else:
+            return len(self.items.get(item_id, []))
+
+    def get_uid_list(self, item_id):
+        return self.items.get(item_id, [])
+
+    def get_all_uids(self, item_type=None):
+        """Возвращает список всех UID для заданного типа (например, 'weapons')"""
+        result = []
+        for item_id, uids in self.items.items():
+            if isinstance(uids, list):
+                if item_type is None or (ITEM_DATA.get(item_id, {}).get("type") == item_type):
+                    result.extend(uids)
+        return result
 
     def save(self, filename):
-        #Сохраняет инвентарь в JSON-файл
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.items, f, ensure_ascii=False, indent=2)
         self.modified = False
 
     def load(self, filename):
-        if os.path.exists(filename):
-            # Проверяем, что файл не пустой
-            if os.path.getsize(filename) > 0:
-                with open(filename, 'r', encoding='utf-8') as f:
-                    self.items = json.load(f)
-            else:
-                self.items = {}
+        if os.path.exists(filename) and os.path.getsize(filename) > 0:
+            with open(filename, 'r', encoding='utf-8') as f:
+                self.items = json.load(f)
         else:
             self.items = {}
         self.modified = False
