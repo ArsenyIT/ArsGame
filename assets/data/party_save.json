@@ -43,46 +43,6 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "elemental_mastery": 20
-          },
-          "artifact_id": "sands_1"
-        },
-        "5": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "elec_dmg_percent": 5.0
-          },
-          "artifact_id": "goblet_1"
-        },
-        "6": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "atk": 100
-          },
-          "artifact_id": "plume_1"
-        },
-        "7": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "atk": 115
-          },
-          "artifact_id": "plume_2"
-        },
-        "3": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "hp": 1100
-          },
-          "artifact_id": "flower_1"
-        },
-        "4": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
             "energy_recharge": 4.0
           },
           "artifact_id": "sands_1"
@@ -108,6 +68,46 @@
           "sub_stats": [],
           "main_stat": {
             "atk": 115
+          },
+          "artifact_id": "plume_2"
+        },
+        "3": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "hp": 1000
+          },
+          "artifact_id": "flower_1"
+        },
+        "4": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "def_percent": 4.0
+          },
+          "artifact_id": "sands_1"
+        },
+        "5": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "phys_dmg_percent": 5.0
+          },
+          "artifact_id": "goblet_1"
+        },
+        "6": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 110
+          },
+          "artifact_id": "plume_1"
+        },
+        "7": {
+          "level": 0,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 105
           },
           "artifact_id": "plume_2"
         }
