@@ -2,18 +2,18 @@
   "characters": [
     {
       "name": "Герой",
-      "level": 4,
+      "level": 1,
       "max_level": 10,
-      "exp": 4375,
-      "exp_next": 4562,
-      "base_hp": 835,
-      "base_atk": 130,
-      "base_defense": 340,
+      "exp": 0,
+      "exp_next": 1000,
+      "base_hp": 670,
+      "base_atk": 105,
+      "base_defense": 300,
       "crit_rate": 5,
       "crit_dmg": 150,
       "energy_recharge": 100,
-      "elemental_mastery": 25,
-      "phys_bonus": 1,
+      "elemental_mastery": 15,
+      "phys_bonus": 0,
       "resistance": 1,
       "speed": 10,
       "talents": {
@@ -51,47 +51,7 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "pyro_dmg_percent": 5.0
-          },
-          "artifact_id": "goblet_1"
-        },
-        "6": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "atk": 110
-          },
-          "artifact_id": "plume_1"
-        },
-        "7": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "atk": 115
-          },
-          "artifact_id": "plume_2"
-        },
-        "3": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "hp": 1000
-          },
-          "artifact_id": "flower_1"
-        },
-        "4": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "def_percent": 4.0
-          },
-          "artifact_id": "sands_1"
-        },
-        "5": {
-          "level": 0,
-          "sub_stats": [],
-          "main_stat": {
-            "phys_dmg_percent": 5.0
+            "anemo_dmg_percent": 5.0
           },
           "artifact_id": "goblet_1"
         },
@@ -113,14 +73,6 @@
         }
       },
       "weapon_data": {
-        "1": {
-          "level": 1,
-          "weapon_id": "sword_of_steel"
-        },
-        "2": {
-          "level": 1,
-          "weapon_id": "rusted_sword"
-        },
         "1": {
           "level": 1,
           "weapon_id": "sword_of_steel"

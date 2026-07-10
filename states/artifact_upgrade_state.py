@@ -46,7 +46,16 @@ class ArtifactUpgradeState:
         except:
             self.upgrade_btn_img = None
 
-        # Иконки артефактов для отображения на фоне и в плашке
+        #Иконки артефактов для отображения на фоне
+        self.artifacts = {
+            "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
+            "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
+            "flower_1": pygame.image.load("assets/textures/artifacts/Flower_1.png").convert_alpha(),
+            "sands_1": pygame.image.load("assets/textures/artifacts/Sands_1.png").convert_alpha(),
+            "goblet_1": pygame.image.load("assets/textures/artifacts/Goblet_1.png").convert_alpha()
+        }
+
+        # Иконки артефактов для отображения на плашке
         self.artifact_icons = {
             "plume_1": self.load_icon("plume_1"),
             "plume_2": self.load_icon("plume_2"),
@@ -67,14 +76,14 @@ class ArtifactUpgradeState:
             return None
 
     def update_popup_list(self):
-        """Обновляет список UID артефактов для плашки (фильтрует по слоту)"""
+        # Обновляет список UID артефактов для плашки (фильтрует по слоту)
         self.popup_uids = []
         inventory = self.game.player.inventory
         char = self.game.player.party[0]
         # Получаем все UID артефактов
         all_uids = inventory.get_all_uids("artifacts")
         for uid in all_uids:
-            data = char.artifact_data.get(uid, {})
+            data = char.artifact_data.get(str(uid), {})
             if data:
                 artifact_id = data.get("artifact_id")
                 # Проверяем, что артефакт подходит по слоту
@@ -171,7 +180,7 @@ class ArtifactUpgradeState:
 
         # ---- Отображение экипированного артефакта ----
         if self.equipped_uid is not None:
-            data = char.artifact_data.get(self.equipped_uid, {})
+            data = char.artifact_data.get(str(self.equipped_uid), {})
             artifact_id = data.get("artifact_id")
             if artifact_id:
                 art_data = ITEM_DATA.get(artifact_id, {})
@@ -180,7 +189,7 @@ class ArtifactUpgradeState:
                 screen.blit(equip_text, (700, 60))
 
                 # Иконка
-                icon = self.artifact_icons.get(artifact_id)
+                icon = self.artifacts.get(artifact_id)
                 if icon:
                     icon_rect = icon.get_rect(topleft=(700, 120))
                     screen.blit(icon, icon_rect)
@@ -230,7 +239,7 @@ class ArtifactUpgradeState:
 
         # ---- Отображение выбранного артефакта (из инвентаря) ----
         if self.selected_uid is not None:
-            data = char.artifact_data.get(self.selected_uid, {})
+            data = char.artifact_data.get(str(self.selected_uid), {})
             artifact_id = data.get("artifact_id")
             if artifact_id:
                 art_data = ITEM_DATA.get(artifact_id, {})
@@ -344,7 +353,7 @@ class ArtifactUpgradeState:
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (200, 200, 200), rect, 1)
 
-            data = char.artifact_data.get(uid, {})
+            data = char.artifact_data.get(str(uid), {})
             artifact_id = data.get("artifact_id")
             if artifact_id:
                 art_data = ITEM_DATA.get(artifact_id, {})

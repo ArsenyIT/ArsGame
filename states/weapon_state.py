@@ -93,7 +93,7 @@ class WeaponState:
         all_uids = inventory.get_all_uids("weapons")
         for uid in all_uids:
             # Проверяем, что запись в weapon_data существует
-            data = char.weapon_data.get(uid, {})
+            data = char.weapon_data.get(str(uid), {})
             if data:  # если есть данные, значит оружие корректно
                 self.popup_uids.append(uid)
         self.popup_selected_index = -1
@@ -178,6 +178,21 @@ class WeaponState:
                         self.show_popup = False
                     break
 
+    def wrap_text(self, text, font, max_width):
+        words = text.split(' ')
+        lines = []
+        current_line = ""
+        for word in words:
+            test_line = current_line + word + " "
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line.strip())
+                current_line = word + " "
+        if current_line:
+            lines.append(current_line.strip())
+        return lines
+
     def draw(self, screen):
         if self.bg:
             screen.blit(self.bg, (0, 0))
@@ -193,7 +208,7 @@ class WeaponState:
         screen.blit(title, (1111, 50))
 
         if self.equipped_uid is not None:
-            data = char.weapon_data.get(self.equipped_uid, {})
+            data = char.weapon_data.get(str(self.equipped_uid), {})
             weapon_id = data.get("weapon_id")
             level = data.get("level", 1)
             if weapon_id:
@@ -207,19 +222,26 @@ class WeaponState:
                 if icon:
                     icon_display = pygame.transform.scale(icon, (40, 40))
                     screen.blit(icon_display, (1050, 80))
-                equip_text = self.stats_font.render(f"Экипировано: {name} (ур. {level})", True, (220, 220, 220))
-                screen.blit(equip_text, (1111, 80))
-                atk_text = self.stats_font.render(f"Атака: {base_atk}", True, (200, 200, 200))
-                screen.blit(atk_text, (1111, 110))
+                # Полный текст для отображения
+                full_text = f"Экипировано: {name} (ур. {level})"
+                # Разбиваем на строки, если текст длинный (максимальная ширина, например, 200 пикселей)
+                lines = self.wrap_text(full_text, self.stats_font, 200)
+                y_offset = 80
+                for line in lines:
+                    line_surf = self.stats_font.render(line, True, (220, 220, 220))
+                    screen.blit(line_surf, (1111, y_offset))
+                    y_offset += 25  # отступ между строками
+                atk_text = self.stats_font.render(f"Базовая АТК: {base_atk}", True, (200, 200, 200))
+                screen.blit(atk_text, (1111, 140))
                 if sec_name:
-                    sec_text = self.stats_font.render(f"{sec_name}: +{sec_value}", True, (200, 200, 200))
-                    screen.blit(sec_text, (1111, 140))
+                    sec_text = self.stats_font.render(f"{sec_name}: {sec_value}%", True, (200, 200, 200))
+                    screen.blit(sec_text, (1111, 160))
         else:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
             screen.blit(equip_text, (1111, 80))
 
         if self.selected_uid is not None:
-            data = char.weapon_data.get(self.selected_uid, {})
+            data = char.weapon_data.get(str(self.selected_uid), {})
             weapon_id = data.get("weapon_id")
             level = data.get("level", 1)
             if weapon_id:
@@ -296,7 +318,7 @@ class WeaponState:
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (200, 200, 200), rect, 1)
 
-            data = char.weapon_data.get(uid, {})
+            data = char.weapon_data.get(str(uid), {})
             weapon_id = data.get("weapon_id")
             if weapon_id:
                 template = ITEM_DATA.get(weapon_id, {})

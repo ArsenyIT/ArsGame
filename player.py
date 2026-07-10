@@ -52,12 +52,12 @@ class Player:
 
         hero = self.party[0]
         for uid in self.inventory.get_all_uids("weapons"):
-            if uid not in hero.weapon_data:
-                # Находим weapon_id по UID
+            uid_str = str(uid)
+            if uid_str not in hero.weapon_data:
                 for item_id, uids in self.inventory.items.items():
                     if isinstance(uids, list) and uid in uids:
                         if self.inventory.get_item_type(item_id) == "weapons":
-                            hero.weapon_data[uid] = {
+                            hero.weapon_data[uid_str] = {
                                 "level": 1,
                                 "weapon_id": item_id
                             }
@@ -66,15 +66,15 @@ class Player:
 
         # Восстанавливаем artifact_data для существующих UID артефактов
         for uid in self.inventory.get_all_uids("artifacts"):
-            if uid not in hero.artifact_data:
+            uid_str = str(uid)
+            if uid_str not in hero.artifact_data:
                 for item_id, uids in self.inventory.items.items():
                     if isinstance(uids, list) and uid in uids:
                         if self.inventory.get_item_type(item_id) == "artifacts":
-                            # Генерируем основной стат, если его нет
                             main_stat = generate_artifact_main_stat(item_id)
                             if not main_stat:
                                 main_stat = {}
-                            hero.artifact_data[uid] = {
+                            hero.artifact_data[uid_str] = {
                                 "level": 0,
                                 "sub_stats": [],
                                 "main_stat": main_stat,
@@ -95,10 +95,9 @@ class Player:
             hero = self.party[0]
             main_stat = generate_artifact_main_stat(artifact_id)
             if not main_stat:
-                # если не удалось сгенерировать стат, удаляем созданный UID из инвентаря
                 self.inventory.remove_item(artifact_id, uid)
                 return False
-            hero.artifact_data[uid] = {
+            hero.artifact_data[str(uid)] = {
                 "level": 0,
                 "sub_stats": [],
                 "main_stat": main_stat,
@@ -112,7 +111,7 @@ class Player:
         uid = self.inventory.add_item(weapon_id, 1)
         if uid:
             hero = self.party[0]
-            hero.weapon_data[uid] = {
+            hero.weapon_data[str(uid)] = {
                 "level": 1,
                 "weapon_id": weapon_id
             }

@@ -207,8 +207,9 @@ class Character:
 
         # ----- Артефакты -----
     def equip_artifact(self, slot, uid):
-        """Экипирует артефакт по UID в указанный слот"""
-        if uid not in self.artifact_data:
+        # Экипирует артефакт по UID в указанный слот
+        uid_str = str(uid)
+        if uid_str not in self.artifact_data:
             print(f"Артефакт с UID {uid} не найден в данных!")
             return False
         if slot not in self.artifacts:
@@ -217,29 +218,29 @@ class Character:
         # Если слот занят, снимаем старый
         if self.artifacts[slot] is not None:
             self.unequip_artifact(slot)
-        self.artifacts[slot] = uid
+        self.artifacts[slot] = uid_str
         print(f"Экипирован артефакт с UID {uid} в слот {slot}")
         return True
 
     def unequip_artifact(self, slot):
-        """Снимает артефакт из слота (не добавляет в инвентарь)"""
+        # Снимает артефакт из слота (не добавляет в инвентарь)
         if slot in self.artifacts and self.artifacts[slot] is not None:
             self.artifacts[slot] = None
             print(f"Снят артефакт из слота {slot}")
             return True
         return False
 
-    def upgrade_artifact(self, unique_id, inventory):
-        if unique_id not in self.artifact_data:
-            print(f"Артефакт {unique_id} не найден в данных!")
+    def upgrade_artifact(self, uid, inventory):
+        uid_str = str(uid)
+        if uid_str not in self.artifact_data:
+            print(f"Артефакт {uid} не найден в данных!")
             return False
-
-        data = self.artifact_data[unique_id]
+        data = self.artifact_data[uid_str]
         current_level = data.get("level", 0)
         max_level = 20
 
         if current_level >= max_level:
-            print(f"Артефакт {unique_id} уже достиг максимального уровня!")
+            print(f"Артефакт {uid} уже достиг максимального уровня!")
             return False
 
         cost = (current_level + 1) * 10
@@ -279,7 +280,7 @@ class Character:
             else:
                 print(f"Нет возможных субстатов для {template_id}")
 
-        print(f"Артефакт {unique_id} улучшен до уровня {new_level}")
+        print(f"Артефакт {uid} улучшен до уровня {new_level}")
         return True
 
     def get_initial_sub_stat_value(self, stat_name):
@@ -312,31 +313,32 @@ class Character:
 
     # ----- Оружие -----
     def equip_weapon(self, uid):
-        """Экипирует оружие по UID (не удаляет из инвентаря)"""
-        if uid in self.weapon_data:
+        # Экипирует оружие по UID (не удаляет из инвентаря)
+        uid_str = str(uid)
+        if uid_str in self.weapon_data:
             # Если уже есть оружие, снимаем его
             if self.weapon is not None:
                 self.unequip_weapon()
-            self.weapon = uid
+            self.weapon = uid_str
             print(f"Экипировано оружие с UID {uid}")
             return True
         print(f"Оружие с UID {uid} не найдено в данных!")
         return False
 
     def unequip_weapon(self):
-        """Снимает оружие (не добавляет в инвентарь, оно там и так есть)"""
+        # Снимает оружие (не добавляет в инвентарь, оно там и так есть)
         if self.weapon is not None:
             self.weapon = None
             print("Оружие снято")
             return True
         return False
 
-    def upgrade_weapon(self, unique_id, inventory):
-        if unique_id not in self.weapon_data:
-            print("Оружие не найдено!")
+    def upgrade_weapon(self, uid, inventory):
+        uid_str = str(uid)
+        if uid_str not in self.weapon_data:
+            print(f"Оружие {uid} не найдено!")
             return False
-
-        data = self.weapon_data[unique_id]
+        data = self.weapon_data[uid_str]
         current_level = data["level"]
         max_level = 20  # можно определить по редкости
 
@@ -351,5 +353,5 @@ class Character:
         inventory.remove_item("weapon_exp", cost)
 
         data["level"] += 1
-        print(f"Оружие {unique_id} улучшено до уровня {data['level']}")
+        print(f"Оружие {uid} улучшено до уровня {data['level']}")
         return True

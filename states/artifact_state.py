@@ -30,6 +30,9 @@ class ArtifactState:
         self.artifact_icons = {
             "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
             "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
+            "flower_1": pygame.image.load("assets/textures/artifacts/Flower_1.png").convert_alpha(),
+            "sands_1": pygame.image.load("assets/textures/artifacts/Sands_1.png").convert_alpha(),
+            "goblet_1": pygame.image.load("assets/textures/artifacts/Goblet_1.png").convert_alpha()
         }
 
         self.button_images = {}
@@ -94,8 +97,15 @@ class ArtifactState:
         for slot_name, pos in self.circle_positions.items():
             x, y = pos
             # Проверяем, есть ли артефакт в этом слоте
-            equipped_id = char.artifacts.get(slot_name)
-            if equipped_id and equipped_id in self.artifact_icons:
-                icon = self.artifact_icons[equipped_id]
-                icon_rect = icon.get_rect(center=(x, y))
-                screen.blit(icon, icon_rect)
+            uid = char.artifacts.get(slot_name)
+            if uid:
+                data = char.artifact_data.get(str(uid), {})
+                artifact_id = data.get("artifact_id")
+                if artifact_id:
+                    icon = self.artifact_icons.get(artifact_id)
+                    if icon:
+                        icon_rect = icon.get_rect(center=(x, y))
+                        screen.blit(icon, icon_rect)
+                    # Если иконка не найдена, можно вывести сообщение в консоль
+                    else:
+                        print(f"Иконка для {artifact_id} не найдена")
