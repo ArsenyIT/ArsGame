@@ -87,6 +87,10 @@ class TalentsState:
                     if self.active_talent:
                         # Если открыта плашка, закрываем её
                         self.active_talent = None
+                    else:
+                        self.game.change_state("world")
+                elif event.key == pygame.K_c:
+                    self.game.change_state("world")
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.active_talent:

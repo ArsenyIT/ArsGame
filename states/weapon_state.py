@@ -108,9 +108,10 @@ class WeaponState:
                     if self.show_popup:
                         self.show_popup = False
                     else:
-                        self.game.change_state("character")
+                        self.game.change_state("world")
                 elif event.key == pygame.K_c:
-                    self.game.change_state("character")
+                    self.game.change_state("world")
+
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.show_popup:
                     self.handle_popup_click(event.pos)

@@ -105,12 +105,13 @@ class ArtifactUpgradeState:
                     else:
                         self.game.change_state("artifact")
                 elif event.key == pygame.K_c:
-                    self.game.change_state("artifact")
+                    self.game.change_state("world")
+
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if self.show_popup:
-                    self.handle_popup_click(event.pos)
-                else:
-                    self.handle_main_click(event.pos)
+                    if self.show_popup:
+                        self.handle_popup_click(event.pos)
+                    else:
+                        self.handle_main_click(event.pos)
 
     def handle_main_click(self, pos):
         # Проверка кликов по навигационным кнопкам отсутствует (как и в weapon_state) – можно добавить, если нужно

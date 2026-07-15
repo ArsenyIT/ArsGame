@@ -15,8 +15,10 @@ class WeaponUpgradeState:
     def update(self, dt, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or event.key == pygame.K_c:
-                    self.game.change_state("character")
+                if event.key == pygame.K_ESCAPE:
+                    self.game.change_state("artifact")
+                elif event.key == pygame.K_c:
+                    self.game.change_state("world")
 
     def draw(self, screen):
         screen.fill((40, 40, 60))

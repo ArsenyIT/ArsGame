@@ -91,6 +91,10 @@ class ConstellationsState:
                 if event.key == pygame.K_ESCAPE:
                     if self.active_circle is not None:
                         self.active_circle = None
+                    else:
+                        self.game.change_state("world")
+                elif event.key == pygame.K_c:
+                    self.game.change_state("world")
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 # Обработка клика по кнопке активации (если плашка открыта)
