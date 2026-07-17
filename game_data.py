@@ -23,6 +23,8 @@ TALENT_BOOK_REQUIREMENTS = {
     18: (4, 16),
     19: (4, 18)}
 
+_weapon_growth_cache = None
+
 def generate_artifact_main_stat(artifact_id):
     #Возвращает случайный основной стат для артефакта.
     #Если для артефакта нет possible_main_stats, возвращает None.
@@ -32,6 +34,38 @@ def generate_artifact_main_stat(artifact_id):
         print(f"Для артефакта {artifact_id} не заданы возможные основные статы!")
         return None
     return random.choice(possible_main)
+
+def load_weapon_growth():
+    global _weapon_growth_cache
+    if _weapon_growth_cache is None:
+        try:
+            with open("assets/data/weapon_growth.json", "r", encoding="utf-8") as f:
+                _weapon_growth_cache = json.load(f)
+        except FileNotFoundError:
+            _weapon_growth_cache = {}
+    return _weapon_growth_cache
+
+def calculate_weapon_stats(weapon_id, level):
+    # Возвращает словарь с итоговой атакой и вторичным статом оружия
+    template = ITEM_DATA.get(weapon_id, {})
+    base_atk = template.get("base_atk", 0)
+    secondary = template.get("secondary_stat", {})
+    sec_base = secondary.get("value", 0)
+    sec_stat = secondary.get("stat", "")
+
+    growth_data = load_weapon_growth()
+    # Приводим weapon_id к формату из JSON (заглавная первая буква)
+    growth_key = weapon_id.capitalize()
+    growth = growth_data.get(growth_key, {}).get(str(level), {})
+
+    atk_bonus = growth.get("atk_bonus", 0)
+    sec_bonus = growth.get("secondary_bonus", 0)
+
+    return {
+        "atk": base_atk + atk_bonus,
+        "secondary_value": sec_base + sec_bonus,
+        "secondary_stat": sec_stat
+    }
 
 class Weapon:
     def __init__(self, name, weapon_type, rarity, base_atk):
@@ -336,22 +370,32 @@ class Character:
     def upgrade_weapon(self, uid, inventory):
         uid_str = str(uid)
         if uid_str not in self.weapon_data:
-            print(f"Оружие {uid} не найдено!")
+            print(f"Оружие с UID {uid} не найдено!")
             return False
+
         data = self.weapon_data[uid_str]
-        current_level = data["level"]
-        max_level = 20  # можно определить по редкости
+        # Инициализация полей опыта, если их нет (для старых сохранений)
+        if "exp" not in data:
+            data["exp"] = 0
+        if "exp_next" not in data:
+            data["exp_next"] = 100
 
-        if current_level >= max_level:
-            print("Максимальный уровень достигнут!")
+        # Проверяем наличие кристаллов
+        exp_gain = ITEM_DATA.get("crystal_of_true_power", {}).get("exp_gain", 50)
+        if inventory.get_count("crystal_of_true_power") == 0:
+            print("Нет кристаллов истинной силы!")
             return False
 
-        cost = (current_level + 1) * 10  # стоимость прокачки
-        if inventory.get_count("weapon_exp") < cost:
-            print(f"Недостаточно опыта оружия! Нужно {cost}")
-            return False
-        inventory.remove_item("weapon_exp", cost)
+        # Тратим один кристалл
+        inventory.remove_item("crystal_of_true_power", 1)
+        data["exp"] += exp_gain
 
-        data["level"] += 1
-        print(f"Оружие {uid} улучшено до уровня {data['level']}")
+        # Проверяем, не достигнут ли следующий уровень
+        while data["exp"] >= data["exp_next"]:
+            data["exp"] -= data["exp_next"]
+            data["level"] += 1
+            # Пересчитываем exp_next для следующего уровня (аналогично персонажу)
+            data["exp_next"] = int(data["exp_next"] * 1.5) + 50
+            print(f"Уровень оружия повышен до {data['level']}")
+
         return True

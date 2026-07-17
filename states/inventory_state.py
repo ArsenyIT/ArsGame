@@ -91,7 +91,7 @@ class InventoryState:
                         break
 
     def get_grouped_items(self, section):
-        """Возвращает словарь {шаблонный_ид: количество} для указанного раздела"""
+        # Возвращает словарь {шаблонный_ид: количество} для указанного раздела
         grouped = {}
         inventory = self.game.player.inventory
         for item_id, value in inventory.items.items():

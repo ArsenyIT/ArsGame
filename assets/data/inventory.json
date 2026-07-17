@@ -1,12 +1,26 @@
 {
-  "sword_of_steel": [1],
-  "rusted_sword": [2],
-  "flower_1": [3],
-  "sands_1": [4],
-  "goblet_1": [5],
-  "plume_1": [6],
-  "plume_2": [7],
-  "artifact_exp": 200,
+  "sword_of_steel": [
+    1
+  ],
+  "rusted_sword": [
+    2
+  ],
+  "flower_1": [
+    3
+  ],
+  "sands_1": [
+    4
+  ],
+  "goblet_1": [
+    5
+  ],
+  "plume_1": [
+    6
+  ],
+  "plume_2": [
+    7
+  ],
+  "artifact_exp": 199,
   "story_of_the_Almighty": 15,
   "talent_book_2": 40,
   "oak_wood": 1

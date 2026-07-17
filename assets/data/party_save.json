@@ -22,7 +22,7 @@
         "burst": 1
       },
       "constellation": 0,
-      "weapon": null,
+      "weapon": "1",
       "artifacts": {
         "flower": null,
         "plume": null,
@@ -43,7 +43,7 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "energy_recharge": 4.0
+            "def_percent": 4.0
           },
           "artifact_id": "sands_1"
         },
@@ -51,7 +51,7 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "anemo_dmg_percent": 5.0
+            "pyro_dmg_percent": 5.0
           },
           "artifact_id": "goblet_1"
         },
@@ -59,7 +59,7 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "atk": 110
+            "atk": 100
           },
           "artifact_id": "plume_1"
         },
@@ -67,19 +67,23 @@
           "level": 0,
           "sub_stats": [],
           "main_stat": {
-            "atk": 105
+            "atk": 115
           },
           "artifact_id": "plume_2"
         }
       },
       "weapon_data": {
         "1": {
-          "level": 1,
-          "weapon_id": "sword_of_steel"
+          "level": 2,
+          "weapon_id": "sword_of_steel",
+          "exp": 0,
+          "exp_next": 200
         },
         "2": {
           "level": 1,
-          "weapon_id": "rusted_sword"
+          "weapon_id": "rusted_sword",
+          "exp": 0,
+          "exp_next": 100
         }
       }
     }

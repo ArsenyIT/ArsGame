@@ -113,7 +113,9 @@ class Player:
             hero = self.party[0]
             hero.weapon_data[str(uid)] = {
                 "level": 1,
-                "weapon_id": weapon_id
+                "weapon_id": weapon_id,
+                "exp": 0,
+                "exp_next": 100
             }
             print(f"Добавлено оружие {weapon_id} с UID {uid}")
             return True
@@ -153,6 +155,7 @@ class Player:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(full_data, f, ensure_ascii=False, indent=2)
         self.modified = False
+        print(f"Сохранение weapon_data: {char.weapon_data}")
         print("Партия сохранена")
 
     def load_party(self, filename):
@@ -194,6 +197,7 @@ class Player:
                             main_stat = generate_artifact_main_stat(data.get("artifact_id", ""))
                             if main_stat:
                                 data["main_stat"] = main_stat
+            print(f"Загружено weapon_data: {char.weapon_data}")
             print("Прогресс партии загружен")
         else:
             print("Файл партии не найден или пуст")

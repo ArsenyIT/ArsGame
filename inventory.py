@@ -37,6 +37,7 @@ ITEM_DATA = {
         "type": "resources",
         "name": "Кристалл истинной силы",
         "rarity": 3,
+        "exp_gain": 50
     },
     # Артефакты
     "plume_1": {

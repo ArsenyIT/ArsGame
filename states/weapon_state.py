@@ -1,5 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
+from game_data import calculate_weapon_stats
 
 class WeaponState:
     def __init__(self, game):
@@ -39,7 +40,7 @@ class WeaponState:
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
+            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improvement.png").convert_alpha()
         except:
             self.upgrade_btn_img = None
 
@@ -85,7 +86,7 @@ class WeaponState:
             self.nav_buttons.append({"text": text, "rect": rect})
 
     def update_popup_list(self):
-        """Обновляет список UID оружия для плашки"""
+        # Обновляет список UID оружия для плашки
         self.popup_uids = []
         inventory = self.game.player.inventory
         char = self.game.player.party[0]
@@ -157,11 +158,11 @@ class WeaponState:
         # Кнопка "Улучшить"
         if hasattr(self, 'upgrade_btn_rect') and self.upgrade_btn_rect.collidepoint(pos):
             if self.equipped_uid is not None:
-                char = self.game.player.party[0]
-                inventory = self.game.player.inventory
-                success = char.upgrade_weapon(self.equipped_uid, inventory)
-                if success:
-                    self.game.player.mark_modified()
+                # Передаём UID экипированного оружия в следующее состояние
+                self.game.temp_weapon_uid = self.equipped_uid
+                self.game.change_state("weapon_upgrade")
+            else:
+                print("Нет экипированного оружия для улучшения!")
 
     def handle_popup_click(self, pos):
         if hasattr(self, 'popup_cell_rects'):
@@ -215,10 +216,10 @@ class WeaponState:
             if weapon_id:
                 template = ITEM_DATA.get(weapon_id, {})
                 name = template.get("name", "Неизвестно")
-                base_atk = template.get("base_atk", 0)
-                sec_stat = template.get("secondary_stat", {})
-                sec_name = sec_stat.get("stat", "")
-                sec_value = sec_stat.get("value", 0)
+                weapon_stats = calculate_weapon_stats(weapon_id, level)
+                atk_display = weapon_stats["atk"]
+                sec_display = weapon_stats["secondary_value"]
+                sec_name = weapon_stats["secondary_stat"]
                 icon = self.weapon_icons.get(weapon_id)
                 if icon:
                     icon_display = pygame.transform.scale(icon, (40, 40))
@@ -232,10 +233,10 @@ class WeaponState:
                     line_surf = self.stats_font.render(line, True, (220, 220, 220))
                     screen.blit(line_surf, (1111, y_offset))
                     y_offset += 25  # отступ между строками
-                atk_text = self.stats_font.render(f"Базовая АТК: {base_atk}", True, (200, 200, 200))
+                atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (200, 200, 200))
                 screen.blit(atk_text, (1111, 140))
                 if sec_name:
-                    sec_text = self.stats_font.render(f"{sec_name}: {sec_value}%", True, (200, 200, 200))
+                    sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (200, 200, 200))
                     screen.blit(sec_text, (1111, 160))
         else:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
