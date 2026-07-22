@@ -16,7 +16,7 @@ ITEM_DATA = {
         "type": "resources",
         "name": "Сказание о Всемогущем",
         "rarity": 4,
-        "exp_gain": 10000   # сколько опыта даёт книга
+        "exp_gain": 10000   # Кол-во опыта даёт книга
     },
     "talent_book_2": {
         "type": "resources",
@@ -32,6 +32,7 @@ ITEM_DATA = {
         "type": "resources",
         "name": "Артефактный опыт",
         "rarity": 2,
+        "exp_gain": 50   # Кол-во опыта даёт один флакон
     },
     "crystal_of_true_power": {
         "type": "resources",
@@ -278,7 +279,7 @@ class Inventory:
         return self.items.get(item_id, [])
 
     def get_all_uids(self, item_type=None):
-        """Возвращает список всех UID для заданного типа (например, 'weapons')"""
+        # Возвращает список всех UID для заданного типа (например, 'weapons')
         result = []
         for item_id, uids in self.items.items():
             if isinstance(uids, list):

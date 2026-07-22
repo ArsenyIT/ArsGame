@@ -1,8 +1,10 @@
 from inventory import Inventory
 from game_data import Character
+import random
 import json
 import os
 from game_data import generate_artifact_main_stat
+from inventory import ITEM_DATA
 from inventory import PREFIX_WEAPON
 
 class Player:
@@ -76,6 +78,8 @@ class Player:
                                 main_stat = {}
                             hero.artifact_data[uid_str] = {
                                 "level": 0,
+                                "exp": 0,
+                                "exp_next": 100,
                                 "sub_stats": [],
                                 "main_stat": main_stat,
                                 "artifact_id": item_id
@@ -93,14 +97,21 @@ class Player:
         uid = self.inventory.add_item(artifact_id, 1)
         if uid:
             hero = self.party[0]
-            main_stat = generate_artifact_main_stat(artifact_id)
-            if not main_stat:
+            art_data = ITEM_DATA.get(artifact_id, {})
+            slot = art_data.get("slot")
+            possible_main = art_data.get("possible_main_stats", [])
+            if not possible_main or not slot:
                 self.inventory.remove_item(artifact_id, uid)
                 return False
+            chosen = random.choice(possible_main)
+            stat_name = list(chosen.keys())[0]
+            growth_key = f"{slot}_{stat_name}"
             hero.artifact_data[str(uid)] = {
-                "level": 0,
+                "level": 1,  # Начальный уровень
+                "exp": 0,
+                "exp_next": 100,
                 "sub_stats": [],
-                "main_stat": main_stat,
+                "growth_key": growth_key,
                 "artifact_id": artifact_id
             }
             print(f"Добавлен артефакт {artifact_id} с UID {uid}")
@@ -155,7 +166,6 @@ class Player:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(full_data, f, ensure_ascii=False, indent=2)
         self.modified = False
-        print(f"Сохранение weapon_data: {char.weapon_data}")
         print("Партия сохранена")
 
     def load_party(self, filename):
@@ -190,14 +200,17 @@ class Player:
                     char.weapon = saved.get("weapon", char.weapon)
                     char.artifacts = saved.get("artifacts", char.artifacts)
                     char.artifact_data = saved.get("artifact_data", {})
+                    for uid, data in char.artifact_data.items():
+                        if "growth_key" not in data:
+                            artifact_id = data.get("artifact_id")
+                            main_stat = data.get("main_stat")
+                            if artifact_id and main_stat:
+                                slot = ITEM_DATA.get(artifact_id, {}).get("slot")
+                                if slot:
+                                    stat_name = list(main_stat.keys())[0]
+                                    data["growth_key"] = f"{slot}_{stat_name}"
+                                    print(f"Восстановлен growth_key для артефакта {artifact_id}: {data['growth_key']}")
                     char.weapon_data = saved.get("weapon_data", {})
-                    # Проверяем наличие основного стата у артефактов
-                    for art_id, data in char.artifact_data.items():
-                        if "main_stat" not in data:
-                            main_stat = generate_artifact_main_stat(data.get("artifact_id", ""))
-                            if main_stat:
-                                data["main_stat"] = main_stat
-            print(f"Загружено weapon_data: {char.weapon_data}")
             print("Прогресс партии загружен")
         else:
             print("Файл партии не найден или пуст")

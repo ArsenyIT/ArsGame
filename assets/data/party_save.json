@@ -22,62 +22,71 @@
         "burst": 1
       },
       "constellation": 0,
-      "weapon": "1",
+      "weapon": null,
       "artifacts": {
         "flower": null,
-        "plume": null,
+        "plume": "6",
         "sands": null,
         "goblet": null,
         "circlet": null
       },
       "artifact_data": {
         "3": {
-          "level": 0,
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
           "sub_stats": [],
+          "growth_key": "flower_hp",
+          "artifact_id": "flower_1",
           "main_stat": {
-            "hp": 1100
-          },
-          "artifact_id": "flower_1"
+            "hp": 1000
+          }
         },
         "4": {
-          "level": 0,
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
           "sub_stats": [],
+          "growth_key": "sands_hp_percent",
+          "artifact_id": "sands_1",
           "main_stat": {
-            "def_percent": 4.0
-          },
-          "artifact_id": "sands_1"
+            "hp_percent": 4.0
+          }
         },
         "5": {
-          "level": 0,
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
           "sub_stats": [],
+          "growth_key": "goblet_hydro_dmg_percent",
+          "artifact_id": "goblet_1",
           "main_stat": {
-            "pyro_dmg_percent": 5.0
-          },
-          "artifact_id": "goblet_1"
+            "hydro_dmg_percent": 5.0
+          }
         },
         "6": {
-          "level": 0,
+          "level": 2,
+          "exp": 0,
+          "exp_next": 200,
           "sub_stats": [],
-          "main_stat": {
-            "atk": 100
-          },
+          "growth_key": "plume_atk",
           "artifact_id": "plume_1"
         },
         "7": {
-          "level": 0,
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
           "sub_stats": [],
-          "main_stat": {
-            "atk": 115
-          },
+          "growth_key": "plume_atk",
           "artifact_id": "plume_2"
         }
       },
       "weapon_data": {
         "1": {
-          "level": 2,
+          "level": 1,
           "weapon_id": "sword_of_steel",
           "exp": 0,
-          "exp_next": 200
+          "exp_next": 100
         },
         "2": {
           "level": 1,

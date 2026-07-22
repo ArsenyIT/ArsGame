@@ -1,5 +1,6 @@
 import pygame
 from inventory import ITEM_DATA
+from game_data import get_artifact_main_stat_value
 
 class ArtifactUpgradeState:
     def __init__(self, game):
@@ -203,20 +204,35 @@ class ArtifactUpgradeState:
                 level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
                 screen.blit(level_text, (1050, 30))
 
-                if main_stat:
-                    stat_name = list(main_stat.keys())[0]
-                    stat_value = list(main_stat.values())[0]
+                growth_key = data.get("growth_key")
+                if growth_key:
+                    level = data.get("level", 0)
+                    value = get_artifact_main_stat_value(growth_key, level)
+                    stat_name = growth_key.split('_', 1)[1]  # извлекаем тип стата
                     if "%" in stat_name:
-                        main_display = f"Основной: {stat_name} +{stat_value}%"
+                        main_display = f"Основной: {stat_name} +{value}%"
                     else:
-                        main_display = f"Основной: {stat_name} +{stat_value}"
+                        main_display = f"Основной: {stat_name} +{value}"
                     main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
                     screen.blit(main_surf, (1050, 60))
                 else:
                     main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
                     screen.blit(main_surf, (1050, 60))
 
-                y_sub = 100
+                exp = data.get("exp", 0)
+                exp_next = data.get("exp_next", 100)
+                exp_ratio = exp / exp_next if exp_next > 0 else 0
+                # Полоска опыта
+                pygame.draw.rect(screen, (80, 80, 80), (1050, 200, 200, 15))
+                pygame.draw.rect(screen, (100, 200, 100), (1050, 200, int(200 * exp_ratio), 15))
+                exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
+                screen.blit(exp_text, (1050, 220))
+                # Количество опыта артефактов
+                exp_count = self.game.player.inventory.get_count("artifact_exp")
+                exp_count_text = self.stats_font.render(f"Флаконов опыта: {exp_count}", True, (200, 200, 200))
+                screen.blit(exp_count_text, (1050, 240))
+
+                y_sub = 90
                 if sub_stats:
                     for sub in sub_stats:
                         stat_name = sub["stat"]
@@ -255,13 +271,16 @@ class ArtifactUpgradeState:
                 level_sel = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
                 screen.blit(level_sel, (700, 115))
 
-                if main_stat:
-                    stat_name = list(main_stat.keys())[0]
-                    stat_value = list(main_stat.values())[0]
+                growth_key = data.get("growth_key")
+                if growth_key:
+                    level = data.get("level", 0)
+                    value = get_artifact_main_stat_value(growth_key, level)
+                    stat_name = growth_key.split('_', 1)[1]  # извлекаем тип стата после слота
+                    # Форматируем вывод
                     if "%" in stat_name:
-                        main_display = f"Основной: {stat_name} +{stat_value}%"
+                        main_display = f"Основной: {stat_name} +{value}%"
                     else:
-                        main_display = f"Основной: {stat_name} +{stat_value}"
+                        main_display = f"Основной: {stat_name} +{value}"
                     main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
                     screen.blit(main_surf, (700, 145))
                 else:

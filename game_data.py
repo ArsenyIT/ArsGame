@@ -45,6 +45,31 @@ def load_weapon_growth():
             _weapon_growth_cache = {}
     return _weapon_growth_cache
 
+_artifact_main_growth_cache = None
+
+def load_artifact_main_growth():
+    global _artifact_main_growth_cache
+    if _artifact_main_growth_cache is None:
+        try:
+            with open("assets/data/artifact_main_growth.json", "r", encoding="utf-8") as f:
+                _artifact_main_growth_cache = json.load(f)
+        except FileNotFoundError:
+            _artifact_main_growth_cache = {}
+    return _artifact_main_growth_cache
+
+def get_artifact_main_stat_value(growth_key, level):
+    growth = load_artifact_main_growth()
+    stat_growth = growth.get(growth_key, {})
+    level_str = str(level)
+    if level_str in stat_growth:
+        return stat_growth[level_str]
+    # Если уровень не найден, ищем ближайший меньший
+    keys = [int(k) for k in stat_growth.keys() if k.isdigit()]
+    if not keys:
+        return 0
+    closest = max(k for k in keys if k <= level)
+    return stat_growth[str(closest)]
+
 def calculate_weapon_stats(weapon_id, level):
     # Возвращает словарь с итоговой атакой и вторичным статом оружия
     template = ITEM_DATA.get(weapon_id, {})
@@ -269,53 +294,61 @@ class Character:
         if uid_str not in self.artifact_data:
             print(f"Артефакт {uid} не найден в данных!")
             return False
+
         data = self.artifact_data[uid_str]
-        current_level = data.get("level", 0)
-        max_level = 20
+        # Инициализация полей опыта, если их нет (для старых сохранений)
+        if "exp" not in data:
+            data["exp"] = 0
+        if "exp_next" not in data:
+            data["exp_next"] = 100
 
-        if current_level >= max_level:
-            print(f"Артефакт {uid} уже достиг максимального уровня!")
+        # Проверяем наличие опыта артефактов
+        exp_gain = ITEM_DATA.get("artifact_exp", {}).get("exp_gain", 50)
+        if inventory.get_count("artifact_exp") == 0:
+            print("Нет опыта артефактов!")
             return False
 
-        cost = (current_level + 1) * 10
-        if inventory.get_count("artifact_exp") < cost:
-            print(f"Недостаточно опыта! Нужно {cost}, есть {inventory.get_count('artifact_exp')}")
-            return False
-        inventory.remove_item("artifact_exp", cost)
+        # Тратим один флакон опыта
+        inventory.remove_item("artifact_exp", 1)
+        data["exp"] += exp_gain
 
-        data["level"] += 1
-        new_level = data["level"]
+        # Проверяем, не достигнут ли следующий уровень
+        while data["exp"] >= data["exp_next"]:
+            data["exp"] -= data["exp_next"]
+            data["level"] += 1
+            # Пересчитываем exp_next для следующего уровня
+            data["exp_next"] = int(data["exp_next"] * 1.5) + 50
+            print(f"Уровень артефакта повышен до {data['level']}")
 
+            # Добавляем субстаты на уровнях 4, 8, 12, 16
+            if data["level"] in [4, 8, 12, 16]:
+                self._add_substat(data)
+
+        return True
+
+    def _add_substat(self, data):
+        # Вспомогательный метод для добавления субстата
         template_id = data.get("artifact_id")
         if not template_id:
-            print("Нет template_id для артефакта!")
-            return False
-
+            return
         art_data = ITEM_DATA.get(template_id, {})
         pool = art_data.get("possible_sub_stats", [])
-
-        if new_level in [4, 8, 12, 16]:
-            if pool:
-                import random
-                existing_names = {sub["stat"] for sub in data["sub_stats"]}
-                available = [s for s in pool if s not in existing_names]
-
-                if available:
-                    new_stat_name = random.choice(available)
-                    new_value = self.get_initial_sub_stat_value(new_stat_name)
-                    data["sub_stats"].append({"stat": new_stat_name, "value": new_value})
-                    print(f"Добавлен субстат: {new_stat_name} +{new_value}")
-                else:
-                    if data["sub_stats"]:
-                        sub_to_upgrade = random.choice(data["sub_stats"])
-                        upgrade_amount = self.get_sub_stat_upgrade_amount(sub_to_upgrade["stat"])
-                        sub_to_upgrade["value"] += upgrade_amount
-                        print(f"Улучшен субстат {sub_to_upgrade['stat']} до {sub_to_upgrade['value']}")
-            else:
-                print(f"Нет возможных субстатов для {template_id}")
-
-        print(f"Артефакт {uid} улучшен до уровня {new_level}")
-        return True
+        if not pool:
+            return
+        import random
+        existing_names = {sub["stat"] for sub in data["sub_stats"]}
+        available = [s for s in pool if s not in existing_names]
+        if available:
+            new_stat_name = random.choice(available)
+            new_value = self.get_initial_sub_stat_value(new_stat_name)
+            data["sub_stats"].append({"stat": new_stat_name, "value": new_value})
+            print(f"Добавлен субстат: {new_stat_name} +{new_value}")
+        else:
+            if data["sub_stats"]:
+                sub_to_upgrade = random.choice(data["sub_stats"])
+                upgrade_amount = self.get_sub_stat_upgrade_amount(sub_to_upgrade["stat"])
+                sub_to_upgrade["value"] += upgrade_amount
+                print(f"Улучшен субстат {sub_to_upgrade['stat']} до {sub_to_upgrade['value']}")
 
     def get_initial_sub_stat_value(self, stat_name):
         #Возвращает начальное значение для нового субстата
