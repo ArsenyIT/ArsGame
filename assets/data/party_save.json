@@ -65,10 +65,15 @@
           }
         },
         "6": {
-          "level": 2,
+          "level": 4,
           "exp": 0,
-          "exp_next": 200,
-          "sub_stats": [],
+          "exp_next": 575,
+          "sub_stats": [
+            {
+              "stat": "Crit DMG%",
+              "value": 5.3
+            }
+          ],
           "growth_key": "plume_atk",
           "artifact_id": "plume_1"
         },

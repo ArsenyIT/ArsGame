@@ -167,6 +167,21 @@ class ArtifactUpgradeState:
                         print(f"Экипирован артефакт с UID {uid}")
                     break
 
+    def wrap_text(self, text, font, max_width):
+        words = text.split(' ')
+        lines = []
+        current_line = ""
+        for word in words:
+            test_line = current_line + word + " "
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line.strip())
+                current_line = word + " "
+        if current_line:
+            lines.append(current_line.strip())
+        return lines
+
     def draw(self, screen):
         if self.bg:
             screen.blit(self.bg, (0, 0))
@@ -201,7 +216,9 @@ class ArtifactUpgradeState:
                 main_stat = data.get("main_stat", {})
                 sub_stats = data.get("sub_stats", [])
 
-                level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
+                artifact_id = data.get("artifact_id")
+                max_level = char.get_artifact_max_level(artifact_id)
+                level_text = self.stats_font.render(f"Уровень: {level}/{max_level}", True, (220, 220, 220))
                 screen.blit(level_text, (1050, 30))
 
                 growth_key = data.get("growth_key")
@@ -219,18 +236,25 @@ class ArtifactUpgradeState:
                     main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
                     screen.blit(main_surf, (1050, 60))
 
-                exp = data.get("exp", 0)
-                exp_next = data.get("exp_next", 100)
-                exp_ratio = exp / exp_next if exp_next > 0 else 0
-                # Полоска опыта
-                pygame.draw.rect(screen, (80, 80, 80), (1050, 200, 200, 15))
-                pygame.draw.rect(screen, (100, 200, 100), (1050, 200, int(200 * exp_ratio), 15))
-                exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
-                screen.blit(exp_text, (1050, 220))
-                # Количество опыта артефактов
-                exp_count = self.game.player.inventory.get_count("artifact_exp")
-                exp_count_text = self.stats_font.render(f"Флаконов опыта: {exp_count}", True, (200, 200, 200))
-                screen.blit(exp_count_text, (1050, 240))
+                max_level = char.get_artifact_max_level(artifact_id)
+                if level >= max_level:
+                    max_lines = self.wrap_text("Максимальный уровень достигнут", self.stats_font, 250)
+                    y_offset = 200
+                    for line in max_lines:
+                        line_surf = self.stats_font.render(line, True, (255, 200, 100))
+                        screen.blit(line_surf, (1050, y_offset))
+                        y_offset += 25
+                else:
+                    exp = data.get("exp", 0)
+                    exp_next = data.get("exp_next", 100)
+                    exp_ratio = exp / exp_next if exp_next > 0 else 0
+                    pygame.draw.rect(screen, (80, 80, 80), (1050, 200, 200, 15))
+                    pygame.draw.rect(screen, (100, 200, 100), (1050, 200, int(200 * exp_ratio), 15))
+                    exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
+                    screen.blit(exp_text, (1050, 220))
+                    exp_count = self.game.player.inventory.get_count("artifact_exp")
+                    exp_count_text = self.stats_font.render(f"Флаконов опыта: {exp_count}", True, (200, 200, 200))
+                    screen.blit(exp_count_text, (1050, 240))
 
                 y_sub = 90
                 if sub_stats:

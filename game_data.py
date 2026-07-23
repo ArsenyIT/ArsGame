@@ -2,6 +2,14 @@ import json
 from inventory import ITEM_DATA
 import random
 
+MAX_ARTIFACT_LEVEL_BY_RARITY = {
+    1: 4,
+    2: 8,
+    3: 12,
+    4: 16,
+    5: 20,
+}
+
 TALENT_BOOK_REQUIREMENTS = {
     1: (2, 2),   # с 1 на 2: 2 книги 2★
     2: (2, 3),
@@ -289,6 +297,12 @@ class Character:
             return True
         return False
 
+    def get_artifact_max_level(self, artifact_id):
+        # Возвращает максимальный уровень для артефакта по его редкости
+        art_data = ITEM_DATA.get(artifact_id, {})
+        rarity = art_data.get("rarity", 1)  # по умолчанию 1★
+        return MAX_ARTIFACT_LEVEL_BY_RARITY.get(rarity, 4)
+
     def upgrade_artifact(self, uid, inventory):
         uid_str = str(uid)
         if uid_str not in self.artifact_data:
@@ -301,6 +315,13 @@ class Character:
             data["exp"] = 0
         if "exp_next" not in data:
             data["exp_next"] = 100
+
+        # Проверка максимального уровня
+        artifact_id = data.get("artifact_id")
+        max_level = self.get_artifact_max_level(artifact_id)
+        if data.get("level", 0) >= max_level:
+            print(f"Артефакт уже достиг максимального уровня ({max_level})!")
+            return False
 
         # Проверяем наличие опыта артефактов
         exp_gain = ITEM_DATA.get("artifact_exp", {}).get("exp_gain", 50)
