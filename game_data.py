@@ -34,8 +34,8 @@ TALENT_BOOK_REQUIREMENTS = {
 _weapon_growth_cache = None
 
 def generate_artifact_main_stat(artifact_id):
-    #Возвращает случайный основной стат для артефакта.
-    #Если для артефакта нет possible_main_stats, возвращает None.
+    # Возвращает случайный основной стат для артефакта.
+    # Если для артефакта нет possible_main_stats, возвращает None.
     art_data = ITEM_DATA.get(artifact_id, {})
     possible_main = art_data.get("possible_main_stats", [])
     if not possible_main:
@@ -243,11 +243,11 @@ class Character:
             return 20
 
     def get_talent_book_requirement(self, current_level):
-        #Возвращает (редкость, количество) книг для повышения таланта
+        # Возвращает (редкость, количество) книг для повышения таланта
         return TALENT_BOOK_REQUIREMENTS.get(current_level, (None, 0))
 
     def can_upgrade_talent(self, talent_name):
-        #Проверяет, можно ли улучшить талант
+        # Проверяет, можно ли улучшить талант
         current_level = self.talents.get(talent_name, 1)
         max_level = self.get_talent_max_level()
         return current_level < max_level
@@ -372,7 +372,7 @@ class Character:
                 print(f"Улучшен субстат {sub_to_upgrade['stat']} до {sub_to_upgrade['value']}")
 
     def get_initial_sub_stat_value(self, stat_name):
-        #Возвращает начальное значение для нового субстата
+        # Возвращает начальное значение для нового субстата
         import random
         # Диапазоны для разных типов статов (примерные)
         ranges = {
@@ -391,7 +391,7 @@ class Character:
         return round(random.uniform(low, high), 1)
 
     def get_sub_stat_upgrade_amount(self, stat_name):
-        #Возвращает величину улучшения для существующего субстата
+        # Возвращает величину улучшения для существующего субстата
         import random
         # Можно сделать небольшие прибавки (например, +1 или +0.5)
         if "%" in stat_name:

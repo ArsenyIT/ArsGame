@@ -192,18 +192,18 @@ ITEM_DATA = {
 class Item:
     # Теперь конструктор принимает параметры
     def __init__(self, item_id, name, max_stack=1000):
-        self.id = item_id          # уникальный идентификатор (строка или число)
+        self.id = item_id          # Уникальный идентификатор (строка или число)
         self.data = ITEM_DATA.get(item_id, {})
-        self.max_stack = max_stack # максимальное количество в стопке
+        self.max_stack = max_stack # Максимальное количество в стопке
         self.items = {}
         self.modified = False
-        self.counter = 0  # для генерации уникальных ID
+        self.counter = 0  # Случайный ID
 
 class Inventory:
     def __init__(self):
         self.items = {} # для ресурсов: {"id": количество}; для уникальных: {"id": [UID1, UID2]}
         self.modified = False
-        self.uid_counter = 0  # глобальный счётчик UID
+        self.uid_counter = 0  # Глобальный счётчик UID
 
     def get_item_type(self, item_id):
         if item_id in ITEM_DATA:

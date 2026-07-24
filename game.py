@@ -3,10 +3,10 @@ from player import Player
 class Game:
     def __init__(self, screen, WIDTH, HEIGHT):
         self.screen = screen
-        self.state = None          # текущее состояние
-        self.states = {}           # словарь {имя_состояния: объект}
+        self.state = None          # Текущее состояние
+        self.states = {}           # Словарь {имя_состояния: объект}
         self.load_states()
-        self.change_state("world") # начальное состояние
+        self.change_state("world") # Начальное состояние
         self.player = Player()
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT

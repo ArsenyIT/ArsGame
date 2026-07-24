@@ -47,7 +47,7 @@ class ArtifactUpgradeState:
         except:
             self.upgrade_btn_img = None
 
-        #Иконки артефактов для отображения на фоне
+        # Иконки артефактов для отображения на фоне
         self.artifacts = {
             "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
             "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
