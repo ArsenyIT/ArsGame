@@ -132,17 +132,18 @@ class CharacterState:
         line_height = 30
 
         # Общий список всех характеристик (в один столбик)
+        total_stats = char.calculate_total_stats()
         stats_all = [
-            ("HP", f"{char.base_hp}/{char.base_hp}"),
-            ("Сила атаки", str(char.base_atk)),
-            ("Защита", str(char.base_defense)),
-            ("Шанс крита", f"{char.crit_rate}%"),
-            ("Крит. урон", f"{char.crit_dmg}%"),
-            ("Восст. энергии", f"{char.energy_recharge}%"),
-            ("Мастерство стихий", str(char.elemental_mastery)),
-            ("Бонус физ. урона", f"{char.phys_bonus}%"),
-            ("Сопротивление", f"{char.resistance}%"),
-            ("Скорость", str(char.speed)),
+            ("HP", f"{total_stats['hp']}/{char.base_hp}"),  # max_hp пока базовое
+            ("Сила атаки", str(total_stats['atk'])),
+            ("Защита", str(total_stats['def'])),
+            ("Шанс крита", f"{total_stats['crit_rate']}%"),
+            ("Крит. урон", f"{total_stats['crit_dmg']}%"),
+            ("Восст. энергии", f"{total_stats['energy_recharge']}%"),
+            ("Мастерство стихий", str(total_stats['elemental_mastery'])),
+            ("Бонус физ. урона", f"{total_stats['phys_bonus']}%"),
+            ("Сопротивление", f"{total_stats['resistance']}%"),
+            ("Скорость", str(total_stats['speed'])),
         ]
 
         for i, (name, val) in enumerate(stats_all):

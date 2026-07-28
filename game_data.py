@@ -192,7 +192,90 @@ class Character:
             self.growth_data = json.load(f)
 
     def calculate_total_stats(self):
-        pass
+        total = {
+            "hp": self.base_hp,
+            "atk": self.base_atk,
+            "def": self.base_defense,
+            "crit_rate": self.crit_rate,
+            "crit_dmg": self.crit_dmg,
+            "energy_recharge": self.energy_recharge,
+            "elemental_mastery": self.elemental_mastery,
+            "phys_bonus": self.phys_bonus,
+            "resistance": self.resistance,
+            "speed": self.speed,
+        }
+
+        # Бонусы от оружия
+        if self.weapon is not None:
+            uid_str = str(self.weapon)
+            weapon_data = self.weapon_data.get(uid_str, {})
+            weapon_id = weapon_data.get("weapon_id")
+            level = weapon_data.get("level", 1)
+            if weapon_id:
+                stats = calculate_weapon_stats(weapon_id, level)
+                total["atk"] += stats["atk"]
+                # Вторичный стат оружия можно добавить к crit_rate, если это крит
+
+        # Бонусы от артефактов
+        for slot, uid in self.artifacts.items():
+            if uid is not None:
+                uid_str = str(uid)
+                data = self.artifact_data.get(uid_str, {})
+                growth_key = data.get("growth_key")
+                if growth_key:
+                    level = data.get("level", 0)
+                    value = get_artifact_main_stat_value(growth_key, level)
+                    stat_name = growth_key.split('_', 1)[1]  # Тип стата
+                    # Добавляем к соответствующему стату
+                    if stat_name == "hp":
+                        total["hp"] += int(value)
+                    elif stat_name == "atk":
+                        total["atk"] += int(value)
+                    elif stat_name == "def":
+                        total["def"] += int(value)
+                    elif stat_name == "hp_percent":
+                        total["hp"] += int(total["hp"] * value / 100)
+                    elif stat_name == "atk_percent":
+                        total["atk"] += int(total["atk"] * value / 100)
+                    elif stat_name == "def_percent":
+                        total["def"] += int(total["def"] * value / 100)
+                    elif stat_name == "crit_rate":
+                        total["crit_rate"] += value
+                    elif stat_name == "crit_dmg":
+                        total["crit_dmg"] += value
+                    elif stat_name == "energy_recharge":
+                        total["energy_recharge"] += value
+                    elif stat_name == "elemental_mastery":
+                        total["elemental_mastery"] += value
+                    elif stat_name == "phys_bonus":
+                        total["phys_bonus"] += value
+                    # Другие типы можно добавить по необходимости
+                # Субстаты (если они есть)
+                for sub in data.get("sub_stats", []):
+                    sub_name = sub.get("stat")
+                    sub_value = sub.get("value", 0)
+                    if sub_name == "HP":
+                        total["hp"] += sub_value
+                    elif sub_name == "ATK":
+                        total["atk"] += sub_value
+                    elif sub_name == "DEF":
+                        total["def"] += sub_value
+                    elif sub_name == "HP%":
+                        total["hp"] += int(total["hp"] * sub_value / 100)
+                    elif sub_name == "ATK%":
+                        total["atk"] += int(total["atk"] * sub_value / 100)
+                    elif sub_name == "DEF%":
+                        total["def"] += int(total["def"] * sub_value / 100)
+                    elif sub_name == "Crit Rate%":
+                        total["crit_rate"] += sub_value
+                    elif sub_name == "Crit DMG%":
+                        total["crit_dmg"] += sub_value
+                    elif sub_name == "Energy Recharge%":
+                        total["energy_recharge"] += sub_value
+                    elif sub_name == "Elemental Mastery":
+                        total["elemental_mastery"] += sub_value
+
+        return total
 
     def add_exp(self, amount):
         self.exp += amount
