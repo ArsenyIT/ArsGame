@@ -86,17 +86,21 @@
     * Важно: Все состояния должны иметь методы on_enter(), on_exit(), update(dt, events), draw(screen). Это единый интерфейс, который использует Game.
 * change_state(self, new_state_name):
     * Назначение: Переключает текущее состояние на новое.
-    * Параметры: new_state_name – строка, ключ в словаре self.states.
+    * Параметры: 
+        * new_state_name – строка, ключ в словаре self.states.
     * if self.state: self.state.on_exit() - если есть текущее состояние (self.state), вызывает его метод on_exit() – для завершения (сохранение данных, очистка ресурсов).
     * self.state = self.states[new_state_name] - устанавливает новое состояние из словаря
     * self.state.on_enter() - инициализация всех данных нового состояния.
 * update(self, dt, events):
     * Назначение: Обновляет логику текущего состояния.
-    * Параметры: dt – дельта-время, events – список событий Pygame.
+    * Параметры: 
+        * dt – дельта-время 
+        * events – список событий Pygame.
     * if self.state: self.state.update(dt, events) - если есть текущее состояние (self.state), вызывает его метод update(dt, events).
 * draw(self, screen):
     * Назначение: Отрисовывает текущее состояние.
-    * Параметры: screen – поверхность окна.
+    * Параметры: 
+        * screen – поверхность окна.
     * if self.state: self.state.draw(screen) - если есть текущее состояние, вызывает его метод draw(screen).
 * save_all(self):
     * Назначение: Сохраняет прогресс игры (инвентарь и данные персонажа) на диск.
