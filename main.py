@@ -22,6 +22,7 @@ def main():
     while running:
         # Ограничение до 60 кадров в секунду, dt — время в секундах между кадрами
         dt = clock.tick(60) / 1000.0
+        dt = min(dt, 0.05)
 
         # Получаем все события от Pygame
         events = pygame.event.get()
@@ -30,6 +31,9 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s and (event.mod & pygame.KMOD_CTRL):
+                    game.save_all()
 
         # Обновление игровой логики
         game.update(dt, events)

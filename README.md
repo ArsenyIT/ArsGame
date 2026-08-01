@@ -42,10 +42,13 @@
     * dt = clock.tick(60) / 1000.0:
         * clock.tick(60) – ограничивает цикл до 60 кадров в секунду и возвращает время, прошедшее с предыдущего кадра (в миллисекундах).
         * dt – время в секундах между кадрами (delta time). Используется для плавного движения, чтобы игра работала одинаково на разных частотах обновления.
+    * dt = min(dt, 0.05) - минимальное ограничение времени между кадрами.
     * events = pygame.event.get() – получает список всех событий, произошедших за время цикла (нажатия клавиш, движение мыши, закрытие окна и т.д.).
     * Обработка событий:
         * for event in events: – перебирает все события.
-        * if event.type == pygame.QUIT: – проверяет, не нажата ли кнопка закрытия окна (крестик).
+            * if event.type == pygame.QUIT: – проверяет, не нажата ли кнопка закрытия окна (крестик).
+            * elif event.type == pygame.KEYDOWN: - проверяет, не нажата ли кнопка клавиша.
+                * if event.key == pygame.K_s and (event.mod & pygame.KMOD_CTRL): - проверяет, не нажата ли кнопка S+Ctrl.
     * game.update(dt, events) – передаёт текущее время и список событий в объект игры для обновления логики (движение персонажей, физика, ИИ и т.д.).
     * game.draw(screen) – вызывает отрисовку всех объектов на экране (передаёт поверхность screen).
     * pygame.display.flip() – обновляет окно, показывая нарисованное. Без этого вызова экран останется пустым.
@@ -105,8 +108,8 @@
 * save_all(self):
     * Назначение: Сохраняет прогресс игры (инвентарь и данные персонажа) на диск.
     * saved = False - флаг сохранения всех изменений
-    * if self.player.inventory.modified: self.player.inventory.save("assets/data/inventory.json") - если инвентарь изменён, сохраняет его в inventory.json и меняет флаг.
-    * if self.player.modified: self.player.save_party("assets/data/party_save.json") - если данные персонажа изменены, сохраняет их в party_save.json и меняет класс.
+    * if self.player.inventory.modified: self.player.inventory.save("assets/data/inventory.json") - если инвентарь изменён, сохраняет его в inventory.json.
+    * if self.player.modified: self.player.save_party("assets/data/party_save.json") - если данные персонажа изменены, сохраняет их в party_save.json.
 
 ***
 
