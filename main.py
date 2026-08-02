@@ -1,4 +1,6 @@
 import pygame
+from pygame import FULLSCREEN, SCALED
+
 from game import Game
 
 def main():
@@ -6,9 +8,10 @@ def main():
     pygame.init()
 
     # 2. Настройки окна (размеры, название)
-    WIDTH = 1366
-    HEIGHT = 708
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    info = pygame.display.Info()
+    WIDTH = info.current_w
+    HEIGHT = info.current_h
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
     pygame.display.set_caption("ArsGame")
 
     # 3. Часы для ограничения FPS
