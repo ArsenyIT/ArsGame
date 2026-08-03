@@ -1,5 +1,4 @@
 import pygame
-from pygame import FULLSCREEN, SCALED
 
 from game import Game
 

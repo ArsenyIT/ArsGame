@@ -17,10 +17,10 @@ class WorldState:
             map_json = json.load(f)
         self.map_data = map_json["data"]
         self.tile_textures = {
-            0: pygame.image.load("assets/textures/tiles/Grass_1.png").convert_alpha(),
+            0: self.game.resources.get_image("grass_1"),
         }
         self.player_img = pygame.image.load("assets/textures/GG_left.png").convert_alpha()
-        self.item_img = pygame.image.load("assets/textures/items/Oak_wood_item.png")
+        self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = pygame.image.load("assets/textures/Squad_list.png")
 
     def on_exit(self):

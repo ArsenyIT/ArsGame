@@ -1,13 +1,16 @@
 from player import Player
+from resource_manager import ResourceManager
 
 class Game:
     def __init__(self, screen, WIDTH, HEIGHT):
         self.screen = screen
+        self.resources = ResourceManager()
+        self.resources.load_all()
+        self.player = Player()
         self.state = None          # Текущее состояние
         self.states = {}           # Словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # Начальное состояние
-        self.player = Player()
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
 
