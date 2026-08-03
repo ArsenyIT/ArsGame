@@ -24,7 +24,6 @@
 
 * Назначение: Главная функция, которая запускает игру. В ней происходит вся инициализация и главный цикл.
 * Параметры: Отсутствуют.
-* Возвращает: Ничего.
 
 * Инициализация Pygame:
     * pygame.init() - инициализирует все подсистемы Pygame. Без этого вызова ничего не будет работать.
@@ -72,7 +71,6 @@
         * self — ссылка на текущий объект
         * screen - окно
         * WIDTH, HEIGHT - размеры окна
-    * Возвращает: Ничего.
     * Атрибуты:
         * self.screen – поверхность окна, переданная из main.py.
         * self.state – текущее активное состояние (например, world_state, inventory_state).
@@ -130,7 +128,6 @@
     * Назначение: Создаёт игрока и хранит его данные игрока, управляет загрузкой/сохранением прогресса, добавлением предметов и восстановлением данных экипировки.
     * Параметры: 
         * self – ссылка на текущий объект
-    * Возвращает: Ничего.
     * Атрибуты:
         * Инвентарь:
             * self.inventory = Inventory() - создаётся объект Inventory
@@ -150,6 +147,39 @@
             * self.save_party("assets/data/party_save.json") - Сохраняет данные, чтобы на диске была актуальная копия.
  
 4. Функции класса Player:
+* mark_modified(self):
+    * Назначение: Устанавливает флаг, что данные игрока изменились.
+    * self.modified = True - меняет флаг со лжи на истину.
+
+* add_artifact(self, artifact_id):
+    * Назначение: Добавляет артефакт в инвентарь и создаёт запись в artifact_data героя.
+    * Параметры: artifact_id – строка (идентификатор артефакта из ITEM_DATA).
+
+* add_weapon(self, weapon_id):
+    * Назначение: Добавляет оружие в инвентарь и создаёт запись в weapon_data героя.
+    * Параметры: weapon_id – строка (идентификатор оружия из ITEM_DATA).
+    * uid = self.inventory.add_item(weapon_id, 1) - добавляет оружие в инвентарь и получает UID.
+    * if uid: hero = self.party[0] and hero.weapon_data[str(uid)] = {...} - cоздаёт запись в weapon_data с уровнем 1 и нулевым опытом.
+
+* save_party(self, filename):
+    * Назначение: Сохраняет отряд (всех персонажей) в JSON-файл.
+    * Параметры: filename – строка (путь к файлу).
+    * chars_data = [] - список данных всех персонажей.
+    * for char in self.party: char_data = {...} - проходит по всем персонажам в self.party и для каждого собирает все важные данные в словарь.
+    * chars_data.append(char_data) - переносит данные персонажа в список.
+    * full_data = {"characters": chars_data} - оборачивает список персонажей в словарь с ключом "characters".
+    * os.makedirs(os.path.dirname(filename), exist_ok=True) - создаёт папку, если её нет.
+    * with open(filename, 'w', encoding='utf-8') as f: json.dump(full_data, f, ensure_ascii=False, indent=2) - записывает данные в JSON с отступами для читаемости.
+    * self.modified = False - сбрасывает флаг.
+
+* load_party(self, filename):
+    * Назначение: Загружает отряд из JSON-файла и обновляет данные существующего героя.
+    * Параметры: filename – строка (путь к файлу).
+    * if os.path.exists(filename) and os.path.getsize(filename) > 0: - проверяет, существует ли файл и не пуст ли он. Если нет – выводит сообщение и выходит.
+        * with open(filename, 'r', encoding='utf-8') as f: data = json.load(f) - загружает данные из JSON.
+        * if isinstance(data, list): chars_data = data and full_data = {"characters": chars_data} - если файл старого формата (просто список) – оборачивает его в словарь.
+        * chars_data = full_data.get("characters", []) - для каждого персонажа в отряде берёт соответствующие сохранённые данные.
+        * for i, char in enumerate(self.party): if i < len(chars_data):
 
 ***
 
