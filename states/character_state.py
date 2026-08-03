@@ -6,7 +6,7 @@ class CharacterState:
         self.game = game
         self.font = pygame.font.Font(None, 28)
         self.title_font = pygame.font.Font(None, 36)
-        # Список персонажей (позже будет браться из game.player.party)
+        # Список персонажей
         self.characters = []
         self.current_index = 0
         self.menu_buttons = []

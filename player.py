@@ -37,21 +37,6 @@ class Player:
         # Загружаем данные персонажей
         self.load_party("assets/data/party_save.json")
 
-        # Если нет оружия в инвентаре, добавляем тестовое
-        if not self.inventory.get_all_uids("weapons"):
-            self.add_weapon("sword_of_steel")
-            self.add_weapon("rusted_sword")
-
-        # Если нет артефактов, добавляем тестовые
-        if not self.inventory.get_all_uids("artifacts"):
-            self.add_artifact("flower_1")
-            self.add_artifact("sands_1")
-            self.add_artifact("goblet_1")
-            self.add_artifact("plume_1")
-            self.add_artifact("plume_2")
-
-        self.modified = False
-
         hero = self.party[0]
         for uid in self.inventory.get_all_uids("weapons"):
             uid_str = str(uid)
