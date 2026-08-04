@@ -171,6 +171,18 @@
 * add_artifact(self, artifact_id):
     * Назначение: Добавляет артефакт в инвентарь и создаёт запись в artifact_data героя.
     * Параметры: artifact_id – строка (идентификатор артефакта из ITEM_DATA).
+    * uid = self.inventory.add_item(artifact_id, 1) - Вызываем метод add_item у инвентаря, который добавляет 1 предмет с artifact_id, генерирует новый UID для этого предмета и возвращает этот UID или None, если добавление не удалось.
+    * if uid: – если UID получен, то продолжаем.
+    * hero = self.party[0] – берём первого персонажа из отряда. 
+    * art_data = ITEM_DATA.get(artifact_id, {}) – получаем данные артефакта из глобального словаря ITEM_DATA.
+    * slot = art_data.get("slot") – получаем слот артефакта.
+    * possible_main = art_data.get("possible_main_stats", []) – получаем список возможных основных статов для этого артефакта.
+    * if not possible_main or not slot: – если нет слота или нет возможных основных статов – значит, данные артефакта некорректны.
+    * self.inventory.remove_item(artifact_id, uid) - удаляем предмет из инвентаря.
+    * chosen = random.choice(possible_main) – случайно выбираем один из возможных основных статов.
+    * stat_name = list(chosen.keys())[0] – извлекаем имя стата из словаря.
+    * growth_key = f"{slot}_{stat_name}" – формируем ключ для роста артефакта.
+    * hero.artifact_data[str(uid)] = {...} - создаём запись в artifact_data.
 
 * add_weapon(self, weapon_id):
     * Назначение: Добавляет оружие в инвентарь и создаёт запись в weapon_data героя.
