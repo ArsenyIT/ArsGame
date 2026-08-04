@@ -140,9 +140,26 @@
             * self.party = [hero] - отряд пока состоит из одного героя.
             * self.load_party("assets/data/party_save.json") - load_party загружает сохранённый прогресс и обновляет данные героя.
         * Восстановление данных оружия:
-            *
+            * hero = self.party[0] - берём первого персонажа из отряда.
+            * for uid in self.inventory.get_all_uids("weapons"): - получаем список все UID оружия из инвентаря и проходим по каждому.
+            * uid_str = str(uid) – преобразуем UID в строку, потому что в словарях weapon_data ключи хранятся как строки.
+            * if uid_str not in hero.weapon_data: – проверяем, есть ли у этого персонажа уже запись для данного UID. Если запись уже есть – пропускаем.
+            * for item_id, uids in self.inventory.items.items(): - Если записи нет, начинаем поиск в словаре self.inventory.items.
+            * if isinstance(uids, list) and uid in uids: – проверяем, что uids является списком и текущий UID присутствует в этом списке.
+            * if self.inventory.get_item_type(item_id) == "weapons": – проверяем, что предмет действительно оружие.
+            * hero.weapon_data[uid_str] = {...} - если все проверки пройдены, создаём запись.
+            * break – выходим из внутреннего цикла, потому что мы нашли нужный предмет и не нужно продолжать поиск.
         * Восстановление данных артефактов:
-            *
+            * for uid in self.inventory.get_all_uids("artifacts"): - получаем список все UID артефактов из инвентаря и проходим по каждому.
+            * uid_str = str(uid) – преобразуем UID в строку, потому что в словарях artifact_data ключи хранятся как строки.
+            * if uid_str not in hero.artifact_data: – проверяем, есть ли у этого персонажа уже запись для данного UID. Если запись уже есть – пропускаем.
+            * for item_id, uids in self.inventory.items.items(): - Если записи нет, начинаем поиск в словаре self.inventory.items.
+            * if isinstance(uids, list) and uid in uids: – проверяем, что uids является списком и текущий UID присутствует в этом списке.
+            * if self.inventory.get_item_type(item_id) == "artifacts": – проверяем, что предмет действительно артефакт.
+            * main_stat = generate_artifact_main_stat(item_id) – генерируем основной стат, потому что он выбирается случайно при создании артефакта.
+            * if not main_stat: main_stat = {} – если по какой-то причине функция вернула пустой результат (например, в данных нет возможных статов), создаём пустой словарь, чтобы не было ошибки.
+            * hero.artifact_data[uid_str] = {...} - создаём запись в artifact_data.
+            * break – выходим из внутреннего цикла, потому что мы нашли нужный предмет и не нужно продолжать поиск.
         * Сохранение начального состояния:
             * self.save_party("assets/data/party_save.json") - Сохраняет данные, чтобы на диске была актуальная копия.
  
@@ -176,10 +193,10 @@
     * Назначение: Загружает отряд из JSON-файла и обновляет данные существующего героя.
     * Параметры: filename – строка (путь к файлу).
     * if os.path.exists(filename) and os.path.getsize(filename) > 0: - проверяет, существует ли файл и не пуст ли он. Если нет – выводит сообщение и выходит.
-        * with open(filename, 'r', encoding='utf-8') as f: data = json.load(f) - загружает данные из JSON.
-        * if isinstance(data, list): chars_data = data and full_data = {"characters": chars_data} - если файл старого формата (просто список) – оборачивает его в словарь.
-        * chars_data = full_data.get("characters", []) - для каждого персонажа в отряде берёт соответствующие сохранённые данные.
-        * for i, char in enumerate(self.party): if i < len(chars_data):
+    * with open(filename, 'r', encoding='utf-8') as f: data = json.load(f) - загружает данные из JSON.
+    * if isinstance(data, list): chars_data = data and full_data = {"characters": chars_data} - если файл старого формата (просто список) – оборачивает его в словарь.
+    * chars_data = full_data.get("characters", []) - для каждого персонажа в отряде берёт соответствующие сохранённые данные.
+    * for i, char in enumerate(self.party): if i < len(chars_data):
 
 ***
 
