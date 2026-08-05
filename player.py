@@ -62,7 +62,7 @@ class Player:
                             if not main_stat:
                                 main_stat = {}
                             hero.artifact_data[uid_str] = {
-                                "level": 0,
+                                "level": 1,
                                 "exp": 0,
                                 "exp_next": 100,
                                 "sub_stats": [],
