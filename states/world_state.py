@@ -4,8 +4,16 @@ import json
 class WorldState:
     def __init__(self, game):
         self.game = game
-        self.hero_rect = pygame.Rect(100, 100, 45, 90)
-        self.item_rect = pygame.Rect(200, 200, 13, 32)
+        hero_x = int(self.game.WIDTH * 0.05)
+        hero_y = int(self.game.HEIGHT * 0.1)
+        hero_width = int(self.game.WIDTH * 0.03)
+        hero_height = int(self.game.HEIGHT * 0.12)
+        self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
+        item_x = int(self.game.WIDTH * 0.15)
+        item_y = int(self.game.HEIGHT * 0.3)
+        item_width = int(self.game.WIDTH * 0.01)
+        item_height = int(self.game.HEIGHT * 0.045)
+        self.item_rect = pygame.Rect(item_x, item_y, item_width, item_height)
         self.hint_font = pygame.font.Font(None, 24)
         self.near_item = False
         self.item = True
@@ -80,7 +88,11 @@ class WorldState:
                 y = row * self.tile_size
                 screen.blit(self.tile_textures[tile_type], (x, y))
         screen.blit(self.player_img, self.hero_rect)
-        ramka = pygame.Rect(screen.get_width() - 250 - 30, 80, 250, 350)
+        squad_width = int(self.game.WIDTH * 0.18)
+        squad_height = int(self.game.HEIGHT * 0.45)
+        squad_y = int(self.game.WIDTH * 0.1)
+        squad_x = self.game.WIDTH - squad_width - self.game.WIDTH * 0.02
+        ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
         screen.blit(self.squad, ramka)
 
         if self.item == True:

@@ -4,6 +4,8 @@ from resource_manager import ResourceManager
 class Game:
     def __init__(self, screen, WIDTH, HEIGHT):
         self.screen = screen
+        self.WIDTH = WIDTH
+        self.HEIGHT = HEIGHT
         self.resources = ResourceManager()
         self.resources.load_all()
         self.player = Player()
@@ -11,8 +13,6 @@ class Game:
         self.states = {}           # Словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # Начальное состояние
-        self.WIDTH = WIDTH
-        self.HEIGHT = HEIGHT
 
     def load_states(self):
         from states.world_state import WorldState
