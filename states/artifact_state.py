@@ -4,10 +4,9 @@ class ArtifactState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.field_width = 344
         self.offset = 10
-        self.btn_width = self.field_width - 2 * self.offset  # 324
-        self.btn_height = 120
+        self.btn_width = int(self.game.WIDTH * 0.2372)
+        self.btn_height = int(self.game.HEIGHT * 0.15625)
         self.circle_positions = {
             "flower": (441, 238),
             "plume": (1017, 239),
@@ -50,13 +49,10 @@ class ArtifactState:
 
         self.nav_buttons = []
         x0_btn = 0
-        y0_btn = 40
-        offset = 10
-        btn_width = 324
-        btn_height = 120
+        y0_btn = int(self.game.HEIGHT * 0.0521)
         for i, text in enumerate(button_names):
-            y = y0_btn + offset + i * (btn_height + offset)
-            rect = pygame.Rect(x0_btn + offset, y, btn_width, btn_height)
+            y = y0_btn + self.offset + i * (self.btn_height + self.offset)
+            rect = pygame.Rect(x0_btn + self.offset, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
     def on_exit(self):
@@ -93,7 +89,9 @@ class ArtifactState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_GG, (580, 200))
+        portrait_x = int(self.game.WIDTH * 0.425)
+        portrait_y = int(self.game.HEIGHT * 0.282)
+        screen.blit(self.portrait_GG, (portrait_x, portrait_y))
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
 
