@@ -367,7 +367,7 @@ class ArtifactUpgradeState:
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))
 
-        popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, 768)
+        popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, self.game.HEIGHT) #400,768
         if self.popup_bg:
             screen.blit(self.popup_bg, popup_rect)
         else:
@@ -375,7 +375,7 @@ class ArtifactUpgradeState:
             pygame.draw.rect(screen, (200, 200, 200), popup_rect, 2)
 
         title = self.font.render("Выберите артефакт", True, (255, 255, 255))
-        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026))
+        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026)) #20
 
         cell_size = 32
         margin = 10

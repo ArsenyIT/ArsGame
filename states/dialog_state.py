@@ -91,7 +91,7 @@ class DialogState:
 
     def draw(self, screen):
         screen.fill((0, 0, 0))  # Уникальный цвет для каждого состояния
-        dialog_rect = pygame.Rect(50, screen.get_height() - 150, screen.get_width() - 100, 120)
+        dialog_rect = pygame.Rect(self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.195, self.game.WIDTH - self.game.WIDTH * 0.073, self.game.HEIGHT * 0.15625) #50,150,100,120
         screen.blit(self.dialog_window, dialog_rect)
 
         if not self.dialog_lines or self.current_line >= len(self.dialog_lines):
@@ -103,11 +103,11 @@ class DialogState:
 
         # Имя говорящего
         name_surf = self.name_font.render(speaker, True, (255, 255, 100))
-        screen.blit(name_surf, (dialog_rect.x + 30, dialog_rect.y + 10))
+        screen.blit(name_surf, (dialog_rect.x + int(self.game.WIDTH * 0.022), dialog_rect.y + int(self.game.HEIGHT * 0.013))) #30,10
 
         # Текст
-        lines = self.wrap_text(text, dialog_rect.width - 20)
+        lines = self.wrap_text(text, dialog_rect.width - self.game.WIDTH * 0.01464) #20
 
         for i, line_text in enumerate(lines):
             line_surf = self.font.render(line_text, True, (255, 255, 255))
-            screen.blit(line_surf, (dialog_rect.x + 10, dialog_rect.y + 50 + i * 30))
+            screen.blit(line_surf, (dialog_rect.x + self.game.WIDTH * 0.0073, dialog_rect.y + self.game.HEIGHT * 0.065 + i * int(self.game.HEIGHT * 0.039))) #10,50,30

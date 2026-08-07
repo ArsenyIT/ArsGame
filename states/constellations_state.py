@@ -4,10 +4,10 @@ class ConstellationsState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.field_width = 344
-        self.offset = 10
-        self.btn_width = self.field_width - 2 * self.offset  # 324
-        self.btn_height = 120
+        self.offset_y = self.game.HEIGHT * 0.013  # 10
+        self.offset_x = self.game.WIDTH * 0.0073  # 10
+        self.btn_width = int(self.game.WIDTH * 0.2372)  # 324
+        self.btn_height = int(self.game.HEIGHT * 0.15625)  # 120
         self.circle_positions = {
             0: (1164, 117),  # координаты для 1-го созвездия
             1: (1260, 253),
@@ -70,14 +70,11 @@ class ConstellationsState:
         self.nav_buttons = []
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         x0_btn = 0
-        y0_btn = 40
-        offset = 10
-        btn_width = 324
-        btn_height = 120
+        y0_btn = self.game.HEIGHT * 0.052 #40
 
         for i, text in enumerate(button_names):
-            y = y0_btn + offset + i * (btn_height + offset)
-            rect = pygame.Rect(x0_btn + offset, y, btn_width, btn_height)
+            y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
+            rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
         self.activate_btn = pygame.image.load("assets/textures/buttons/Button_activate.png").convert_alpha()
@@ -138,14 +135,14 @@ class ConstellationsState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_GG, (560, 180))
+        screen.blit(self.portrait_img, (self.game.WIDTH * 0,41, self.game.HEIGHT * 0.234)) #560,180
 
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
 
         # ---- Плашка ----
         if self.active_circle is not None:
-            popup_rect = pygame.Rect(0, 0, 400, 768)
+            popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, self.game.HEIGHT) #400,768
             screen.blit(self.popup_bg, popup_rect)
 
             char = self.game.player.party[0]
@@ -155,7 +152,7 @@ class ConstellationsState:
 
             # ---- Заголовок ----
             title = self.font.render("Созвездия", True, (255, 255, 255))
-            screen.blit(title, (popup_rect.x + 20, popup_rect.y + 20))
+            screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026)) #20
 
             # ---- Статус (с переносом) ----
             if char.constellation > i:
@@ -169,35 +166,34 @@ class ConstellationsState:
                 show_button = False
 
             status_full = f"Созвездие {display_level}: {status_text}"
-            status_lines = self.wrap_text(status_full, self.const_font, popup_rect.width - 40)
-            y = popup_rect.y + 70
+            status_lines = self.wrap_text(status_full, self.const_font, popup_rect.width - self.game.WIDTH * 0.0293) #40
+            y = popup_rect.y + self.game.HEIGHT * 0.0911 #70
             for line in status_lines:
                 line_surf = self.const_font.render(line, True, (255, 255, 200))
-                screen.blit(line_surf, (popup_rect.x + 20, y))
-                y += 25
+                screen.blit(line_surf, (popup_rect.x + self.game.WIDTH * 0.01464, y)) #20
+                y += self.game.HEIGHT * 0.03255 #25
 
             # ---- Описание бонуса ----
             description = self.get_constellation_description(i)
-            desc_lines = self.wrap_text(description, self.const_font, popup_rect.width - 40)
-            y += 10
+            desc_lines = self.wrap_text(description, self.const_font, popup_rect.width - self.game.WIDTH * 0.0293) #40
+            y += self.game.HEIGHT * 0.013 #10
             for line in desc_lines:
                 line_surf = self.const_font.render(line, True, (220, 220, 220))
-                screen.blit(line_surf, (popup_rect.x + 20, y))
-                y += 25
+                screen.blit(line_surf, (popup_rect.x + self.game.WIDTH * 0.01464, y)) #20
+                y += self.game.HEIGHT * 0.03255 #25
 
             # ---- Кнопка активации или сообщение ----
             if show_button:
-                btn_rect = pygame.Rect(popup_rect.x + 20, y + 30, 200, 50)
+                btn_rect = pygame.Rect(popup_rect.x + self.game.WIDTH * 0.01464, y + self.game.HEIGHT * 0.039, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.065) #20,30,200,50
                 screen.blit(self.activate_btn, btn_rect)
                 self.activate_btn_rect = btn_rect
             elif char.constellation > i:
                 max_text = self.font.render("Уже активировано", True, (255, 200, 100))
-                screen.blit(max_text, (popup_rect.x + 20, y + 30))
+                screen.blit(max_text, (popup_rect.x + self.game.WIDTH * 0.01464, y + self.game.HEIGHT * 0.039)) #20,30
             else:
-                locked_lines = self.wrap_text("Требуется активировать предыдущее", self.const_font,
-                                              popup_rect.width - 40)
-                y_locked = y + 30
+                locked_lines = self.wrap_text("Требуется активировать предыдущее", self.const_font, popup_rect.width - self.game.WIDTH * 0.0293) #40
+                y_locked = y + self.game.HEIGHT * 0.039 #30
                 for line in locked_lines:
                     line_surf = self.const_font.render(line, True, (200, 200, 200))
-                    screen.blit(line_surf, (popup_rect.x + 20, y_locked))
-                    y_locked += 25
+                    screen.blit(line_surf, (popup_rect.x + self.game.WIDTH * 0.01464, y_locked)) #20
+                    y_locked += self.game.HEIGHT * 0.03255 #25
