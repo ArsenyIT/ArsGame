@@ -114,7 +114,7 @@ class CharacterState:
 
     def draw(self, screen):
         screen.blit(self.GG_menu, (0,0))
-        screen.blit(self.portrait_img, (self.game.WIDTH * 0,41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
 
         if not self.characters:
             return

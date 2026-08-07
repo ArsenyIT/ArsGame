@@ -135,7 +135,7 @@ class ConstellationsState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_img, (self.game.WIDTH * 0,41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_GG, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
 
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])

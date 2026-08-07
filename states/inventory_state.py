@@ -10,16 +10,16 @@ class InventoryState:
         self.rows = 13
         self.cell_size = 32
         self.cell_margin = 10
-        self.grid_offset_x = 20
-        self.grid_offset_y = 128
+        self.grid_offset_x = self.game.WIDTH * 0.01464 #20
+        self.grid_offset_y = self.game.HEIGHT * 0.17 #128
         self.section_buttons = [
-            {"rect": pygame.Rect(0, 0, 127, 116), "section": "artifacts"},
-            {"rect": pygame.Rect(129, 0, 127, 116), "section": "weapons"},
-            {"rect": pygame.Rect(257, 0, 127, 116), "section": "food"},
-            {"rect": pygame.Rect(385, 0, 127, 116), "section": "potions"},
-            {"rect": pygame.Rect(513, 0, 127, 116), "section": "resources"},
-            {"rect": pygame.Rect(641, 0, 127, 116), "section": "special_tools"},
-            {"rect": pygame.Rect(769, 0, 127, 116), "section": "rare_resources"},
+            {"rect": pygame.Rect(0, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "artifacts"}, #127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.0944, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "weapons"}, #129,127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.188, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "food"}, #257,127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.2818, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "potions"}, #385,127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.3755, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "resources"}, #513,127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.46925, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "special_tools"}, #641,127,116
+            {"rect": pygame.Rect(self.game.WIDTH * 0.563, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "rare_resources"}, #769,127,116
         ]
 
     def get_item_list(self):
@@ -109,15 +109,15 @@ class InventoryState:
 
     def draw(self, screen):
         screen.blit(self.inventory_menu_1, (0, 0))
-        menu_2 = pygame.Rect(0, 119, 1000, 768)
+        menu_2 = pygame.Rect(0, self.game.HEIGHT * 0.155, self.game.WIDTH * 0.732, self.game.HEIGHT) #119,1000,768
         screen.blit(self.inventory_menu_2, menu_2)
-        icon_1 = pygame.Rect(0, 0, 127, 116)
-        icon_2 = pygame.Rect(129, 0, 127, 116)
-        icon_3 = pygame.Rect(257, 0, 127, 116)
-        icon_4 = pygame.Rect(385, 0, 127, 116)
-        icon_5 = pygame.Rect(513, 0, 127, 116)
-        icon_6 = pygame.Rect(641, 0, 127, 116)
-        icon_7 = pygame.Rect(769, 0, 127, 116)
+        icon_1 = pygame.Rect(0, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #127,116
+        icon_2 = pygame.Rect(self.game.WIDTH * 0.0944, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #129,127,116
+        icon_3 = pygame.Rect(self.game.WIDTH * 0.188, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #257,127,116
+        icon_4 = pygame.Rect(self.game.WIDTH * 0.2818, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #385,127,116
+        icon_5 = pygame.Rect(self.game.WIDTH * 0.3755, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #513,127,116
+        icon_6 = pygame.Rect(self.game.WIDTH * 0.46925, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #641,127,116
+        icon_7 = pygame.Rect(self.game.WIDTH * 0.563, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #769,127,116
         screen.blit(self.artifact_iсon, icon_1)
         screen.blit(self.weapon_iсon, icon_2)
         screen.blit(self.food_iсon, icon_3)
@@ -148,9 +148,9 @@ class InventoryState:
                     # Текст с кол-вом предметов
                     text = f"х{quantity}"
                     text_surf = self.quantity_font.render(text, True, (255, 255, 255))
-                    screen.blit(text_surf, (x, y + 21))
+                    screen.blit(text_surf, (x, y + self.game.HEIGHT * 0.026)) #20
                 else:
                     screen.blit(self.empty_cell, (x, y))
         # Подсказка внизу
         hint = self.font.render("B/ESC - выход, Левая кнопка мыши - Выбор предмета и переход в другие разделы", True, (150, 150, 150))
-        screen.blit(hint, (50, screen.get_height() - 40))
+        screen.blit(hint, (self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.052)) #50,40
