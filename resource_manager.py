@@ -48,12 +48,12 @@ class ResourceManager:
         self.load_image("assets/textures/buttons/Button_weapon.png", "button_weapon")
 
         # ---- Артефакты ----
-        self.load_image("assets/textures/artifacts/Flower_1.png", "flower_1")
-        self.load_image("assets/textures/artifacts/Goblet_1.png", "goblet_1")
-        self.load_image("assets/textures/artifacts/Plume_1.png", "plume_1")
-        self.load_image("assets/textures/artifacts/Sands_1.png", "sands_1")
-
+        self.load_image("assets/textures/artifacts/Flower_2.png", "flower_2")
+        self.load_image("assets/textures/artifacts/Goblet_2.png", "goblet_2")
         self.load_image("assets/textures/artifacts/Plume_2.png", "plume_2")
+        self.load_image("assets/textures/artifacts/Sands_2.png", "sands_2")
+
+        self.load_image("assets/textures/artifacts/Plume_1.png", "plume_1")
 
         # ---- Оружия ----
         self.load_image("assets/textures/weapons/Rusted_sword.png", "rusted_sword")

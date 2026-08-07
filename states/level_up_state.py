@@ -12,7 +12,7 @@ class LevelUpState:
         self.background = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
         self.button_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
         self.ascend_img = pygame.image.load("assets/textures/buttons/Button_elevate.png").convert_alpha()
-        self.use_button_rect = pygame.Rect(900, 630, 258, 62)
+        self.use_button_rect = pygame.Rect(self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.0807) #900,630,258,62
         self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
 
     def on_exit(self):
@@ -46,36 +46,37 @@ class LevelUpState:
 
     def draw(self, screen):
         screen.blit(self.background, (0, 0))
-        screen.blit(self.portrait_GG, (180, 180))
+        screen.blit(self.portrait_GG, (self.game.WIDTH * 0.132, self.game.HEIGHT * 0.2344)) #180
         char = self.game.player.party[0]
         if char.can_ascend():
-            screen.blit(self.ascend_img, (900, 630))
+            screen.blit(self.ascend_img, (self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82)) #900,630
         else:
-            screen.blit(self.button_img, (900, 630))
+            screen.blit(self.button_img, (self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82)) #900,630
 
         if self.game.player.party:
             char = self.game.player.party[0]
             books = self.game.player.inventory.get_count("story_of_the_Almighty")
             # Отображение уровня
             level_text = self.font.render(f"Уровень: {char.level}", True, (255, 255, 255))
-            screen.blit(level_text, (1150, 50))
+            screen.blit(level_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.065)) #1150,50
             # Отображение количества книг
             books_text = self.font.render(f"Книг: {books}", True, (255, 255, 255))
-            screen.blit(books_text, (1150, 125))
+            screen.blit(books_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1627)) #1150,125
 
             exp_ratio = char.exp / char.exp_next if char.exp_next > 0 else 0
-            pygame.draw.rect(screen, (80, 80, 80), (1150, 80, 200, 15))
-            pygame.draw.rect(screen, (100, 200, 100), (1150, 80, int(200 * exp_ratio), 15))
+            pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1042, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.0195)) #1150,80,200,15
+            pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1042, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.0195)) #1150,80,200,15
             exp_text = self.font.render(f"Опыт: {char.exp}/{char.exp_next}", True, (200, 200, 200))
-            screen.blit(exp_text, (1150, 100))
+            screen.blit(exp_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.13)) #1150,100
 
         # ---- Отображение статов персонажа ----
-        x0 = 670
-        y0 = 10
-        offset = 10
-        x_left = x0 + offset  # если у тебя есть self.offset, иначе задай явно
-        y_start = y0 + offset
-        line_height = 30
+        x0 = self.game.WIDTH * 0.49 #670
+        y0 = self.game.HEIGHT * 0.013 #10
+        offset_x = self.game.WIDTH * 0.0073 #10
+        offset_y = self.game.HEIGHT * 0.013 #10
+        x_left = x0 + offset_x
+        y_start = y0 + offset_y
+        line_height = self.game.HEIGHT * 0.039 #30
 
         stats_all = [
             ("HP", f"{char.base_hp}/{char.base_hp}"),

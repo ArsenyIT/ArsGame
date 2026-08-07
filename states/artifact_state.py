@@ -30,9 +30,9 @@ class ArtifactState:
         self.artifact_icons = {
             "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
             "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
-            "flower_1": pygame.image.load("assets/textures/artifacts/Flower_1.png").convert_alpha(),
-            "sands_1": pygame.image.load("assets/textures/artifacts/Sands_1.png").convert_alpha(),
-            "goblet_1": pygame.image.load("assets/textures/artifacts/Goblet_1.png").convert_alpha()
+            "flower_1": pygame.image.load("assets/textures/artifacts/Flower_2.png").convert_alpha(),
+            "sands_1": pygame.image.load("assets/textures/artifacts/Sands_2.png").convert_alpha(),
+            "goblet_1": pygame.image.load("assets/textures/artifacts/Goblet_2.png").convert_alpha()
         }
 
         self.button_images = {}
