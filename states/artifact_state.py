@@ -4,7 +4,8 @@ class ArtifactState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.offset = 10
+        self.offset_y = self.game.HEIGHT * 0.013
+        self.offset_x = self.game.WIDTH * 0.0073
         self.btn_width = int(self.game.WIDTH * 0.2372)
         self.btn_height = int(self.game.HEIGHT * 0.15625)
         self.circle_positions = {
@@ -51,8 +52,8 @@ class ArtifactState:
         x0_btn = 0
         y0_btn = int(self.game.HEIGHT * 0.0521)
         for i, text in enumerate(button_names):
-            y = y0_btn + self.offset + i * (self.btn_height + self.offset)
-            rect = pygame.Rect(x0_btn + self.offset, y, self.btn_width, self.btn_height)
+            y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
+            rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
     def on_exit(self):

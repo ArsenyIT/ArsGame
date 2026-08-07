@@ -191,7 +191,7 @@ class ArtifactUpgradeState:
         slot_names = {"flower": "Цветок", "plume": "Перо", "sands": "Часы", "goblet": "Кубок"}
         slot_display = slot_names.get(self.slot, self.slot.capitalize())
         title = self.font.render(f"Слот: {slot_display}", True, (255, 255, 255))
-        screen.blit(title, (700, 30))
+        screen.blit(title, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.039))
 
         char = self.game.player.party[0]
 
@@ -203,12 +203,12 @@ class ArtifactUpgradeState:
                 art_data = ITEM_DATA.get(artifact_id, {})
                 name = art_data.get("name", "Неизвестно")
                 equip_text = self.stats_font.render(f"Экипировано: {name}", True, (220, 220, 220))
-                screen.blit(equip_text, (700, 60))
+                screen.blit(equip_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.078))
 
                 # Иконка
                 icon = self.artifacts.get(artifact_id)
                 if icon:
-                    icon_rect = icon.get_rect(topleft=(700, 120))
+                    icon_rect = icon.get_rect(topleft=(self.game.WIDTH * 0.512, self.game.HEIGHT * 0.15625))
                     screen.blit(icon, icon_rect)
 
                 # Уровень, основной стат, субстаты
@@ -219,7 +219,7 @@ class ArtifactUpgradeState:
                 artifact_id = data.get("artifact_id")
                 max_level = char.get_artifact_max_level(artifact_id)
                 level_text = self.stats_font.render(f"Уровень: {level}/{max_level}", True, (220, 220, 220))
-                screen.blit(level_text, (1050, 30))
+                screen.blit(level_text, (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.039))
 
                 growth_key = data.get("growth_key")
                 if growth_key:
@@ -231,32 +231,32 @@ class ArtifactUpgradeState:
                     else:
                         main_display = f"Основной: {stat_name} +{value}"
                     main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
-                    screen.blit(main_surf, (1050, 60))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.078))
                 else:
                     main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
-                    screen.blit(main_surf, (1050, 60))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.078))
 
                 max_level = char.get_artifact_max_level(artifact_id)
                 if level >= max_level:
                     max_lines = self.wrap_text("Максимальный уровень достигнут", self.stats_font, 250)
-                    y_offset = 200
+                    y_offset = self.game.HEIGHT * 0.2604
                     for line in max_lines:
                         line_surf = self.stats_font.render(line, True, (255, 200, 100))
-                        screen.blit(line_surf, (1050, y_offset))
-                        y_offset += 25
+                        screen.blit(line_surf, (self.game.WIDTH * 0.7687, y_offset))
+                        y_offset += self.game.HEIGHT * 0.03255
                 else:
                     exp = data.get("exp", 0)
                     exp_next = data.get("exp_next", 100)
                     exp_ratio = exp / exp_next if exp_next > 0 else 0
-                    pygame.draw.rect(screen, (80, 80, 80), (1050, 200, 200, 15))
-                    pygame.draw.rect(screen, (100, 200, 100), (1050, 200, int(200 * exp_ratio), 15))
+                    pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.2604, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.01953))
+                    pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.2604, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.01953))
                     exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
-                    screen.blit(exp_text, (1050, 220))
+                    screen.blit(exp_text, (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.28646))
                     exp_count = self.game.player.inventory.get_count("artifact_exp")
                     exp_count_text = self.stats_font.render(f"Флаконов опыта: {exp_count}", True, (200, 200, 200))
-                    screen.blit(exp_count_text, (1050, 240))
+                    screen.blit(exp_count_text, (self.game.WIDTH * 0.7687, self.game.HEIGHT * 0.3125))
 
-                y_sub = 90
+                y_sub = self.game.HEIGHT * 0.117
                 if sub_stats:
                     for sub in sub_stats:
                         stat_name = sub["stat"]
@@ -266,17 +266,17 @@ class ArtifactUpgradeState:
                         else:
                             display = f"{stat_name} +{value}"
                         sub_surf = self.stats_font.render(display, True, (200, 200, 200))
-                        screen.blit(sub_surf, (1050, y_sub))
-                        y_sub += 25
+                        screen.blit(sub_surf, (self.game.WIDTH * 0.7687, y_sub))
+                        y_sub += self.game.HEIGHT * 0.03255
                 else:
                     sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
-                    screen.blit(sub_surf, (1050, y_sub))
+                    screen.blit(sub_surf, (self.game.WIDTH * 0.7687, y_sub))
             else:
                 equip_text = self.stats_font.render("Экипировано: неизвестно", True, (200, 200, 200))
-                screen.blit(equip_text, (700, 60))
+                screen.blit(equip_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.078))
         else:
             equip_text = self.stats_font.render("Слот пуст", True, (200, 200, 200))
-            screen.blit(equip_text, (700, 60))
+            screen.blit(equip_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.078))
 
         # ---- Отображение выбранного артефакта (из инвентаря) ----
         if self.selected_uid is not None:
@@ -286,14 +286,14 @@ class ArtifactUpgradeState:
                 art_data = ITEM_DATA.get(artifact_id, {})
                 name = art_data.get("name", "Неизвестно")
                 sel_text = self.stats_font.render(f"Выбрано: {name}", True, (255, 255, 0))
-                screen.blit(sel_text, (700, 85))
+                screen.blit(sel_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1107))
 
                 level = data.get("level", 0)
                 main_stat = data.get("main_stat", {})
                 sub_stats = data.get("sub_stats", [])
 
                 level_sel = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
-                screen.blit(level_sel, (700, 115))
+                screen.blit(level_sel, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1497))
 
                 growth_key = data.get("growth_key")
                 if growth_key:
@@ -306,12 +306,12 @@ class ArtifactUpgradeState:
                     else:
                         main_display = f"Основной: {stat_name} +{value}"
                     main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
-                    screen.blit(main_surf, (700, 145))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0,1888))
                 else:
                     main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
-                    screen.blit(main_surf, (700, 145))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0,1888))
 
-                y_sel_sub = 175
+                y_sel_sub = self.game.HEIGHT * 0.2279
                 if sub_stats:
                     for sub in sub_stats:
                         stat_name = sub["stat"]
@@ -321,19 +321,19 @@ class ArtifactUpgradeState:
                         else:
                             display = f"{stat_name} +{value}"
                         sub_surf = self.stats_font.render(display, True, (200, 200, 200))
-                        screen.blit(sub_surf, (700, y_sel_sub))
-                        y_sel_sub += 25
+                        screen.blit(sub_surf, (self.game.WIDTH * 0.512, y_sel_sub))
+                        y_sel_sub += self.game.HEIGHT * 0.03255
                 else:
                     sub_surf = self.stats_font.render("Субстаты: отсутствуют", True, (200, 200, 200))
-                    screen.blit(sub_surf, (700, y_sel_sub))
+                    screen.blit(sub_surf, (self.game.WIDTH * 0.512, y_sel_sub))
         else:
             sel_text = self.stats_font.render("Ничего не выбрано", True, (200, 200, 200))
-            screen.blit(sel_text, (700, 85))
+            screen.blit(sel_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1107))
 
         # ---- Кнопки ----
-        btn_y = 630
-        btn_width = 278
-        btn_height = 62
+        btn_y = self.game.HEIGHT * 0.8203
+        btn_width = self.game.WIDTH * 0.2035
+        btn_height = self.game.HEIGHT * 0.0807
         if self.equipped_uid is not None:
             btn_img = self.unequip_btn_img
             btn_text = "Сменить"
@@ -341,23 +341,23 @@ class ArtifactUpgradeState:
             btn_img = self.equip_btn_img
             btn_text = "Экипировать"
 
-        self.equip_btn_rect = pygame.Rect(720, btn_y, btn_width, btn_height)
+        self.equip_btn_rect = pygame.Rect(self.game.WIDTH * 0.5271, btn_y, btn_width, btn_height)
         if btn_img:
             screen.blit(btn_img, self.equip_btn_rect)
         else:
             pygame.draw.rect(screen, (60, 60, 80), self.equip_btn_rect)
             pygame.draw.rect(screen, (200, 200, 200), self.equip_btn_rect, 2)
             text = self.font.render(btn_text, True, (255, 255, 255))
-            screen.blit(text, (self.equip_btn_rect.x + 10, self.equip_btn_rect.y + 10))
+            screen.blit(text, (self.equip_btn_rect.x + self.game.WIDTH * 0.0073, self.equip_btn_rect.y + self.game.HEIGHT * 0.013))
 
-        self.upgrade_btn_rect = pygame.Rect(1050, btn_y, btn_width, btn_height)
+        self.upgrade_btn_rect = pygame.Rect(self.game.WIDTH * 0.7687, btn_y, btn_width, btn_height)
         if self.upgrade_btn_img:
             screen.blit(self.upgrade_btn_img, self.upgrade_btn_rect)
         else:
             pygame.draw.rect(screen, (60, 60, 80), self.upgrade_btn_rect)
             pygame.draw.rect(screen, (200, 200, 200), self.upgrade_btn_rect, 2)
             text = self.font.render("Улучшить", True, (255, 255, 255))
-            screen.blit(text, (self.upgrade_btn_rect.x + 10, self.upgrade_btn_rect.y + 10))
+            screen.blit(text, (self.upgrade_btn_rect.x + self.game.WIDTH * 0.0073, self.upgrade_btn_rect.y + self.game.HEIGHT * 0.013))
 
         if self.show_popup:
             self.draw_popup(screen)
@@ -367,7 +367,7 @@ class ArtifactUpgradeState:
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))
 
-        popup_rect = pygame.Rect(0, 0, 400, 768)
+        popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, 768)
         if self.popup_bg:
             screen.blit(self.popup_bg, popup_rect)
         else:
@@ -375,13 +375,13 @@ class ArtifactUpgradeState:
             pygame.draw.rect(screen, (200, 200, 200), popup_rect, 2)
 
         title = self.font.render("Выберите артефакт", True, (255, 255, 255))
-        screen.blit(title, (popup_rect.x + 20, popup_rect.y + 20))
+        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026))
 
         cell_size = 32
         margin = 10
         cols = 4
-        start_x = popup_rect.x + 20
-        start_y = popup_rect.y + 70
+        start_x = popup_rect.x + self.game.WIDTH * 0.01464
+        start_y = popup_rect.y + self.game.HEIGHT * 0.0911
         self.popup_cell_rects = []
 
         char = self.game.player.party[0]
@@ -411,4 +411,4 @@ class ArtifactUpgradeState:
                     screen.blit(text_surf, text_rect)
 
         esc_text = self.stats_font.render("ESC для закрытия", True, (0, 0, 0))
-        screen.blit(esc_text, (20, 675))
+        screen.blit(esc_text, (self.game.WIDTH * 0.01464, self.game.HEIGHT * 0.9635))

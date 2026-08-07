@@ -33,7 +33,7 @@
       "artifact_data": {
         "3": {
           "level": 1,
-          "exp": 0,
+          "exp": 50,
           "exp_next": 100,
           "sub_stats": [],
           "growth_key": "flower_hp",

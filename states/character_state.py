@@ -10,11 +10,11 @@ class CharacterState:
         self.characters = []
         self.current_index = 0
         self.menu_buttons = []
-        self.field_width = 344
-        self.offset = 10
-        self.btn_width = self.field_width - 2 * self.offset  # 324
-        self.btn_height = 120
-        self.level_up_rect = pygame.Rect(1105, 528, 1363 - 1105, 590 - 528)
+        self.offset_y = self.game.HEIGHT * 0.013 #10
+        self.offset_x = self.game.WIDTH * 0.0073 #10
+        self.btn_width = int(self.game.WIDTH * 0.2372) #324
+        self.btn_height = int(self.game.HEIGHT * 0.15625) #120
+        self.level_up_rect = pygame.Rect(self.game.WIDTH * 0.8089, self.game.HEIGHT * 0.6875, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.0807) #1105,590,258,62
 
     def on_enter(self):
         # Загрузить актуальных персонажей из game.player.party
@@ -114,7 +114,7 @@ class CharacterState:
 
     def draw(self, screen):
         screen.blit(self.GG_menu, (0,0))
-        screen.blit(self.portrait_img, (560, 180))
+        screen.blit(self.portrait_img, (self.game.WIDTH * 0,41, self.game.HEIGHT * 0.234)) #560,180
 
         if not self.characters:
             return
@@ -123,13 +123,13 @@ class CharacterState:
 
         # Имя и уровень
         name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,200))
-        screen.blit(name_text, (1150, 50))
+        screen.blit(name_text, (self.game.WIDTH * 0.8419, self.game.HEIGHT * 0.0651)) #1150,50
 
-        x0 = 1102
-        y0 = 92
-        x_left = x0 + self.offset
-        y_start = y0 + self.offset
-        line_height = 30
+        x0 = self.game.WIDTH * 0.8067 #1102
+        y0 = self.game.HEIGHT * 0.12 #92
+        x_left = x0 + self.offset_x
+        y_start = y0 + self.offset_y
+        line_height = self.game.HEIGHT * 0.039 #30
 
         # Общий список всех характеристик (в один столбик)
         total_stats = char.calculate_total_stats()
@@ -153,15 +153,15 @@ class CharacterState:
         # ---- Кнопки перехода ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
-        y0_btn = 40
+        y0_btn = self.game.HEIGHT * 0.052 #40
         btn_texts = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
 
         # Очищаем список кнопок перед перерисовкой
         self.menu_buttons = []
 
         for i, text in enumerate(btn_texts):
-            y = y0_btn + self.offset + i * (self.btn_height + self.offset)
-            rect = pygame.Rect(x0_btn + self.offset, y, self.btn_width, self.btn_height)
+            y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
+            rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             # Рисуем картинку кнопки
             screen.blit(self.button_images[text], rect)
             # Сохраняем для обработки кликов
