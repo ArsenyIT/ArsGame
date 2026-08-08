@@ -13,10 +13,10 @@ class WeaponState:
         self.popup_uids = []              # список UID для отображения в плашке
         self.popup_selected_index = -1
         self.popup_cell_rects = []
-        self.field_width = 344
-        self.offset = 10
-        self.btn_width = self.field_width - 2 * self.offset
-        self.btn_height = 120
+        self.offset_y = self.game.HEIGHT * 0.013  # 10
+        self.offset_x = self.game.WIDTH * 0.0073  # 10
+        self.btn_width = self.game.WIDTH * 0.2372  # 324
+        self.btn_height = self.game.HEIGHT * 0.15625  # 120
 
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
@@ -78,11 +78,10 @@ class WeaponState:
                 self.button_images[name] = surf
         self.nav_buttons = []
         x0_btn = 0
-        y0_btn = 40
-        offset = 10
+        y0_btn = self.game.HEIGHT * 0.052
         for i, text in enumerate(button_names):
-            y = y0_btn + offset + i * (self.btn_height + offset)
-            rect = pygame.Rect(x0_btn + offset, y, self.btn_width, self.btn_height)
+            y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
+            rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
     def update_popup_list(self):
@@ -207,7 +206,7 @@ class WeaponState:
         char = self.game.player.party[0]
 
         title = self.font.render("Оружие", True, (255, 255, 255))
-        screen.blit(title, (1111, 50))
+        screen.blit(title, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.065)) #1111,50
 
         if self.equipped_uid is not None:
             data = char.weapon_data.get(str(self.equipped_uid), {})
@@ -223,24 +222,24 @@ class WeaponState:
                 icon = self.weapon_icons.get(weapon_id)
                 if icon:
                     icon_display = pygame.transform.scale(icon, (40, 40))
-                    screen.blit(icon_display, (1050, 80))
+                    screen.blit(icon_display, (self.game.WIDTH * 0.769, self.game.HEIGHT * 0.1042)) #1050,80
                 # Полный текст для отображения
                 full_text = f"Экипировано: {name} (ур. {level})"
                 # Разбиваем на строки, если текст длинный (максимальная ширина, например, 200 пикселей)
-                lines = self.wrap_text(full_text, self.stats_font, 200)
-                y_offset = 80
+                lines = self.wrap_text(full_text, self.stats_font, self.game.WIDTH * 0.1464) #200
+                y_offset = self.game.HEIGHT * 0.1042 #80
                 for line in lines:
                     line_surf = self.stats_font.render(line, True, (220, 220, 220))
-                    screen.blit(line_surf, (1111, y_offset))
-                    y_offset += 25  # отступ между строками
+                    screen.blit(line_surf, (self.game.WIDTH * 0.8133, y_offset)) #1111
+                    y_offset += self.game.HEIGHT * 0.03255 #(25) отступ между строками
                 atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (200, 200, 200))
-                screen.blit(atk_text, (1111, 140))
+                screen.blit(atk_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1823)) #1111,140
                 if sec_name:
                     sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (200, 200, 200))
-                    screen.blit(sec_text, (1111, 160))
+                    screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.208)) #1111,160
         else:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
-            screen.blit(equip_text, (1111, 80))
+            screen.blit(equip_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1042)) #1111,80
 
         if self.selected_uid is not None:
             data = char.weapon_data.get(str(self.selected_uid), {})
@@ -250,12 +249,12 @@ class WeaponState:
                 template = ITEM_DATA.get(weapon_id, {})
                 name = template.get("name", "Неизвестно")
                 sel_text = self.stats_font.render(f"Выбрано: {name} (ур. {level})", True, (255, 255, 0))
-                screen.blit(sel_text, (1111, 150))
+                screen.blit(sel_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1953)) #1111,150
 
         # Кнопки
-        btn_y = 640
-        btn_width = 278
-        btn_height = 62
+        btn_y = self.game.HEIGHT * 0.83 #640
+        btn_width = self.game.WIDTH * 0.2035 #278
+        btn_height = self.game.HEIGHT * 0.0807 #62
 
         if self.equipped_uid is not None:
             btn_img = self.unequip_btn_img
@@ -264,23 +263,23 @@ class WeaponState:
             btn_img = self.equip_btn_img
             btn_text = "Экипировать"
 
-        self.equip_btn_rect = pygame.Rect(1105, btn_y, btn_width, btn_height)
+        self.equip_btn_rect = pygame.Rect(self.game.WIDTH * 0.8089, btn_y, btn_width, btn_height) #1105
         if btn_img:
             screen.blit(btn_img, self.equip_btn_rect)
         else:
             pygame.draw.rect(screen, (60, 60, 80), self.equip_btn_rect)
             pygame.draw.rect(screen, (200, 200, 200), self.equip_btn_rect, 2)
             text = self.font.render(btn_text, True, (255, 255, 255))
-            screen.blit(text, (self.equip_btn_rect.x + 10, self.equip_btn_rect.y + 10))
+            screen.blit(text, (self.equip_btn_rect.x + self.game.WIDTH * 0.0073, self.equip_btn_rect.y + self.game.HEIGHT * 0.013)) #10
 
-        self.upgrade_btn_rect = pygame.Rect(1105, btn_y - 73, btn_width, btn_height)
+        self.upgrade_btn_rect = pygame.Rect(self.game.WIDTH * 0.8089, btn_y - self.game.HEIGHT * 0.095, btn_width, btn_height) #1105,73
         if self.upgrade_btn_img:
             screen.blit(self.upgrade_btn_img, self.upgrade_btn_rect)
         else:
             pygame.draw.rect(screen, (60, 60, 80), self.upgrade_btn_rect)
             pygame.draw.rect(screen, (200, 200, 200), self.upgrade_btn_rect, 2)
             text = self.font.render("Улучшить", True, (255, 255, 255))
-            screen.blit(text, (self.upgrade_btn_rect.x + 10, self.upgrade_btn_rect.y + 10))
+            screen.blit(text, (self.upgrade_btn_rect.x + self.game.WIDTH * 0.0073, self.upgrade_btn_rect.y + self.game.HEIGHT * 0.013)) #10
 
         if self.show_popup:
             self.draw_popup(screen)
@@ -290,7 +289,7 @@ class WeaponState:
         dark.fill((0, 0, 0, 150))
         screen.blit(dark, (0, 0))
 
-        popup_rect = pygame.Rect(0, 0, 400, 768)
+        popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, self.game.HEIGHT) #400,768
         if self.popup_bg:
             screen.blit(self.popup_bg, popup_rect)
         else:
@@ -298,13 +297,13 @@ class WeaponState:
             pygame.draw.rect(screen, (200, 200, 200), popup_rect, 2)
 
         title = self.font.render("Выберите оружие", True, (255, 255, 255))
-        screen.blit(title, (popup_rect.x + 20, popup_rect.y + 20))
+        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026)) #20
 
         cell_size = 32
         margin = 10
         cols = 4
-        start_x = popup_rect.x + 20
-        start_y = popup_rect.y + 70
+        start_x = popup_rect.x + self.game.WIDTH * 0.01464 #20
+        start_y = popup_rect.y + self.game.HEIGHT * 0.091 #70
         self.popup_cell_rects = []
 
         char = self.game.player.party[0]
@@ -334,4 +333,4 @@ class WeaponState:
                     screen.blit(text_surf, text_rect)
 
         esc_text = self.stats_font.render("ESC для закрытия", True, (0, 0, 0))
-        screen.blit(esc_text, (20, 675))
+        screen.blit(esc_text, (popup_rect.x + self.game.WIDTH * 0.01464, self.game.HEIGHT * 0.9635))
