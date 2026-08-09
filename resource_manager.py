@@ -29,6 +29,10 @@ class ResourceManager:
     def load_all(self):
         # ---- Тайлы ----
         self.load_image("assets/textures/tiles/Grass_1.png", "grass_1")
+        self.load_image("assets/textures/tiles/Grass_2.png", "grass_2")
+
+        # ---- Карты ----
+        self.load_image("assets/textures/maps/Map_1.png", "map_1")
 
         # ---- Предметы ----
         self.load_image("assets/textures/items/Oak_wood_item.png", "oak_wood")

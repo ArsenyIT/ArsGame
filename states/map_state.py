@@ -6,6 +6,7 @@ class MapState:
 
     def on_enter(self):
         print("Вход в карты")
+        self.map = self.game.resources.get_image("map_1")
 
     def on_exit(self):
         print("Выход из карт")
@@ -18,7 +19,4 @@ class MapState:
                     self.game.change_state("world")
 
     def draw(self, screen):
-        screen.fill((20, 60, 20))  # Уникальный цвет для каждого состояния
-        font = pygame.font.Font(None, 48)
-        text = font.render("Карта (заглушка)", True, (255,255,255))
-        screen.blit(text, (screen.get_width()//2 - text.get_width()//2, screen.get_height()//2))
+        screen.blit(self.map, (0,0))
