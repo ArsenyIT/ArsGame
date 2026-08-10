@@ -85,7 +85,7 @@ ITEM_DATA = {
             "Elemental Mastery"
         ]
     },
-    "flower_1": {
+    "flower_2": {
         "type": "artifacts",
         "name": "Цветок_1",
         "rarity": 1,
@@ -107,7 +107,7 @@ ITEM_DATA = {
             "Elemental Mastery"
         ]
     },
-    "sands_1": {
+    "sands_2": {
         "type": "artifacts",
         "name": "Часы_1",
         "rarity": 1,
@@ -132,7 +132,7 @@ ITEM_DATA = {
             "Elemental Mastery"
         ]
     },
-    "goblet_1": {
+    "goblet_2": {
         "type": "artifacts",
         "name": "Кубок_1",
         "rarity": 1,

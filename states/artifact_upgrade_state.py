@@ -60,9 +60,9 @@ class ArtifactUpgradeState:
         self.artifact_icons = {
             "plume_1": self.load_icon("plume_1"),
             "plume_2": self.load_icon("plume_2"),
-            "flower_1": self.load_icon("flower_1"),
-            "sands_1": self.load_icon("sands_1"),
-            "goblet_1": self.load_icon("goblet_1"),
+            "flower_2": self.load_icon("flower_1"),
+            "sands_2": self.load_icon("sands_1"),
+            "goblet_2": self.load_icon("goblet_1"),
         }
 
         char = self.game.player.party[0]

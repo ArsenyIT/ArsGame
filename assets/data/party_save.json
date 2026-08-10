@@ -37,7 +37,7 @@
           "exp_next": 100,
           "sub_stats": [],
           "growth_key": "flower_hp",
-          "artifact_id": "flower_1",
+          "artifact_id": "flower_2",
           "main_stat": {
             "hp": 1000
           }
@@ -48,7 +48,7 @@
           "exp_next": 100,
           "sub_stats": [],
           "growth_key": "sands_hp_percent",
-          "artifact_id": "sands_1",
+          "artifact_id": "sands_2",
           "main_stat": {
             "hp_percent": 4.0
           }
@@ -59,7 +59,7 @@
           "exp_next": 100,
           "sub_stats": [],
           "growth_key": "goblet_hydro_dmg_percent",
-          "artifact_id": "goblet_1",
+          "artifact_id": "goblet_2",
           "main_stat": {
             "hydro_dmg_percent": 5.0
           }

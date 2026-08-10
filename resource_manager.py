@@ -63,8 +63,57 @@ class ResourceManager:
         self.load_image("assets/textures/weapons/Rusted_sword.png", "rusted_sword")
         self.load_image("assets/textures/weapons/Sword_of_steel.png", "sword_of_steel")
 
-        # ---- Меню персонажей (портреты) ----
+        # ---- Меню персонажей (Портреты) ----
         self.load_image("assets/textures/characters_menu/characters_portraits/GG.png", "gg")
 
         # ---- Меню персонажей (ГГ) ----
         self.load_image("assets/textures/characters_menu/GG/GG_artifacts.png", "gg_artifacts")
+        self.load_image("assets/textures/characters_menu/GG/GG_constellations.png", "gg_constellations")
+        self.load_image("assets/textures/characters_menu/GG/GG_menu.png", "gg_menu")
+        self.load_image("assets/textures/characters_menu/GG/GG_talents.png", "gg_talents")
+        self.load_image("assets/textures/characters_menu/GG/GG_upgrade.png", "gg_upgrade")
+        self.load_image("assets/textures/characters_menu/GG/GG_weapon.png", "gg_weapon")
+
+        # ---- Меню персонажей (Предметы) ----
+        self.load_image("assets/textures/characters_menu/items/Oak_wood_menu_GG.png", "oak_wood_menu_gg")
+        self.load_image("assets/textures/characters_menu/items/Story_of_the_Almighty_menu_GG.png", "story_of_the_almighty_menu_gg")
+
+        # ---- Инвентарь (Артефакты) ----
+        self.load_image("assets/textures/inventory/artifact_cell/Flower_2_inventory.png", "flower_2_inventory")
+        self.load_image("assets/textures/inventory/artifact_cell/Plume_2_inventory.png", "plume_2_inventory")
+        self.load_image("assets/textures/inventory/artifact_cell/Sands_2_inventory.png", "sands_2_inventory")
+        self.load_image("assets/textures/inventory/artifact_cell/Goblet_2_inventory.png", "goblet_2_inventory")
+
+        self.load_image("assets/textures/inventory/artifact_cell/Plume_1_inventory.png", "plume_1_inventory")
+
+        # ---- Инвентарь (Иконки) ----
+        self.load_image("assets/textures/inventory/icons/Icon_artifacts.png", "icon_artifacts")
+        self.load_image("assets/textures/inventory/icons/Icon_foods.png", "icon_foods")
+        self.load_image("assets/textures/inventory/icons/Icon_potions.png", "icon_potions")
+        self.load_image("assets/textures/inventory/icons/Icon_rare_resources.png", "icon_rare_resources")
+        self.load_image("assets/textures/inventory/icons/Icon_resources.png", "icon_resources")
+        self.load_image("assets/textures/inventory/icons/Icon_special_tools.png", "icon_special_tools")
+        self.load_image("assets/textures/inventory/icons/Icon_weapons.png", "icon_weapons")
+
+        # ---- Инвентарь (Оружия) ----
+        self.load_image("assets/textures/inventory/weapon_cell/Rusted_sword_inventory.png", "rusted_sword_inventory")
+        self.load_image("assets/textures/inventory/weapon_cell/Sword_of_steel_inventory.png", "sword_of_steel_inventory")
+
+        # ---- Инвентарь (Меню) ----
+        self.load_image("assets/textures/inventory/menu_inventory/Menu_inventory_1.png", "menu_inventory_1")
+        self.load_image("assets/textures/inventory/menu_inventory/Menu_inventory_2.png", "menu_inventory_2")
+
+        # ---- Инвентарь ----
+        self.load_image("assets/textures/inventory/Artifact_exp_inventory.png", "artifact_exp_inventory")
+        self.load_image("assets/textures/inventory/Cell_inventory.png", "cell_inventory")
+        self.load_image("assets/textures/inventory/Crystal_of_true_power_inventory.png", "crystall_of_true_inventory")
+        self.load_image("assets/textures/inventory/Hero_duplicate_inventory.png", "Hero_duplicate_inventory")
+        self.load_image("assets/textures/inventory/Oak_wood_inventory.png", "oak_wood_inventory")
+        self.load_image("assets/textures/inventory/Story_of_the_Almighty_inventory.png", "story_of_the_almighty_inventory")
+        self.load_image("assets/textures/inventory/Talent_book_2_inventory.png", "talent_book_2_inventory")
+
+        # ---- Остатки ----
+        self.load_image("assets/textures/Dialog_box.png", "dialog_box")
+        self.load_image("assets/textures/GG_left_1.png", "gg_left_1")
+        self.load_image("assets/textures/Popup.png", "popup")
+        self.load_image("assets/textures/Squad_list.png", "squad_list")

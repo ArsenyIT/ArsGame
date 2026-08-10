@@ -28,7 +28,7 @@ class WorldState:
             0: self.game.resources.get_image("grass_1"),
             1: self.game.resources.get_image("grass_2"),
         }
-        self.player_img = pygame.image.load("assets/textures/GG_left.png").convert_alpha()
+        self.player_img = pygame.image.load("assets/textures/GG_left_1.png").convert_alpha()
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = pygame.image.load("assets/textures/Squad_list.png")
 
