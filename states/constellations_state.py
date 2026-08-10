@@ -49,16 +49,16 @@ class ConstellationsState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.const_font = pygame.font.Font(None, 28)
-        self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
-        self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_constellations.png").convert_alpha()
+        self.popup_bg = self.game.resources.get_image("popup")
+        self.portrait_GG = self.game.resources.get_image("gg")
+        self.bg = self.game.resources.get_image("gg_constellations")
 
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Button_{name}.png"
+            filename = f"button_{name}"
             try:
-                img = pygame.image.load(filename).convert_alpha()
+                img = self.game.resources.get_image(filename)
                 # Масштабируем под размер кнопки (btn_width, btn_height)
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
@@ -77,7 +77,7 @@ class ConstellationsState:
             rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
-        self.activate_btn = pygame.image.load("assets/textures/buttons/Button_activate.png").convert_alpha()
+        self.activate_btn = self.game.resources.get_image("button_activate")
 
     def on_exit(self):
         self.game.save_all()

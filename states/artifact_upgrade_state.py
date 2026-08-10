@@ -26,43 +26,43 @@ class ArtifactUpgradeState:
             del self.game.temp_slot
 
         try:
-            self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
+            self.bg = self.game.resources.get_image("gg_upgrade")
         except:
             self.bg = None
         try:
-            self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
+            self.popup_bg = self.game.resources.get_image("popup")
         except:
             self.popup_bg = None
 
         try:
-            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Button_equip.png").convert_alpha()
+            self.equip_btn_img = self.game.resources.get_image("button_equip")
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Button_change.png").convert_alpha()
+            self.unequip_btn_img = self.game.resources.get_image("button_change")
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
+            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
         except:
             self.upgrade_btn_img = None
 
         # Иконки артефактов для отображения на фоне
         self.artifacts = {
-            "plume_1": pygame.image.load("assets/textures/artifacts/Plume_1.png").convert_alpha(),
-            "plume_2": pygame.image.load("assets/textures/artifacts/Plume_2.png").convert_alpha(),
-            "flower_1": pygame.image.load("assets/textures/artifacts/Flower_2.png").convert_alpha(),
-            "sands_1": pygame.image.load("assets/textures/artifacts/Sands_2.png").convert_alpha(),
-            "goblet_1": pygame.image.load("assets/textures/artifacts/Goblet_2.png").convert_alpha()
+            "plume_1": self.game.resources.get_image("plume_1"),
+            "plume_2": self.game.resources.get_image("plume_2"),
+            "flower_2": self.game.resources.get_image("flower_2"),
+            "sands_2": self.game.resources.get_image("sands_2"),
+            "goblet_2": self.game.resources.get_image("goblet_2"),
         }
 
         # Иконки артефактов для отображения на плашке
         self.artifact_icons = {
             "plume_1": self.load_icon("plume_1"),
             "plume_2": self.load_icon("plume_2"),
-            "flower_2": self.load_icon("flower_1"),
-            "sands_2": self.load_icon("sands_1"),
-            "goblet_2": self.load_icon("goblet_1"),
+            "flower_2": self.load_icon("flower_2"),
+            "sands_2": self.load_icon("sands_2"),
+            "goblet_2": self.load_icon("goblet_2"),
         }
 
         char = self.game.player.party[0]
@@ -71,7 +71,7 @@ class ArtifactUpgradeState:
 
     def load_icon(self, artifact_id):
         try:
-            icon = pygame.image.load(f"assets/textures/inventory/artifact_cell/{artifact_id}_inventory.png").convert_alpha()
+            icon = self.game.resources.get_image(f"{artifact_id}_inventory")
             return pygame.transform.scale(icon, (32, 32))
         except:
             return None

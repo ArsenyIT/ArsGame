@@ -25,11 +25,11 @@ class WeaponUpgradeState:
 
         # Здесь загружаем фон и кнопки
         try:
-            self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
+            self.bg = self.game.resources.get_image("gg_upgrade")
         except:
             self.bg = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
+            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
         except:
             self.upgrade_btn_img = None
 

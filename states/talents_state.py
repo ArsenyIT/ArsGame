@@ -30,18 +30,18 @@ class TalentsState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
-        self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
+        self.popup_bg = self.game.resources.get_image("popup")
+        self.portrait_GG = self.game.resources.get_image("gg")
         try:
-            self.background = pygame.image.load("assets/textures/characters_menu/GG/GG_talents.png").convert_alpha()
+            self.bg = self.game.resources.get_image("gg_talents")
         except pygame.error:
-            self.background = None
+            self.bg = None
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Button_{name}.png"
+            filename = f"button_{name}"
             try:
-                img = pygame.image.load(filename).convert_alpha()
+                img = self.game.resources.get_image(filename)
                 # Масштабируем под размер кнопки (btn_width, btn_height)
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
@@ -70,7 +70,7 @@ class TalentsState:
         #        self.icons[name] = None
 
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
+            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
         except pygame.error:
             self.upgrade_btn_img = None
 
@@ -156,7 +156,7 @@ class TalentsState:
 
     def draw(self, screen):
         # Отрисовка фона
-        screen.blit(self.background, (0, 0))
+        screen.blit(self.bg, (0, 0))
         screen.blit(self.portrait_GG, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
 
         # Рисуем кнопки навигации (пока заглушка)

@@ -32,40 +32,40 @@ class InventoryState:
         print("Вход в инвентарь")
         self.font = pygame.font.Font(None, 28)
         self.quantity_font = pygame.font.Font(None, 14)
-        self.inventory_menu_1 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_1.png")
-        self.inventory_menu_2 = pygame.image.load("assets/textures/inventory/menu_inventory/Menu_inventory_2.png")
+        self.inventory_menu_1 = self.game.resources.get_image("menu_inventory_1")
+        self.inventory_menu_2 = self.game.resources.get_image("menu_inventory_2")
 
-        self.weapon_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_weapons.png")
-        self.food_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_foods.png")
-        self.potion_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_potions.png")
-        self.resurs_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_resources.png")
-        self.artifact_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_artifacts.png")
-        self.rare_resurse_iсon = pygame.image.load("assets/textures/inventory/icons/Icon_rare_resources.png")
-        self.special_tools_icon = pygame.image.load("assets/textures/inventory/icons/Icon_special_tools.png")
+        self.weapon_iсon = self.game.resources.get_image("icon_weapons")
+        self.food_iсon = self.game.resources.get_image("icon_foods")
+        self.potion_iсon = self.game.resources.get_image("icon_potions")
+        self.resurs_iсon = self.game.resources.get_image("icon_resources")
+        self.artifact_iсon = self.game.resources.get_image("icon_artifacts")
+        self.rare_resources_iсon = self.game.resources.get_image("icon_rare_resources")
+        self.special_tools_icon = self.game.resources.get_image("icon_special_tools")
 
-        self.empty_cell = pygame.image.load("assets/textures/inventory/Cell_inventory.png").convert_alpha()
-        self.oak_wood_inventory = pygame.image.load("assets/textures/inventory/Oak_wood_inventory.png").convert_alpha()
-        self.story_of_the_Almighty_inventory = pygame.image.load("assets/textures/inventory/Story_of_the_Almighty_inventory.png").convert_alpha()
-        self.plume_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_1_inventory.png").convert_alpha()
-        self.plume_2_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Plume_2_inventory.png").convert_alpha()
-        self.goblet_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Goblet_2_inventory.png").convert_alpha()
-        self.sands_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Sands_2_inventory.png").convert_alpha()
-        self.flower_1_inventory = pygame.image.load("assets/textures/inventory/artifact_cell/Flower_2_inventory.png").convert_alpha()
-        self.artifact_exp_inventory = pygame.image.load("assets/textures/inventory/Artifact_exp_inventory.png").convert_alpha()
-        self.sword_of_steel_inventory = pygame.image.load("assets/textures/inventory/weapon_cell/Sword_of_steel_inventory.png").convert_alpha()
-        self.rusted_sword_inventory = pygame.image.load("assets/textures/inventory/weapon_cell/Rusted_sword_inventory.png").convert_alpha()
-        self.hero_duplicate_inventory = pygame.image.load("assets/textures/inventory/Hero_duplicate_inventory.png").convert_alpha()
-        self.talent_book_2_inventory = pygame.image.load("assets/textures/inventory/Talent_book_2_inventory.png").convert_alpha()
-        self.crystal_of_true_power_inventory = pygame.image.load("assets/textures/inventory/Crystal_of_true_power_inventory.png").convert_alpha()
+        self.empty_cell = self.game.resources.get_image("cell_inventory")
+        self.oak_wood_inventory = self.game.resources.get_image("oak_wood_inventory")
+        self.story_of_the_Almighty_inventory = self.game.resources.get_image("story_of_the_almighty_inventory")
+        self.plume_1_inventory = self.game.resources.get_image("plume_1_inventory")
+        self.plume_2_inventory = self.game.resources.get_image("plume_2_inventory")
+        self.goblet_2_inventory = self.game.resources.get_image("goblet_2_inventory")
+        self.sands_2_inventory = self.game.resources.get_image("sands_2_inventory")
+        self.flower_2_inventory = self.game.resources.get_image("flower_2_inventory")
+        self.artifact_exp_inventory = self.game.resources.get_image("artifact_exp_inventory")
+        self.sword_of_steel_inventory = self.game.resources.get_image("sword_of_steel_inventory")
+        self.rusted_sword_inventory = self.game.resources.get_image("rusted_sword_inventory")
+        self.hero_duplicate_inventory = self.game.resources.get_image("hero_duplicate_inventory")
+        self.talent_book_2_inventory = self.game.resources.get_image("talent_book_2_inventory")
+        self.crystal_of_true_power_inventory = self.game.resources.get_image("crystal_of_true_power_inventory")
 
         self.item_icons = {
             "oak_wood": self.oak_wood_inventory,
             "story_of_the_Almighty": self.story_of_the_Almighty_inventory,
             "plume_1": self.plume_1_inventory,
             "plume_2": self.plume_2_inventory,
-            "goblet_1": self.goblet_1_inventory,
-            "sands_1": self.sands_1_inventory,
-            "flower_1": self.flower_1_inventory,
+            "goblet_2": self.goblet_2_inventory,
+            "sands_2": self.sands_2_inventory,
+            "flower_2": self.flower_2_inventory,
             "artifact_exp": self.artifact_exp_inventory,
             "sword_of_steel": self.sword_of_steel_inventory,
             "rusted_sword": self.rusted_sword_inventory,
@@ -124,7 +124,7 @@ class InventoryState:
         screen.blit(self.potion_iсon, icon_4)
         screen.blit(self.resurs_iсon, icon_5)
         screen.blit(self.special_tools_icon, icon_6)
-        screen.blit(self.rare_resurse_iсon, icon_7)
+        screen.blit(self.rare_resources_iсon, icon_7)
 
         # Получаем список предметов
         items_dict = self.game.player.inventory.items

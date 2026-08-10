@@ -28,9 +28,9 @@ class WorldState:
             0: self.game.resources.get_image("grass_1"),
             1: self.game.resources.get_image("grass_2"),
         }
-        self.player_img = pygame.image.load("assets/textures/GG_left_1.png").convert_alpha()
+        self.player_img = self.game.resources.get_image("gg_left_1")
         self.item_img = self.game.resources.get_image("oak_wood")
-        self.squad = pygame.image.load("assets/textures/Squad_list.png")
+        self.squad = self.game.resources.get_image("squad_list")
 
     def on_exit(self):
         # сохранить данные, очистить ресурсы

@@ -9,11 +9,11 @@ class LevelUpState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.background = pygame.image.load("assets/textures/characters_menu/GG/GG_upgrade.png").convert_alpha()
-        self.button_img = pygame.image.load("assets/textures/buttons/Button_improve.png").convert_alpha()
-        self.ascend_img = pygame.image.load("assets/textures/buttons/Button_elevate.png").convert_alpha()
+        self.bg = self.game.resources.get_image("gg_upgrade")
+        self.button_img = self.game.resources.get_image("button_improve")
+        self.ascend_img = self.game.resources.get_image("button_elevate")
         self.use_button_rect = pygame.Rect(self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.0807) #900,630,258,62
-        self.portrait_GG = pygame.image.load("assets/textures/characters_menu/characters_portraits/GG.png")
+        self.portrait_GG = self.game.resources.get_image("gg")
 
     def on_exit(self):
         self.game.save_all()
@@ -45,7 +45,7 @@ class LevelUpState:
                                 self.game.player.mark_modified()
 
     def draw(self, screen):
-        screen.blit(self.background, (0, 0))
+        screen.blit(self.bg, (0, 0))
         screen.blit(self.portrait_GG, (self.game.WIDTH * 0.132, self.game.HEIGHT * 0.2344)) #180
         char = self.game.player.party[0]
         if char.can_ascend():

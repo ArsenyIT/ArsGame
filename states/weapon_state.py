@@ -22,25 +22,25 @@ class WeaponState:
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
         try:
-            self.bg = pygame.image.load("assets/textures/characters_menu/GG/GG_weapon.png").convert_alpha()
+            self.bg = self.game.resources.get_image("gg_weapon")
         except:
             self.bg = None
         try:
-            self.popup_bg = pygame.image.load("assets/textures/Popup.png").convert_alpha()
+            self.popup_bg = self.game.resources.get_image("popup")
         except:
             self.popup_bg = None
 
         # Кнопки
         try:
-            self.equip_btn_img = pygame.image.load("assets/textures/buttons/Button_equip.png").convert_alpha()
+            self.equip_btn_img = self.game.resources.get_image("button_equip")
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = pygame.image.load("assets/textures/buttons/Button_change.png").convert_alpha()
+            self.unequip_btn_img = self.game.resources.get_image("button_change")
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = pygame.image.load("assets/textures/buttons/Button_improvement.png").convert_alpha()
+            self.upgrade_btn_img = self.game.resources.get_image("button_improvement")
         except:
             self.upgrade_btn_img = None
 
@@ -48,10 +48,9 @@ class WeaponState:
         self.weapon_icons = {}
         weapon_ids = ["sword_of_steel", "rusted_sword"]
         for w_id in weapon_ids:
-            icon_name = w_id.capitalize()
-            icon_path = f"assets/textures/inventory/weapon_cell/{icon_name}_inventory.png"
+            icon_name = f"{w_id}_inventory"
             try:
-                icon = pygame.image.load(icon_path).convert_alpha()
+                icon = self.game.resources.get_image(icon_name)
                 icon = pygame.transform.scale(icon, (32, 32))
                 self.weapon_icons[w_id] = icon
             except pygame.error:
@@ -67,9 +66,9 @@ class WeaponState:
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Button_{name}.png"
+            filename = f"button_{name}"
             try:
-                img = pygame.image.load(filename).convert_alpha()
+                img = self.game.resources.get_image(filename)
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
             except pygame.error:
@@ -252,7 +251,7 @@ class WeaponState:
                 screen.blit(sel_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1953)) #1111,150
 
         # Кнопки
-        btn_y = self.game.HEIGHT * 0.83 #640
+        btn_y = self.game.HEIGHT * 0.8333 #640
         btn_width = self.game.WIDTH * 0.2035 #278
         btn_height = self.game.HEIGHT * 0.0807 #62
 

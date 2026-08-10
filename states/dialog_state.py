@@ -32,7 +32,7 @@ class DialogState:
         self.current_line = 0
 
     def on_enter(self):
-        self.dialog_window = pygame.image.load("assets/textures/Dialog_box.png")
+        self.dialog_window = self.game.resources.get_image("dialog_box")
         if hasattr(self.game, "temp_scene"):
             filename = self.game.temp_scene
         else:

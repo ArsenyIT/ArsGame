@@ -35,7 +35,7 @@ class CharacterState:
                 resistance=1,
                 speed=10
             )]
-        self.GG_menu = pygame.image.load("assets/textures/characters_menu/GG/GG_menu.png")
+        self.GG_menu = self.game.resources.get_image("gg_menu")
         self.portrait_GG = self.characters[self.current_index].portrait_path
         try:
             self.portrait_img = pygame.image.load(self.portrait_GG).convert_alpha()
@@ -47,9 +47,9 @@ class CharacterState:
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"assets/textures/buttons/Button_{name}.png"
+            filename = f"button_{name}"
             try:
-                img = pygame.image.load(filename).convert_alpha()
+                img = self.game.resources.get_image(filename)
                 # Масштабируем под размер кнопки (btn_width, btn_height)
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
                 self.button_images[name] = img
@@ -59,9 +59,9 @@ class CharacterState:
                 surf = pygame.Surface((self.btn_width, self.btn_height))
                 surf.fill((80, 80, 120))
                 self.button_images[name] = surf
-        filename = "assets/textures/buttons/Button_improvement.png"
+        filename = "button_improvement"
         try:
-            img = pygame.image.load(filename).convert_alpha()
+            img = self.game.resources.get_image(filename)
             img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
             self.button_images["Улучшение"] = img
         except pygame.error:
@@ -69,9 +69,9 @@ class CharacterState:
             surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
             surf.fill((80, 80, 120))
             self.button_images["Улучшение"] = surf
-        filename = "assets/textures/buttons/Button_elevation.png"
+        filename = "button_elevation"
         try:
-            img = pygame.image.load(filename).convert_alpha()
+            img = self.game.resources.get_image(filename)
             img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
             self.button_images["Возвышение"] = img
         except pygame.error:
