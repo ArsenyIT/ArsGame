@@ -18,6 +18,17 @@ class WorldState:
         self.near_item = False
         self.item = True
         self.tile_size = 50
+        self.direction = "right"
+        self.idle_frames = {
+            "back": ["gg_back_1", "gg_back_2"],
+            "straight": ["gg_straight_1", "gg_straight_2"],
+            "left": ["gg_left_1", "gg_left_2"],
+            "right": ["gg_right_1", "gg_right_2"]
+        }
+        self.idle_frames_index = 0
+        self.idle_timer = 0.0
+        self.idle_interval = 0.5
+        self.is_moving = False
 
     def on_enter(self):
         # загрузить карту, спрайты, инициализировать положение игрока
@@ -28,7 +39,7 @@ class WorldState:
             0: self.game.resources.get_image("grass_1"),
             1: self.game.resources.get_image("grass_2"),
         }
-        self.player_img = self.game.resources.get_image("gg_left_1")
+        #self.player_img = self.game.resources.get_image("gg_left_1")
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
 
@@ -67,15 +78,39 @@ class WorldState:
                     self.game.change_state("gacha")
                 elif event.key == pygame.K_F4:
                     self.game.change_state("passport")
+
         keys = pygame.key.get_pressed()
+        self.is_moving = False
         if keys[pygame.K_w]:
             self.hero_rect.y -= 5
+            self.is_moving = True
         if keys[pygame.K_s]:
             self.hero_rect.y += 5
+            self.is_moving = True
         if keys[pygame.K_a]:
             self.hero_rect.x -= 5
+            self.is_moving = True
         if keys[pygame.K_d]:
             self.hero_rect.x += 5
+            self.is_moving = True
+
+        if keys[pygame.K_w]:
+            self.direction = "back"
+        elif keys[pygame.K_s]:
+            self.direction = "straight"
+        elif keys[pygame.K_a]:
+            self.direction = "left"
+        elif keys[pygame.K_d]:
+            self.direction = "right"
+
+        if not self.is_moving:
+            self.idle_timer += dt
+            if self.idle_timer >= self.idle_interval:
+                self.idle_frames_index = (self.idle_frames_index + 1) % len(self.idle_frames[self.direction])
+                self.idle_timer = 0.0
+        else:
+            self.idle_frames_index = 0
+            self.idle_timer = 0.0
 
         self.near_item = False
         if self.hero_rect.colliderect(self.item_rect):
@@ -88,10 +123,14 @@ class WorldState:
                 x = col * self.tile_size
                 y = row * self.tile_size
                 screen.blit(self.tile_textures[tile_type], (x, y))
-        screen.blit(self.player_img, self.hero_rect)
+        frames = self.idle_frames[self.direction]
+        key = frames[self.idle_frames_index]
+        player = self.game.resources.get_image(key)
+        if player:
+            screen.blit(player, self.hero_rect)
         squad_width = int(self.game.WIDTH * 0.18)
         squad_height = int(self.game.HEIGHT * 0.45)
-        squad_y = int(self.game.WIDTH * 0.1)
+        squad_y = int(self.game.HEIGHT * 0.1)
         squad_x = self.game.WIDTH - squad_width - self.game.WIDTH * 0.02
         ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
         screen.blit(self.squad, ramka)

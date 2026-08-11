@@ -112,8 +112,17 @@ class ResourceManager:
         self.load_image("assets/textures/inventory/Story_of_the_Almighty_inventory.png", "story_of_the_almighty_inventory")
         self.load_image("assets/textures/inventory/Talent_book_2_inventory.png", "talent_book_2_inventory")
 
+        # ---- Персонажи (ГГ) ----
+        self.load_image("assets/textures/characters/GG/GG_left_1.png", "gg_left_1")
+        self.load_image("assets/textures/characters/GG/GG_left_2.png", "gg_left_2")
+        self.load_image("assets/textures/characters/GG/GG_back_1.png", "gg_back_1")
+        self.load_image("assets/textures/characters/GG/GG_back_2.png", "gg_back_2")
+        self.load_image("assets/textures/characters/GG/GG_right_1.png", "gg_right_1")
+        self.load_image("assets/textures/characters/GG/GG_right_2.png", "gg_right_2")
+        self.load_image("assets/textures/characters/GG/GG_straight_1.png", "gg_straight_1")
+        self.load_image("assets/textures/characters/GG/GG_straight_2.png", "gg_straight_2")
+
         # ---- Остатки ----
         self.load_image("assets/textures/Dialog_box.png", "dialog_box")
-        self.load_image("assets/textures/GG_left_1.png", "gg_left_1")
         self.load_image("assets/textures/Popup.png", "popup")
         self.load_image("assets/textures/Squad_list.png", "squad_list")
