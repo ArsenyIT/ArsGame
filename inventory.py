@@ -191,7 +191,7 @@ ITEM_DATA = {
 
 class Item:
     # Теперь конструктор принимает параметры
-    def __init__(self, item_id, name, max_stack=1000):
+    def __init__(self, item_id, max_stack=1000):
         self.id = item_id          # Уникальный идентификатор (строка или число)
         self.data = ITEM_DATA.get(item_id, {})
         self.max_stack = max_stack # Максимальное количество в стопке
