@@ -112,15 +112,33 @@ class ResourceManager:
         self.load_image("assets/textures/inventory/Story_of_the_Almighty_inventory.png", "story_of_the_almighty_inventory")
         self.load_image("assets/textures/inventory/Talent_book_2_inventory.png", "talent_book_2_inventory")
 
-        # ---- Персонажи (ГГ) ----
-        self.load_image("assets/textures/characters/GG/GG_left_1.png", "gg_left_1")
-        self.load_image("assets/textures/characters/GG/GG_left_2.png", "gg_left_2")
-        self.load_image("assets/textures/characters/GG/GG_back_1.png", "gg_back_1")
-        self.load_image("assets/textures/characters/GG/GG_back_2.png", "gg_back_2")
-        self.load_image("assets/textures/characters/GG/GG_right_1.png", "gg_right_1")
-        self.load_image("assets/textures/characters/GG/GG_right_2.png", "gg_right_2")
-        self.load_image("assets/textures/characters/GG/GG_straight_1.png", "gg_straight_1")
-        self.load_image("assets/textures/characters/GG/GG_straight_2.png", "gg_straight_2")
+        # ---- Персонажи (ГГ стоя) ----
+        self.load_image("assets/textures/characters/GG/stand/GG_left_1.png", "gg_left_1")
+        self.load_image("assets/textures/characters/GG/stand/GG_left_2.png", "gg_left_2")
+        self.load_image("assets/textures/characters/GG/stand/GG_back_1.png", "gg_back_1")
+        self.load_image("assets/textures/characters/GG/stand/GG_back_2.png", "gg_back_2")
+        self.load_image("assets/textures/characters/GG/stand/GG_right_1.png", "gg_right_1")
+        self.load_image("assets/textures/characters/GG/stand/GG_right_2.png", "gg_right_2")
+        self.load_image("assets/textures/characters/GG/stand/GG_straight_1.png", "gg_straight_1")
+        self.load_image("assets/textures/characters/GG/stand/GG_straight_2.png", "gg_straight_2")
+
+        # ---- Персонажи (ГГ идя) ----
+        self.load_image("assets/textures/characters/GG/go/GG_goes_left_1.png", "gg_goes_left_1")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_left_2.png", "gg_goes_left_2")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_left_3.png", "gg_goes_left_3")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_left_4.png", "gg_goes_left_4")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_back_1.png", "gg_goes_back_1")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_back_2.png", "gg_goes_back_2")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_back_3.png", "gg_goes_back_3")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_back_4.png", "gg_goes_back_4")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_right_1.png", "gg_goes_right_1")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_right_2.png", "gg_goes_right_2")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_right_3.png", "gg_goes_right_3")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_right_4.png", "gg_goes_right_4")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_straight_1.png", "gg_goes_straight_1")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_straight_2.png", "gg_goes_straight_2")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_straight_3.png", "gg_goes_straight_3")
+        self.load_image("assets/textures/characters/GG/go/GG_goes_straight_4.png", "gg_goes_straight_4")
 
         # ---- Остатки ----
         self.load_image("assets/textures/Dialog_box.png", "dialog_box")

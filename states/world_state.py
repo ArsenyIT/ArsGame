@@ -25,9 +25,18 @@ class WorldState:
             "left": ["gg_left_1", "gg_left_2"],
             "right": ["gg_right_1", "gg_right_2"]
         }
+        self.walk_frames = {
+            "back": ["gg_goes_back_1", "gg_goes_back_2", "gg_goes_back_3", "gg_goes_back_4"],
+            "straight": ["gg_goes_straight_1", "gg_goes_straight_2", "gg_goes_straight_3", "gg_goes_straight_4"],
+            "left": ["gg_goes_left_1", "gg_goes_left_2", "gg_goes_left_3", "gg_goes_left_4"],
+            "right": ["gg_goes_right_1", "gg_goes_right_2", "gg_goes_right_3", "gg_goes_right_4"]
+        }
         self.idle_frames_index = 0
+        self.walk_frames_index = 0
         self.idle_timer = 0.0
+        self.walk_timer = 0.0
         self.idle_interval = 0.5
+        self.walk_interval = 0.1
         self.is_moving = False
 
     def on_enter(self):
@@ -112,6 +121,15 @@ class WorldState:
             self.idle_frames_index = 0
             self.idle_timer = 0.0
 
+        if self.is_moving:
+            self.walk_timer += dt
+            if self.walk_timer >= self.walk_interval:
+                self.walk_frames_index = (self.walk_frames_index + 1) % len(self.walk_frames[self.direction])
+                self.walk_timer = 0.0
+        else:
+            self.walk_frames_index = 0
+            self.walk_timer = 0.0
+
         self.near_item = False
         if self.hero_rect.colliderect(self.item_rect):
             self.near_item = True
@@ -123,9 +141,14 @@ class WorldState:
                 x = col * self.tile_size
                 y = row * self.tile_size
                 screen.blit(self.tile_textures[tile_type], (x, y))
-        frames = self.idle_frames[self.direction]
-        key = frames[self.idle_frames_index]
-        player = self.game.resources.get_image(key)
+        if self.is_moving == False:
+            frames = self.idle_frames[self.direction]
+            key = frames[self.idle_frames_index]
+            player = self.game.resources.get_image(key)
+        elif self.is_moving == True:
+            frames = self.walk_frames[self.direction]
+            key = frames[self.walk_frames_index]
+            player = self.game.resources.get_image(key)
         if player:
             screen.blit(player, self.hero_rect)
         squad_width = int(self.game.WIDTH * 0.18)
