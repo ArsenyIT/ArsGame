@@ -21,10 +21,8 @@
 * from game import Game (Состояния игры)
 
 3. Функция def main():
-
 * Назначение: Главная функция, которая запускает игру. В ней происходит вся инициализация и главный цикл.
 * Параметры: Отсутствуют.
-
 * Инициализация Pygame:
     * pygame.init() - инициализирует все подсистемы Pygame. Без этого вызова ничего не будет работать.
 * Настройки окна:
@@ -194,7 +192,8 @@
 
 * save_party(self, filename):
     * Назначение: Сохраняет отряд в JSON-файл.
-    * Параметры: filename – строка (путь к файлу).
+    * Параметры: 
+        * filename – строка (путь к файлу).
     * chars_data = [] - список данных всех персонажей.
     * for char in self.party: char_data = {...} - проходит по всем персонажам в self.party и для каждого собирает все важные данные в словарь.
     * chars_data.append(char_data) - переносит данные персонажа в список.
@@ -205,7 +204,8 @@
 
 * load_party(self, filename):
     * Назначение: Загружает отряд из JSON-файла и обновляет данные существующего героя.
-    * Параметры: filename – строка (путь к файлу).
+    * Параметры: 
+        * filename – строка (путь к файлу).
     * if os.path.exists(filename) and os.path.getsize(filename) > 0: - проверяет, существует ли файл и не пуст ли он. Если нет – выводит сообщение и выходит.
     * with open(filename, 'r', encoding='utf-8') as f: data = json.load(f) - загружает данные из JSON.
     * if isinstance(data, list): chars_data = data and full_data = {"characters": chars_data} - если файл старого формата (просто список) – оборачивает его в словарь.
@@ -258,11 +258,59 @@
 7. Функции класса Inventory:
 * Функция get_item_type(self, item_id):
     * Назначение: Определяет тип предмета по его ID.
-    * Параметры: item_id - ID предмета.
+    * Параметры: 
+        * item_id - ID предмета.
     * if item_id in ITEM_DATA: return ITEM_DATA[item_id].get("type") - проверяет наличие ID предмета.
     * elif item_id.startswith(PREFIX_WEAPON): return "weapons" - проверяет константу оружия.
     * elif item_id.startswith(PREFIX_ARTIFACT): return "artifacts" - проверяет константу артефакта.
 * Функция add_item(self, item_id, amount=1):
+    * Назначение: Добавляет предмет в инвентарь.
+    * Параметры:
+        * item_id - ID предмета.
+        * amount - кол-во предметов.
+    * item_data = ITEM_DATA.get(item_id, {}) - получаем всю информацию из ITEM_DATA.
+    * item_type = item_data.get("type") - получаем все типы предметов из ITEM_DATA.
+    * if item_type == "resources": - если предмет типа "resources" – увеличивает количество в self.items (или создаёт новую запись) и возвращает None.
+    * elif item_type in ["artifacts", "weapons"]: - если предмет типа "artifacts" или "weapons" – генерирует новый UID (self.uid_counter += 1), добавляет UID в список для этого item_id и возвращает UID.
+    * self.modified = True - меняет флаг изменений.
+* Функция remove_item(self, item_id, uid=None):
+    * Название: Удаляет предмет из инвентаря. 
+    * Параметры:
+        * item_id - ID предмета.
+        * uid - UID предмета.
+    * if item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") == "resources": - если предмет типа "resources" - уменьшает количество на 1. Если становится 0, удаляет запись.
+    * elif item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") in ["artifacts", "weapons"]: - если предмет типа "artifacts" или "weapons", если uid не указан, удаляет последний UID из списка, если указан, удаляет конкретный UID, если список становится пустым, удаляет запись.
+    * self.modified = True - меняет флаг изменений.
+* Функция get_count(self, item_id):
+    * Назначение: Возвращает количество предметов данного ID.
+    * Параметры:
+        * item_id - ID предмета.
+    * if item_id in ITEM_DATA and ITEM_DATA[item_id].get("type") == "resources": - для ресурсов – возвращает число из self.items.get(item_id, 0), а для уникальных – возвращает длину списка UID.
+* Функция get_uid_list(self, item_id):
+    * Назначение: Возвращает список UID для указанного ID предмета или пустой список, если предмета нет или это ресурс.
+    * Параметры:
+        * item_id - ID предмета.
+* Функция get_all_uids(self, item_type=None):
+    * Назначение: Возвращает все UID предметов определённого типа (например, "weapons" или "artifacts"), или все UID, если тип не указан. 
+    * Параметры:
+        * item_type - тип предмета.
+    * for item_id, uids in self.items.items(): - проходит по self.items.
+    * if isinstance(uids, list): - проверяет, чтобы значение было списком.
+    * if item_type is None or (ITEM_DATA.get(item_id, {}).get("type") == item_type): result.extend(uids).
+* Функция save(self, filename):
+    * Назначение: Сохраняет self.items в JSON-файл.
+    * Параметры:
+        * filename - имя файла.
+    * with open(filename, 'w', encoding='utf-8') as f: json.dump(self.items, f, ensure_ascii=False, indent=2) - открывает файл, записывает новую информацию.
+    * self.modified = False - сбрасывает флаг.
+* Функция load(self, filename):
+    * Назначение: Загружает данные инвентаря из JSON-файла.
+    * Параметры:
+        * filename - имя файла.
+    * if os.path.exists(filename) and os.path.getsize(filename) > 0: - проверяет существование и не пустоту файла.
+    * with open(filename, 'r', encoding='utf-8') as f: self.items = json.load(f) - если файл есть, то загружает его.
+    * else: self.items = {} - устанавливает пустой список.
+    * self.modified = False - сбрасывает флаг.
 
 ### Файл input_handler: 
 1. Предназначение:
