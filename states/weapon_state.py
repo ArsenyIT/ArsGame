@@ -7,16 +7,16 @@ class WeaponState:
         self.game = game
         self.font = None
         self.stats_font = None
-        self.selected_uid = None          # UID выбранного оружия
-        self.equipped_uid = None          # UID экипированного оружия
+        self.selected_uid = None  # UID выбранного оружия
+        self.equipped_uid = None  # UID экипированного оружия
         self.show_popup = False
-        self.popup_uids = []              # список UID для отображения в плашке
+        self.popup_uids = []  # Список UID для отображения в плашке
         self.popup_selected_index = -1
         self.popup_cell_rects = []
-        self.offset_y = self.game.HEIGHT * 0.013  # 10
-        self.offset_x = self.game.WIDTH * 0.0073  # 10
-        self.btn_width = self.game.WIDTH * 0.2372  # 324
-        self.btn_height = self.game.HEIGHT * 0.15625  # 120
+        self.offset_y = self.game.HEIGHT * 0.013  #10
+        self.offset_x = self.game.WIDTH * 0.0073  #10
+        self.btn_width = self.game.WIDTH * 0.2372  #324
+        self.btn_height = self.game.HEIGHT * 0.15625  #120
 
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)

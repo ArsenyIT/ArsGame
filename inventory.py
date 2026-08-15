@@ -181,27 +181,24 @@ ITEM_DATA = {
         "secondary_stat": {"stat": "Crit Rate%", "value": 5}
     }
     # Еда
-
     # Зелья
-
     # Особые инструменты
-
     # Редкие ресурсы
 }
 
 class Item:
     # Теперь конструктор принимает параметры
     def __init__(self, item_id, max_stack=1000):
-        self.id = item_id          # Уникальный идентификатор (строка или число)
+        self.id = item_id  # Уникальный идентификатор (строка или число)
         self.data = ITEM_DATA.get(item_id, {})
-        self.max_stack = max_stack # Максимальное количество в стопке
+        self.max_stack = max_stack  # Максимальное количество в стопке
         self.items = {}
         self.modified = False
         self.counter = 0  # Случайный ID
 
 class Inventory:
     def __init__(self):
-        self.items = {} # для ресурсов: {"id": количество}; для уникальных: {"id": [UID1, UID2]}
+        self.items = {} # Для ресурсов: {"id": количество}; для уникальных: {"id": [UID1, UID2]}
         self.modified = False
         self.uid_counter = 0  # Глобальный счётчик UID
 
