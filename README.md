@@ -270,11 +270,11 @@
         * amount - кол-во предметов.
     * item_data = ITEM_DATA.get(item_id, {}) - получаем всю информацию из ITEM_DATA.
     * item_type = item_data.get("type") - получаем все типы предметов из ITEM_DATA.
-    * if item_type == "resources": - если предмет типа "resources" – увеличивает количество в self.items (или создаёт новую запись) и возвращает None.
+    * if item_type == "resources": - если предмет типа "resources" – увеличивает количество в self.items (или создаёт новую запись).
     * elif item_type in ["artifacts", "weapons"]: - если предмет типа "artifacts" или "weapons" – генерирует новый UID (self.uid_counter += 1), добавляет UID в список для этого item_id и возвращает UID.
     * self.modified = True - меняет флаг изменений.
 * Функция remove_item(self, item_id, uid=None):
-    * Название: Удаляет предмет из инвентаря. 
+    * Назначение: Удаляет предмет из инвентаря. 
     * Параметры:
         * item_id - ID предмета.
         * uid - UID предмета.
