@@ -46,6 +46,7 @@ class ResourceManager:
         self.load_image("assets/textures/buttons/Button_elevate.png", "button_elevate")
         self.load_image("assets/textures/buttons/Button_elevation.png", "button_elevation")
         self.load_image("assets/textures/buttons/Button_equip.png", "button_equip")
+        self.load_image("assets/textures/buttons/Button_equip_2.png", "button_equip_2")
         self.load_image("assets/textures/buttons/Button_improve.png", "button_improve")
         self.load_image("assets/textures/buttons/Button_improvement.png", "button_improvement")
         self.load_image("assets/textures/buttons/Button_talents.png", "button_talents")

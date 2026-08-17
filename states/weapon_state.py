@@ -32,7 +32,7 @@ class WeaponState:
 
         # Кнопки
         try:
-            self.equip_btn_img = self.game.resources.get_image("button_equip")
+            self.equip_btn_img = self.game.resources.get_image("button_equip_2")
         except:
             self.equip_btn_img = None
         try:
@@ -68,7 +68,7 @@ class WeaponState:
             weapon_name = f"{w_id}"
         try:
             weapon = self.game.resources.get_image(weapon_name)
-            weapon = pygame.transform.scale(weapon, (69, 159))
+            weapon = pygame.transform.scale(weapon, (180,415))
             self.weapons[w_id] = weapon
         except pygame.error:
             self.weapons[w_id] = None
@@ -231,8 +231,8 @@ class WeaponState:
                 sec_name = weapon_stats["secondary_stat"]
                 icon = self.weapons.get(weapon_id)
                 if icon:
-                    icon_display = pygame.transform.scale(icon, (69, 159))
-                    screen.blit(icon_display, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
+                    icon_display = pygame.transform.scale(icon, (180,415))
+                    screen.blit(icon_display, (int(self.game.WIDTH * 0.417), int(self.game.HEIGHT * 0.234))) #570,180
                 # Полный текст для отображения
                 full_text = f"Экипировано: {name} (ур. {level})"
                 # Разбиваем на строки, если текст длинный (максимальная ширина, например, 200 пикселей)

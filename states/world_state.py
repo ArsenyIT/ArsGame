@@ -37,7 +37,7 @@ class WorldState:
         self.idle_timer = 0.0
         self.walk_timer = 0.0
         self.idle_interval = 0.5
-        self.walk_interval = 0.1
+        self.walk_interval = 0.2
         self.is_moving = False
 
     def on_enter(self):
