@@ -1,5 +1,6 @@
 import pygame
 import json
+from camera import Camera
 
 class WorldState:
     def __init__(self, game):
@@ -44,6 +45,9 @@ class WorldState:
         with open("assets/maps/map.json", "r", encoding="utf-8") as f:
             map_json = json.load(f)
         self.map_data = map_json["data"]
+        map_width = len(self.map_data[0]) * self.tile_size
+        map_height = len(self.map_data) * self.tile_size
+        self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
             0: self.game.resources.get_image("grass_1"),
             1: self.game.resources.get_image("grass_2"),
@@ -102,6 +106,7 @@ class WorldState:
         if keys[pygame.K_d]:
             self.hero_rect.x += 5
             self.is_moving = True
+        self.camera.update(self.hero_rect)
 
         if keys[pygame.K_w]:
             self.direction = "back"
@@ -135,22 +140,17 @@ class WorldState:
             self.near_item = True
 
     def draw(self, screen):
-        for row in range(len(self.map_data)):
-            for col in range(len(self.map_data[row])):
-                tile_type = self.map_data[row][col]
-                x = col * self.tile_size
-                y = row * self.tile_size
-                screen.blit(self.tile_textures[tile_type], (x, y))
+        self.camera.draw_map(screen, self.map_data, self.tile_textures)
+        hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
             frames = self.idle_frames[self.direction]
             key = frames[self.idle_frames_index]
-            player = self.game.resources.get_image(key)
         elif self.is_moving == True:
             frames = self.walk_frames[self.direction]
             key = frames[self.walk_frames_index]
-            player = self.game.resources.get_image(key)
-        if player:
-            screen.blit(player, self.hero_rect)
+        player_sprite = self.game.resources.get_image(key)
+        if player_sprite:
+            screen.blit(player_sprite, hero_screen_rect)
         squad_width = int(self.game.WIDTH * 0.18)
         squad_height = int(self.game.HEIGHT * 0.45)
         squad_y = int(self.game.HEIGHT * 0.1)
@@ -159,8 +159,12 @@ class WorldState:
         screen.blit(self.squad, ramka)
 
         if self.item == True:
-            screen.blit(self.item_img, self.item_rect)
+            item_screen_rect = self.camera.apply(self.item_rect)
+            screen.blit(self.item_img, item_screen_rect)
 
         if self.near_item == True and self.item == True:
+            item_screen_rect = self.camera.apply(self.item_rect)
+            hint_x = item_screen_rect.x - 10
+            hint_y = item_screen_rect.y - 20
             hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10))
-            screen.blit(hint_surf, (self.item_rect.x - 10, self.item_rect.y - 20))
+            screen.blit(hint_surf, (hint_x, hint_y))
