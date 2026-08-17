@@ -62,6 +62,17 @@ class WeaponState:
         self.equipped_uid = char.weapon  # UID экипированного оружия
         self.update_popup_list()
 
+        self.weapons = {}
+        weapon_ids = ["sword_of_steel", "rusted_sword"]
+        for w_id in weapon_ids:
+            weapon_name = f"{w_id}"
+        try:
+            weapon = self.game.resources.get_image(weapon_name)
+            weapon = pygame.transform.scale(weapon, (69, 159))
+            self.weapons[w_id] = weapon
+        except pygame.error:
+            self.weapons[w_id] = None
+
     def load_navigation_buttons(self):
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
@@ -218,10 +229,10 @@ class WeaponState:
                 atk_display = weapon_stats["atk"]
                 sec_display = weapon_stats["secondary_value"]
                 sec_name = weapon_stats["secondary_stat"]
-                icon = self.weapon_icons.get(weapon_id)
+                icon = self.weapons.get(weapon_id)
                 if icon:
-                    icon_display = pygame.transform.scale(icon, (40, 40))
-                    screen.blit(icon_display, (self.game.WIDTH * 0.769, self.game.HEIGHT * 0.1042)) #1050,80
+                    icon_display = pygame.transform.scale(icon, (69, 159))
+                    screen.blit(icon_display, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
                 # Полный текст для отображения
                 full_text = f"Экипировано: {name} (ур. {level})"
                 # Разбиваем на строки, если текст длинный (максимальная ширина, например, 200 пикселей)
