@@ -49,10 +49,26 @@ class WorldState:
         map_height = len(self.map_data) * self.tile_size
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
-            0: self.game.resources.get_image("grass_1"),
-            1: self.game.resources.get_image("grass_2"),
+            1: self.game.resources.get_image("grass_1"),
+            2: self.game.resources.get_image("grass_2"),
+            3: self.game.resources.get_image("void_1"),
+            4: self.game.resources.get_image("void_2"),
+            9: self.game.resources.get_image("white"),
+            13: self.game.resources.get_image("path"),
+            16: self.game.resources.get_image("border_middle"),
+            28: self.game.resources.get_image("border_1"),
+            18: self.game.resources.get_image("border_2"),
+            19: self.game.resources.get_image("border_3"),
+            20: self.game.resources.get_image("border_4"),
+            29: self.game.resources.get_image("border_angel_1"),
+            21: self.game.resources.get_image("border_angel_2"),
+            22: self.game.resources.get_image("border_angel_3"),
+            23: self.game.resources.get_image("border_angel_4"),
+            24: self.game.resources.get_image("border_square_1"),
+            25: self.game.resources.get_image("border_square_2"),
+            26: self.game.resources.get_image("border_square_3"),
+            27: self.game.resources.get_image("border_square_4")
         }
-        #self.player_img = self.game.resources.get_image("gg_left_1")
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
 

@@ -30,6 +30,23 @@ class ResourceManager:
         # ---- Тайлы ----
         self.load_image("assets/textures/tiles/Grass_1.png", "grass_1")
         self.load_image("assets/textures/tiles/Grass_2.png", "grass_2")
+        self.load_image("assets/textures/tiles/Border_1.png", "border_1")
+        self.load_image("assets/textures/tiles/Border_2.png", "border_2")
+        self.load_image("assets/textures/tiles/Border_3.png", "border_3")
+        self.load_image("assets/textures/tiles/Border_4.png", "border_4")
+        self.load_image("assets/textures/tiles/Border_square_1.png", "border_square_1")
+        self.load_image("assets/textures/tiles/Border_square_2.png", "border_square_2")
+        self.load_image("assets/textures/tiles/Border_square_3.png", "border_square_3")
+        self.load_image("assets/textures/tiles/Border_square_4.png", "border_square_4")
+        self.load_image("assets/textures/tiles/Border_angel_1.png", "border_angel_1")
+        self.load_image("assets/textures/tiles/Border_angel_2.png", "border_angel_2")
+        self.load_image("assets/textures/tiles/Border_angel_3.png", "border_angel_3")
+        self.load_image("assets/textures/tiles/Border_angel_4.png", "border_angel_4")
+        self.load_image("assets/textures/tiles/Border_middle.png", "border_middle")
+        self.load_image("assets/textures/tiles/Void_1.png", "void_1")
+        self.load_image("assets/textures/tiles/Void_2.png", "void_2")
+        self.load_image("assets/textures/tiles/Path.png", "path")
+        self.load_image("assets/textures/tiles/White.png", "white")
 
         # ---- Карты ----
         self.load_image("assets/textures/maps/Map_1.png", "map_1")
