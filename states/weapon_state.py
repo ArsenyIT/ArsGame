@@ -36,7 +36,7 @@ class WeaponState:
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = self.game.resources.get_image("button_change")
+            self.unequip_btn_img = self.game.resources.get_image("button_change_2")
         except:
             self.unequip_btn_img = None
         try:
