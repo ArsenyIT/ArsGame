@@ -312,12 +312,55 @@
     * else: self.items = {} - устанавливает пустой список.
     * self.modified = False - сбрасывает флаг.
 
+### Файл game_data:
+1. Предназначение:
+* Этот модуль связывает предметы (из inventory.py) и игровую логику (прокачка, экипировка, бой).
+
+2. Библиотеки:
+* import json (Для загрузки файлов роста оружия/артефактов и данных персонажа).
+* from inventory import ITEM_DATA (Для работы с экипировкой и прокачкой предметов).
+* import random (Для генерации случайных значений).
+
+3. Константы:
+* MAX_ARTIFACT_LEVEL_BY_RARITY - определяет максимальный уровень артефакта в зависимости от его редкости.
+* TALENT_BOOK_REQUIREMENTS - кол-во книг и их редкость для прокачки таланта.
+
+4. Функции:
+* generate_artifact_main_stat(artifact_id):
+    * Назначение: Возвращает случайный основной стат для артефакта.
+    * Параметры:
+        * artifact_id - ID артефакта.
+    * art_data = ITEM_DATA.get(artifact_id, {}) - берём всё информацию об артефакте.
+    * possible_main = art_data.get("possible_main_stats", []) - получаем все возможные основные статы у артефактов. 
+* load_weapon_growth():
+    * Назначение: Загрузка данных прокачки оружия.
+    * with open("assets/data/weapon_growth.json", "r", encoding="utf-8") as f: _weapon_growth_cache = json.load(f) - читаем и загружаем файл прокачки оружия.
+* load_artifact_main_growth():
+    * Назначение: Загрузка данных прокачки артефакта.
+    * with open("assets/data/artifact_main_growth.json", "r", encoding="utf-8") as f: _artifact_main_growth_cache = json.load(f) - читаем и загружаем файл прокачки артефакта.
+* get_artifact_main_stat_value(growth_key, level):
+    * Назначение: Возвращает значение основного стата артефакта для заданного уровня.
+    * Параметры:
+        * growth_key – строка вида "slot_statname" (например, "plume_atk").
+        * level – текущий уровень артефакта.
+    * growth = load_artifact_main_growth() - загружает данные роста через load_artifact_main_growth().
+    * stat_growth = growth.get(growth_key, {}) - из полученного словаря берёт запись для growth_key.
+    * if level_str in stat_growth: return stat_growth[level_str] - пытается получить значение для переданного уровня и возвращает значение для него.
+    * keys = [int(k) for k in stat_growth.keys() if k.isdigit()] and if not keys: return 0 and closest = max(k for k in keys if k <= level) - если его нет, ищет ближайший меньший уровень и возвращает значение для него.
+    * return stat_growth[str(closest)] - возвращает значение стата.
+* calculate_weapon_stats(weapon_id, level):
+    * Назначение: Рассчитывает итоговые статы оружия на основе шаблона из ITEM_DATA и данных роста.
+    * Параметры:
+        * weapon_id – ID оружия. 
+        * level – текущий уровень.
+    * 
+
 ### Файл input_handler: 
 1. Предназначение:
 * Содержит статические методы для проверки состояния клавиш.
 
 2. Библиотеки:
-* import pygame (Использование констант событий)
+* import pygame (Использование констант событий).
 
 3. Класс InputHandler:
 * Назначение: Служит как набор вспомогательных функций для работы с вводом. 

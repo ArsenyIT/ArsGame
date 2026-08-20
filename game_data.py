@@ -32,6 +32,7 @@ TALENT_BOOK_REQUIREMENTS = {
     19: (4, 18)}
 
 _weapon_growth_cache = None
+_artifact_main_growth_cache = None
 
 def generate_artifact_main_stat(artifact_id):
     # Возвращает случайный основной стат для артефакта.
@@ -52,8 +53,6 @@ def load_weapon_growth():
         except FileNotFoundError:
             _weapon_growth_cache = {}
     return _weapon_growth_cache
-
-_artifact_main_growth_cache = None
 
 def load_artifact_main_growth():
     global _artifact_main_growth_cache
