@@ -353,7 +353,22 @@
     * Параметры:
         * weapon_id – ID оружия. 
         * level – текущий уровень.
-    * 
+    * template = ITEM_DATA.get(weapon_id, {}) - получает шаблон оружия из ITEM_DATA.
+    * base_atk = template.get("base_atk", 0), secondary = template.get("secondary_stat", {}), sec_base = secondary.get("value", 0), sec_stat = secondary.get("stat", "") - извлекает данные оружия.
+    * growth_data = load_weapon_growth() - получает шаблон прокачки оружия.
+    * growth = growth_data.get(growth_key, {}).get(str(level), {}) - берём данные из файла прокачки оружия.
+    * atk_bonus = growth.get("atk_bonus", 0), sec_bonus = growth.get("secondary_bonus", 0) - ищет бонусы для данного weapon_id и уровня.
+    * return {...} - суммирует базовые значения с бонусами и возвращает итоговое значение.
+
+5. Класс Weapon:
+
+6. Функции класса Weapon:
+
+7. Класс Artifact:
+
+8. Класс Character:
+
+9. Функции класса Character:
 
 ### Файл input_handler: 
 1. Предназначение:
