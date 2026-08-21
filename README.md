@@ -438,6 +438,36 @@
         * self.load_growth_data() - вызов функции с загрузкой данных персонажа.
 
 9. Функции класса Character:
+* load_growth_data(self):
+    * Назначение: Загружает JSON-файл с прибавками к статам на каждом уровне.
+* calculate_total_stats(self):
+    * Назначение: Вычисляет итоговые статы персонажа.
+    * total = {...} - Создаёт словарь total с копией всех базовых статов.
+    * uid_str = str(self.weapon) and weapon_data = self.weapon_data.get(uid_str, {}) - получаем UID оружия.
+    * weapon_id = weapon_data.get("weapon_id") and level = weapon_data.get("level", 1) - получаем ID оружия и его уровень.
+    * stats = calculate_weapon_stats(weapon_id, level) - вызываем пересчёт статы оружия.
+    * total["atk"] += stats["atk"] - добавляем атаку с оружия к атаке персонажа.
+    * for slot, uid in self.artifacts.items(): - проходим по каждому UID артефакта в каждом слоте.
+    * data = self.artifact_data.get(uid_str, {}) - получаем данные артефакта через UID.
+    * growth_key = data.get("growth_key") - получаем слот и его стат.
+    * level = data.get("level", 0) - получаем уровень артефакта.
+    * value = get_artifact_main_stat_value(growth_key, level) - определяем значение основного стата.
+    * stat_name = growth_key.split('_', 1)[1] - определяем тип стата.
+    * if stat_name: total["..."] += int(value) - добавляем значение основного стата.
+    * for sub in data.get("sub_stats", []): sub_name = sub.get("stat") and sub_value = sub.get("value", 0) - перебираем все второстепенные статы и получаем нужные значения.
+    * if sub_name: total["..."] += sub_value - добавляем значение второстепенного стата.
+* add_exp(self, amount):
+    * Назначение: Добавляет опыт и вызывает повышение уровня.
+    * Параметры:
+        * amount - кол-во опыта.
+    * self.exp += amount - добавляем опыт.
+    * while self.exp >= self.exp_next: self.exp -= self.exp_next and self.level_up() - когда кол-во опыта превышает нужное для следующего уровня кол-во опыта, вычитает нужное для следующего уровня кол-во опыта и повышаем уровень.
+* level_up(self):
+    * Назначение: Повышает уровень песонажа и увеличивает значение статов.
+    * self.level += 1 - повышаем уровень
+    * growth = self.growth_data.get(str(self.level), {}) - получаем данные о прокачке персонажа.
+    * self.name_stat += growth.get("...", 0) - увеличиваем значение статов.
+    * self.exp_next = int(self.exp_next * 1.5) + 250
 
 ### Файл input_handler: 
 1. Предназначение:

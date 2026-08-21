@@ -213,7 +213,7 @@ class Character:
             if weapon_id:
                 stats = calculate_weapon_stats(weapon_id, level)
                 total["atk"] += stats["atk"]
-                # Вторичный стат оружия можно добавить к crit_rate, если это крит
+                # Вторичный стат оружия можно добавить к crit_rate, если это крит.
 
         # Бонусы от артефактов
         for slot, uid in self.artifacts.items():
