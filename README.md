@@ -361,12 +361,81 @@
     * return {...} - суммирует базовые значения с бонусами и возвращает итоговое значение.
 
 5. Класс Weapon:
+* Функция init(self, name, weapon_type, rarity, base_atk):
+    * Назначение: Представляет оружие как отдельный объект.
+    * Параметры:
+        * self - ссылка на объект.
+        * name - имя оружия.
+        * weapon_type - тип оружия.
+        * rarity - редкость.
+        * base_atk - базовая атака.
+    * Атрибуты:
+        * secondary_stat = None - второстепенные статы.
+        * level = 1 - уровень.
+        * max_level = 100 - максимальный уровень.
+        * weapon_growth_data = {} - словарь с прокачкой оружия.
+        * load_weapon_growth() - вызов функции.
 
 6. Функции класса Weapon:
+* Функция load_weapon_growth(self):
+    * Назначение: Загружает JSON.
+* Функция get_total_atk(self):
+    * Назначение: Возвращает base_atk.
+* Функция get_weapon_stats(self, weapon_id, level):
+    * Назначение: Рассчитывает итоговые статы оружия на основе шаблона из ITEM_DATA и данных роста.
+    * Параметры:
+        * weapon_id – ID оружия. 
+        * level – текущий уровень.
+    * template = ITEM_DATA.get(weapon_id, {}) - получает шаблон оружия из ITEM_DATA.
+    * base_atk = template.get("base_atk", 0), secondary = template.get("secondary_stat", {}), sec_base = secondary.get("value", 0), sec_stat = secondary.get("stat", "") - извлекает данные оружия.
+    * growth_data = load_weapon_growth() - получает шаблон прокачки оружия.
+    * growth = growth_data.get(growth_key, {}).get(str(level), {}) - берём данные из файла прокачки оружия.
+    * atk_bonus = growth.get("atk_bonus", 0), sec_bonus = growth.get("secondary_bonus", 0) - ищет бонусы для данного weapon_id и уровня.
+    * return {...} - суммирует базовые значения с бонусами и возвращает итоговое значение.
 
 7. Класс Artifact:
+* Функция init(self, slot, set_name, rarity, main_stat):
+    * Назначение: Представляет артефакт как объект.
+    * Параметры:
+        * self - ссылка на объект.
+        * slot - слот артефакта.
+        * set_name - имя сета.
+        * rarity - редкость.
+        * main_stat - основной стат.
+    * Атрибуты:
+        * level = 0 - уровень.
+        * sub_stats = [] - список второстепенных статов.
 
 8. Класс Character:
+* Функция init__(self, name, exp, exp_next, base_hp, base_atk, base_defense, portrait_path, crit_rate, crit_dmg, energy_recharge, elemental_mastery, phys_bonus, resistance, speed, talents=None):
+    * Назначение: Представляет персонажа как объект.
+    * Параметры:
+        * self - ссылка на объект.
+        * name - имя персонажа.
+        * exp - кол-во опыта.
+        * exp_next - нужное кол-во опыта для следующего уровня.
+        * base_hp - базовое здоровье.
+        * base_atk - базовая атака.
+        * base_defense - базовая защита.
+        * portrait_path - путь портрета персонажа.
+        * crit_rate - шанс крита.
+        * crit_dmg - крит урон.
+        * energy_recharge - восстановление энергии.
+        * elemental_mastery - мастерство стихий.
+        * phys_bonus - бонус физического урона.
+        * resistance - сопротивление.
+        * speed - скорость.
+        * talents=None - таланты.
+    * Атрибуты:
+        * self.level = 1 - уровень.
+        * self.max_level = 10 - максимальный уровень.
+        * self.talents = talents or {"normal": 1, "skill": 1, "burst": 1} - таланты.
+        * self.constellation = 0 - уровень созвездия.
+        * self.weapon = None - оружие
+        * self.artifacts = {...} - артефакты.
+        * self.artifact_data = {} - данные артефакта.
+        * self.weapon_data = {} - данные оружия.
+        * self.load_growth_data() - вызов функции с загрузкой данных персонажа.
 
 9. Функции класса Character:
 
