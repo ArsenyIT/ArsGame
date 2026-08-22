@@ -298,7 +298,7 @@ class Character:
         return self.level in ascend_levels and self.level >= self.max_level
 
     def ascend(self):
-        self.max_level += 10  # или на 20, в зависимости от уровня
+        self.max_level += 10
         self.exp = 0
         print(f"Максимальный уровень повышен до {self.max_level}")
 
@@ -346,7 +346,7 @@ class Character:
     #    return passives
 
     def activate_constellation(self):
-        if self.constellation >= 6:
+        if self.constellation >= 5:
             print("Максимальный уровень созвездий достигнут!")
             return False
         # Увеличиваем уровень созвездия

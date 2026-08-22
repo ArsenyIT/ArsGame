@@ -467,7 +467,55 @@
     * self.level += 1 - повышаем уровень
     * growth = self.growth_data.get(str(self.level), {}) - получаем данные о прокачке персонажа.
     * self.name_stat += growth.get("...", 0) - увеличиваем значение статов.
-    * self.exp_next = int(self.exp_next * 1.5) + 250
+    * self.exp_next = int(self.exp_next * 1.5) + 250 - увеличиваем значение exp_next.
+* can_ascend(self):
+    * Назначение: Проверяет находиться ли уровень в списке уровней для возвышения.
+    * ascend_levels = [10, 20, 30, 40, 50, 60, 70, 80, 90] - список уровней для возвышения.
+* ascend(self):
+    * Назначение: Увеличивает max_level.
+    * self.max_level += 10 - увеличивает максимальный уровень персонажа.
+    * self.exp = 0 - обнуляет кол-во опыта
+* get_talent_max_level(self):
+    * Назначение: Возвращает максимальный уровень таланта.
+    * if self.max_level <= 10: return 2 - определяет максимальный уровень талантов зависимо от максимального уровня персонажа.
+* get_talent_book_requirement(self, current_level):
+    * Назначение: Возвращает (редкость, количество) книг для повышения таланта.
+    * Параметры: 
+        * current_level - текущий уровень.
+* can_upgrade_talent(self, talent_name):
+    * Назначение: Проверяет, не достигнут ли максимальный уровень для указанного таланта.
+    * Параметры:
+        * talent_name - имя таланта.
+    * current_level = self.talents.get(talent_name, 1) - получаем текущий уровень.
+    * max_level = self.get_talent_max_level() - получаем максимальный уровень.
+    * return current_level < max_level - возвращает True если текущий уровень меньше максимального.
+* activate_constellation(self):
+    * Назначение: Увеличивает constellation.
+    * if self.constellation >= 5: return False - проверка не достигнута ли последнее созвездие.
+    * self.constellation += 1 - увеличивает созвездие на 1.
+* equip_artifact(self, slot, uid):
+    * Назначение: Экипирует артефакт на нужный слот.
+    * Параметры:
+        * slot - слот.
+        * uid - UID артефакта.
+    * uid_str = str(uid) - переводим UID в строку.
+    * if uid_str not in self.artifact_data: return False - запрет на экипировку если нет такого UID в артефактах.
+    * if slot not in self.artifacts: return False - запрет на экипировку если отсутствует указанный слот.
+    * if self.artifacts[slot] is not None: self.unequip_artifact(slot) - снимает старый артефакт если слот не пустой.
+    * self.artifacts[slot] = uid_str - экипирует артефакт если все проверки пройдены.
+* unequip_artifact(self, slot):
+    * Назначение: Снимает артефакт.
+    * Параметры:
+        * slot - слот.
+    * if slot in self.artifacts and self.artifacts[slot] is not None: self.artifacts[slot] = None - делает слот пустым если слот существует и он не пустой.
+* get_artifact_max_level(self, artifact_id):
+    * Назначение: Возвращает максимальный уровень артефакта.
+    * Параметры:
+        * artifact_id - ID артефакта.
+    * art_data = ITEM_DATA.get(artifact_id, {}) - получаем информацию об артефакте.
+    * rarity = art_data.get("rarity", 1) - получаем редкость артефакта.
+    * return MAX_ARTIFACT_LEVEL_BY_RARITY.get(rarity, 4) - возвращаем максимальный уровень артефакте.
+* 
 
 ### Файл input_handler: 
 1. Предназначение:
@@ -524,7 +572,7 @@
 
 #### Папка tiles:
 
-#### Папка Инвентарь:
+#### Папка inventory:
 
 
 ***
