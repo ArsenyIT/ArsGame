@@ -12,13 +12,17 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
     pygame.display.set_caption("ArsGame")
 
-    # 3. Часы для ограничения FPS
+    # 3. Устанавливаем иконку игры
+    icon = pygame.image.load("assets/textures/icon/Icon.png").convert_alpha()
+    pygame.display.set_icon(icon)
+
+    # 4. Часы для ограничения FPS
     clock = pygame.time.Clock()
 
-    # 4. Создаём объект игры
+    # 5. Создаём объект игры
     game = Game(screen, WIDTH, HEIGHT)
 
-    # 5. Главный цикл
+    # 6. Главный цикл
     running = True
     while running:
         # Ограничение до 60 кадров в секунду, dt — время в секундах между кадрами
@@ -47,7 +51,7 @@ def main():
         # Сохранение всех данных
         game.save_all()
 
-    # 6. Завершение работы
+    # 7. Завершение работы
     game.save_all()
     pygame.quit()
 

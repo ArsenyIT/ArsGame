@@ -163,3 +163,6 @@ class ResourceManager:
         self.load_image("assets/textures/Dialog_box.png", "dialog_box")
         self.load_image("assets/textures/Popup.png", "popup")
         self.load_image("assets/textures/Squad_list.png", "squad_list")
+
+        # ---- Иконка ----
+        self.load_image("assets/textures/icon/Icon.png", "icon")
