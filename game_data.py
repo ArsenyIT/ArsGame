@@ -438,7 +438,6 @@ class Character:
         pool = art_data.get("possible_sub_stats", [])
         if not pool:
             return
-        import random
         existing_names = {sub["stat"] for sub in data["sub_stats"]}
         available = [s for s in pool if s not in existing_names]
         if available:
@@ -455,9 +454,7 @@ class Character:
 
     def get_initial_sub_stat_value(self, stat_name):
         # Возвращает начальное значение для нового субстата
-        import random
-        # Диапазоны для разных типов статов (примерные)
-        ranges = {
+        ranges = { # Диапазоны для разных типов статов
             "HP": (10, 50),
             "ATK": (5, 20),
             "DEF": (5, 20),
@@ -474,7 +471,6 @@ class Character:
 
     def get_sub_stat_upgrade_amount(self, stat_name):
         # Возвращает величину улучшения для существующего субстата
-        import random
         # Можно сделать небольшие прибавки (например, +1 или +0.5)
         if "%" in stat_name:
             return round(random.uniform(0.5, 1.5), 1)

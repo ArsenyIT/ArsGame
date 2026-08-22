@@ -515,7 +515,76 @@
     * art_data = ITEM_DATA.get(artifact_id, {}) - получаем информацию об артефакте.
     * rarity = art_data.get("rarity", 1) - получаем редкость артефакта.
     * return MAX_ARTIFACT_LEVEL_BY_RARITY.get(rarity, 4) - возвращаем максимальный уровень артефакте.
-* 
+* upgrade_artifact(self, uid, inventory):
+    * Назначение: Улучшает артефакт.
+    * Параметры: 
+        * uid - уникальный номер артефакта.
+        * inventory - ссылка на файл.
+    * uid_str = str(uid) - переводим UID в строку.
+    * if uid_str not in self.artifact_data: return False - запрет на прокачку при отсутствии UID в артефактах.
+    * data = self.artifact_data[uid_str] - получаем информацию об артефакте по UID.
+    * if "exp" not in data: data["exp"] = 0 - устанавливает значение exp при их отсутствии в записи.
+    * artifact_id = data.get("artifact_id") - получаем все ID артефактов.
+    * max_level = self.get_artifact_max_level(artifact_id) - получаем максимальный уровень артефакта.
+    * if data.get("level", 0) >= max_level: return False - проверяет достиг ли артефакт максимального уровня.
+    * exp_gain = ITEM_DATA.get("artifact_exp", {}).get("exp_gain", 50) - получаем кол-во флаконов опыта.
+    * if inventory.get_count("artifact_exp") == 0: return False - возвращаем False если флаконов опыта нет.
+    * inventory.remove_item("artifact_exp", 1) - вычитаем флакон опыта.
+    * data["exp"] += exp_gain - добавляем опыт к артефакту.
+    * while data["exp"] >= data["exp_next"]: data["exp"] -= data["exp_next"], data["level"] += 1, data["exp_next"] = int(data["exp_next"] * 1.5) + 50 - повышает уровень, вычитает лишний опыт и вычисляет exp_next.
+    * if data["level"] in [4, 8, 12, 16]: self._add_substat(data) - добавляет второстепенную характеристику при достижении определённого уровня.
+* _add_substat(self, data):
+    * Назначение: Добавляет второстепенную характеристику.
+    * Параметры: 
+        * data - словарь с данными конкретного артефакта.
+    * template_id = data.get("artifact_id") - получаем ID артефактов.
+    * art_data = ITEM_DATA.get(template_id, {}) - получаем данные артефактов по ID.
+    * pool = art_data.get("possible_sub_stats", []) - получаем все возможные второстепенные статы для артефакта.
+    * existing_names = {sub["stat"] for sub in data["sub_stats"]} - получаем кол-во второстепенных статов в артефакте.
+    * available = [s for s in pool if s not in existing_names] - список из статов которых нет в существующих.
+    * if available: new_stat_name = random.choice(available), new_value = self.get_initial_sub_stat_value(new_stat_name) - если список не пуст то тогда определяем какой стат будет добавлен и какое будет у него значение.
+    * data["sub_stats"].append({"stat": new_stat_name, "value": new_value}) - добавляем новый второстепенный стат.
+    * if data["sub_stats"]: sub_to_upgrade = random.choice(data["sub_stats"]) - если список второстепенных статов не пуст, то выбираем какой стат прокачать.
+    * upgrade_amount = self.get_sub_stat_upgrade_amount(sub_to_upgrade["stat"]) - вызываем функцию для выбора значения, на которое увеличится стат.
+    * sub_to_upgrade["value"] += upgrade_amount - увеличивает значение стата.
+* get_initial_sub_stat_value(self, stat_name):
+    * Назначение: Генерирует начальное значение для нового субстата.
+    * Параметры:
+        * stat_name - имя стата.
+    * ranges = {...} - словарь со значениями статов.
+    * low, high = ranges.get(stat_name, (1, 5))
+    * return round(random.uniform(low, high), 1)
+* get_sub_stat_upgrade_amount(self, stat_name):
+    * Назначение: Возвращает прибавку к существующему субстату при его улучшении. 
+    * Параметры:
+        * stat_name - имя стата.
+    * if "%" in stat_name: return round(random.uniform(0.5, 1.5), 1) - бафф если стат процентный.
+    * else: return round(random.uniform(1, 5)) - бафф если стат без процентный.
+* equip_weapon(self, uid):
+    * Назначение: Экипирует оружие.
+    * Параметры: 
+        * uid - уникальный номер оружия.
+    * uid_str = str(uid) - переводим UID в строку.
+    * if uid_str in self.weapon_data: - проверяем существует ли оружие.
+    * if self.weapon is not None: self.unequip_weapon() - если оружие уже экипировано, то вызывает функцию для снятия оружия.
+    * self.weapon = uid_str - экипирует оружие.
+* unequip_weapon(self):
+    * Назначение: Снимает оружие.
+    * if self.weapon is not None: self.weapon = None - если оружие экипировано, то тогда снимает его.
+* upgrade_weapon(self, uid, inventory):
+    * Назначение: Прокачка оружия.
+    * Параметры:
+        * uid - уникальный номер артефакта.
+        * inventory - ссылка на файл.
+    * uid_str = str(uid) - переводим UID в строку.
+    * if uid_str not in self.weapon_data: return False - запрет на прокачку если UID нет среди оружий.
+    * data = self.weapon_data[uid_str] - получаем информацию об оружии по UID.
+    * if "exp" not in data: data["exp"] = 0 - устанавливает значение exp если его не было.
+    * exp_gain = ITEM_DATA.get("crystal_of_true_power", {}).get("exp_gain", 50) - получаем кол-во кристаллов и их опыт.
+    * if inventory.get_count("crystal_of_true_power") == 0: return False - запрет на прокачку если кристалов нет.
+    * inventory.remove_item("crystal_of_true_power", 1) - тратим кристал.
+    * data["exp"] += exp_gain - добавляем опыт.
+    * while data["exp"] >= data["exp_next"]: data["exp"] -= data["exp_next"], data["level"] += 1, data["exp_next"] = int(data["exp_next"] * 1.5) + 50 - повышает уровень, вычитает лишний опыт и вычисляет exp_next.
 
 ### Файл input_handler: 
 1. Предназначение:
