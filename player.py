@@ -6,6 +6,7 @@ import os
 from game_data import generate_artifact_main_stat
 from inventory import ITEM_DATA
 from inventory import PREFIX_WEAPON
+import shutil
 
 class Player:
     def __init__(self):
@@ -118,6 +119,8 @@ class Player:
         return False
 
     def save_party(self, filename):
+        if os.path.exists(filename):
+            shutil.copy2(filename, filename + ".backup")
         chars_data = []
         for char in self.party:
             char_data = {
@@ -154,18 +157,12 @@ class Player:
         print("Партия сохранена")
 
     def load_party(self, filename):
-        if os.path.exists(filename) and os.path.getsize(filename) > 0:
-            with open(filename, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            if isinstance(data, list):
-                chars_data = data
-                full_data = {"characters": chars_data}
-            else:
-                full_data = data
-            chars_data = full_data.get("characters", [])
+        # Вспомогательная функция для применения данных к персонажам
+        def apply_data(chars_data):
             for i, char in enumerate(self.party):
                 if i < len(chars_data):
                     saved = chars_data[i]
+                    # Применяем все поля (как у тебя было)
                     char.level = saved.get("level", char.level)
                     char.max_level = saved.get("max_level", char.max_level)
                     char.exp = saved.get("exp", char.exp)
@@ -185,6 +182,7 @@ class Player:
                     char.weapon = saved.get("weapon", char.weapon)
                     char.artifacts = saved.get("artifacts", char.artifacts)
                     char.artifact_data = saved.get("artifact_data", {})
+                    # Восстановление growth_key (как у тебя)
                     for uid, data in char.artifact_data.items():
                         if "growth_key" not in data:
                             artifact_id = data.get("artifact_id")
@@ -197,5 +195,70 @@ class Player:
                                     print(f"Восстановлен growth_key для артефакта {artifact_id}: {data['growth_key']}")
                     char.weapon_data = saved.get("weapon_data", {})
             print("Прогресс партии загружен")
+
+        # 1. Попытка загрузить основной файл
+        try:
+            if os.path.exists(filename) and os.path.getsize(filename) > 0:
+                with open(filename, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                if self._validate_party_data(data):
+                    chars_data = self._extract_chars_data(data)
+                    apply_data(chars_data)
+                    self.modified = False
+                    return
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+
+        # 2. Попытка загрузить бэкап
+        backup_file = filename + ".backup"
+        try:
+            if os.path.exists(backup_file) and os.path.getsize(backup_file) > 0:
+                with open(backup_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                if self._validate_party_data(data):
+                    chars_data = self._extract_chars_data(data)
+                    apply_data(chars_data)
+                    self.modified = False
+                    print("Загружен бэкап партии")
+                    return
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+
+        # 3. Если ничего не вышло
+        print("Файл партии повреждён, используются текущие данные")
+
+    def _validate_party_data(self, data):
+        # data должен быть словарем с ключом "characters"
+        if not isinstance(data, dict):
+            return False
+        if "characters" not in data:
+            return False
+        chars = data["characters"]
+        if not isinstance(chars, list):
+            return False
+        if len(chars) == 0:
+            return False
+
+        for char_data in chars:
+            if not isinstance(char_data, dict):
+                return False
+            # Проверяем обязательные поля (их наличие, тип)
+            required_fields = ["name", "level", "max_level", "exp", "exp_next",
+                               "base_hp", "base_atk", "base_defense", "crit_rate",
+                               "crit_dmg", "energy_recharge", "elemental_mastery",
+                               "phys_bonus", "resistance", "speed", "talents",
+                               "constellation", "weapon", "artifacts", "artifact_data",
+                               "weapon_data"]
+            for field in required_fields:
+                if field not in char_data:
+                    return False
+        return True
+
+    def _extract_chars_data(self, data):
+        # Извлекает список персонажей из data (поддерживает старый формат)
+        if isinstance(data, list):
+            return data
+        elif isinstance(data, dict) and "characters" in data:
+            return data["characters"]
         else:
-            print("Файл партии не найден или пуст")
+            return []

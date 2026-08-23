@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import shutil
 
 PREFIX_ARTIFACT = "artifact_"
 PREFIX_WEAPON = "weapon_"
@@ -285,14 +286,61 @@ class Inventory:
         return result
 
     def save(self, filename):
+        if os.path.exists(filename):
+            shutil.copy2(filename, filename + ".backup")
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.items, f, ensure_ascii=False, indent=2)
         self.modified = False
 
     def load(self, filename):
-        if os.path.exists(filename) and os.path.getsize(filename) > 0:
+        # Попытка загрузить основной файл
+        try:
             with open(filename, 'r', encoding='utf-8') as f:
-                self.items = json.load(f)
-        else:
-            self.items = {}
+                data = json.load(f)
+            if self._validate_data(data):
+                self.items = data
+                self.modified = False
+                return
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+
+        # Если основной файл невалиден или не загрузился — пробуем бэкап
+        backup_file = filename + ".backup"
+        try:
+            with open(backup_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if self._validate_data(data):
+                self.items = data
+                self.modified = False
+                print("Загружен бэкап инвентаря")
+                return
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+
+        # Если ничего не вышло — пустой инвентарь
+        self.items = {}
         self.modified = False
+        print("Инвентарь повреждён, создан новый")
+
+    def _validate_data(self, data):
+        if not isinstance(data, dict):
+            return False
+
+        for item_id, value in data.items():
+            # Проверка ключа: он должен быть в ITEM_DATA или начинаться с префикса
+            if item_id not in ITEM_DATA and not item_id.startswith(PREFIX_WEAPON) and not item_id.startswith(PREFIX_ARTIFACT):
+                return False
+
+            if isinstance(value, int):
+                # Ресурсы (числа) не должны быть отрицательными
+                if value < 0:
+                    return False
+            elif isinstance(value, list):
+                # Уникальные предметы — список UID
+                for uid in value:
+                    if not isinstance(uid, int) or uid <= 0:
+                        return False
+            else: # Неизвестный тип данных
+                return False
+
+        return True
