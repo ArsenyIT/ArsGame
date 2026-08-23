@@ -587,6 +587,56 @@
     * while data["exp"] >= data["exp_next"]: data["exp"] -= data["exp_next"], data["level"] += 1, data["exp_next"] = int(data["exp_next"] * 1.5) + 50 - повышает уровень, вычитает лишний опыт и вычисляет exp_next.
 
 ### Файл camera:
+1. Предназначение:
+* Управляет камерой в игре: определяет, какая часть карты отображается на экране, обеспечивает следование за игроком и отрисовку только видимой области для оптимизации производительности.
+
+2. Библиотеки:
+* import pygame (Для работы с поверхностями и отрисовкой).
+
+3. Класс Camera:
+* Функция __init__(self, map_width, map_height, tile_size, screen_width, screen_height)
+    * Назначение: Инициализирует камеру с параметрами карты и экрана, которая перемещается по карте и преобразует мировые координаты в экранные.
+    * Параметры:
+        * map_width – ширина карты в пикселях. 
+        * map_height – высота карты в пикселях. 
+        * tile_size – размер одного тайла в пикселях. 
+        * screen_width – ширина окна в пикселях. 
+        * screen_height – высота окна в пикселях. 
+    * Атрибуты:
+        * camera_x, camera_y – координаты левого верхнего угла камеры (в пикселях относительно карты).
+
+4. Функции класса Camera:
+* Функция update(self, target_rect):
+    * Назначение: Обновляет позицию камеры, чтобы она следовала за целью (игроком), но не выходила за границы карты. 
+    * Параметры:
+        * target_rect – прямоугольник (pygame.Rect) игрока в мировых координатах. 
+    * target_x = target_rect.centerx - self.screen_width // 2 – вычисляет желаемую позицию, чтобы игрок был в центре экрана по горизонтали. 
+    * target_y = target_rect.centery - self.screen_height // 2 – аналогично по вертикали. 
+    * self.camera_x = max(0, min(target_x, self.map_width - self.screen_width)) – ограничивает камеру, чтобы она не выходила за левую и правую границы карты. 
+    * self.camera_y = max(0, min(target_y, self.map_height - self.screen_height)) – ограничивает по вертикали.
+* Функция apply(self, rect):
+    * Назначение: Преобразует мировые координаты объекта в экранные (с учётом смещения камеры). 
+    * Параметры:
+        * rect – прямоугольник объекта в мировых координатах. 
+    * screen_rect = pygame.Rect(rect.x - self.camera_x, rect.y - self.camera_y, rect.width, rect.height) - вычисляет новый screen_rect.
+* Функция draw_map(self, screen, map_data, tile_textures):
+    * Назначение: Отрисовывает только видимую часть карты (оптимизация). 
+    * Параметры:
+        * screen – поверхность, на которой рисуем. 
+        * map_data – двумерный список тайлов (список строк). 
+        * tile_textures – словарь, где ключ – тип тайла (число), значение – поверхность Pygame (текстура). 
+    * start_col = int(self.camera_x // self.tile_size) - начало колонки.
+    * end_col = start_col + int(self.screen_width // self.tile_size) + 1 - конец колонки.
+    * start_row = int(self.camera_y // self.tile_size) - начало строки.
+    * end_row = start_row + int(self.screen_height // self.tile_size) + 1 - конец строки. 
+    * start_col = max(0, start_col) and end_col = min(len(map_data[0]), end_col) - ограничения колонок.
+    * start_row = max(0, start_row) and end_row = min(len(map_data), end_row) - ограничения строк.
+    * for row in range(start_row, end_row): for col in range(start_col, end_col): - перебираем все строки и колонки. 
+    * tile_type = map_data[row][col] – получает тип тайла. 
+    * texture = tile_textures.get(tile_type) – получает текстуру. 
+    * screen_x = col * self.tile_size - self.camera_x – экранная координата X. 
+    * screen_y = row * self.tile_size - self.camera_y – экранная координата Y. 
+    * screen.blit(texture, (screen_x, screen_y)) – отрисовывает тайл, если текстура существует.
 
 ### Файл input_handler: 
 1. Предназначение:
