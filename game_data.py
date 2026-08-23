@@ -423,8 +423,8 @@ class Character:
             data["exp_next"] = int(data["exp_next"] * 1.5) + 50
             print(f"Уровень артефакта повышен до {data['level']}")
 
-            # Добавляем субстаты на уровнях 4, 8, 12, 16
-            if data["level"] in [4, 8, 12, 16]:
+            # Добавляем субстаты на уровнях 4, 8, 12, 16, 20
+            if data["level"] in [4, 8, 12, 16, 20]:
                 self._add_substat(data)
 
         return True

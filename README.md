@@ -532,7 +532,7 @@
     * inventory.remove_item("artifact_exp", 1) - вычитаем флакон опыта.
     * data["exp"] += exp_gain - добавляем опыт к артефакту.
     * while data["exp"] >= data["exp_next"]: data["exp"] -= data["exp_next"], data["level"] += 1, data["exp_next"] = int(data["exp_next"] * 1.5) + 50 - повышает уровень, вычитает лишний опыт и вычисляет exp_next.
-    * if data["level"] in [4, 8, 12, 16]: self._add_substat(data) - добавляет второстепенную характеристику при достижении определённого уровня.
+    * if data["level"] in [4, 8, 12, 16, 20]: self._add_substat(data) - добавляет второстепенную характеристику при достижении определённого уровня.
 * _add_substat(self, data):
     * Назначение: Добавляет второстепенную характеристику.
     * Параметры: 
@@ -585,6 +585,8 @@
     * inventory.remove_item("crystal_of_true_power", 1) - тратим кристал.
     * data["exp"] += exp_gain - добавляем опыт.
     * while data["exp"] >= data["exp_next"]: data["exp"] -= data["exp_next"], data["level"] += 1, data["exp_next"] = int(data["exp_next"] * 1.5) + 50 - повышает уровень, вычитает лишний опыт и вычисляет exp_next.
+
+### Файл camera:
 
 ### Файл input_handler: 
 1. Предназначение:
