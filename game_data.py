@@ -156,7 +156,7 @@ class Character:
     def __init__(self, name, exp, exp_next,
                  base_hp, base_atk, base_defense, portrait_path,
                  crit_rate, crit_dmg, energy_recharge, elemental_mastery, phys_bonus, resistance, speed,
-                 talents=None):
+                 talents=None, growth_file = "GG_growth.json"):
         self.name = name
         self.level = 1
         self.max_level = 10
@@ -184,10 +184,11 @@ class Character:
         self.artifact_data = {}
         self.weapon_data = {}
         self.portrait_path = portrait_path
+        self.growth_file = growth_file
         self.load_growth_data()
 
     def load_growth_data(self):
-        with open("assets/data/characters/GG_growth.json", "r", encoding="utf-8") as f:
+        with open(f"assets/data/characters/{self.growth_file}", "r", encoding="utf-8") as f:
             self.growth_data = json.load(f)
 
     def calculate_total_stats(self):

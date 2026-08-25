@@ -54,21 +54,37 @@ class ResourceManager:
         # ---- Предметы ----
         self.load_image("assets/textures/items/Oak_wood_item.png", "oak_wood")
 
-        # ---- Кнопки ----
-        self.load_image("assets/textures/buttons/Button_activate.png", "button_activate")
-        self.load_image("assets/textures/buttons/Button_artifacts.png", "button_artifacts")
-        self.load_image("assets/textures/buttons/Button_change.png", "button_change")
-        self.load_image("assets/textures/buttons/Button_change_2.png", "button_change_2")
-        self.load_image("assets/textures/buttons/Button_characteristic.png", "button_characteristic")
-        self.load_image("assets/textures/buttons/Button_constellations.png", "button_constellations")
-        self.load_image("assets/textures/buttons/Button_elevate.png", "button_elevate")
-        self.load_image("assets/textures/buttons/Button_elevation.png", "button_elevation")
-        self.load_image("assets/textures/buttons/Button_equip.png", "button_equip")
-        self.load_image("assets/textures/buttons/Button_equip_2.png", "button_equip_2")
-        self.load_image("assets/textures/buttons/Button_improve.png", "button_improve")
-        self.load_image("assets/textures/buttons/Button_improvement.png", "button_improvement")
-        self.load_image("assets/textures/buttons/Button_talents.png", "button_talents")
-        self.load_image("assets/textures/buttons/Button_weapon.png", "button_weapon")
+        # ---- Кнопки (ГГ) ----
+        self.load_image("assets/textures/buttons/GG/Button_activate.png", "button_activate_gg")
+        self.load_image("assets/textures/buttons/GG/Button_artifacts.png", "button_artifacts_gg")
+        self.load_image("assets/textures/buttons/GG/Button_change.png", "button_change_gg")
+        self.load_image("assets/textures/buttons/GG/Button_change_2.png", "button_change_2_gg")
+        self.load_image("assets/textures/buttons/GG/Button_characteristic.png", "button_characteristic_gg")
+        self.load_image("assets/textures/buttons/GG/Button_constellations.png", "button_constellations_gg")
+        self.load_image("assets/textures/buttons/GG/Button_elevate.png", "button_elevate_gg")
+        self.load_image("assets/textures/buttons/GG/Button_elevation.png", "button_elevation_gg")
+        self.load_image("assets/textures/buttons/GG/Button_equip.png", "button_equip_gg")
+        self.load_image("assets/textures/buttons/GG/Button_equip_2.png", "button_equip_2_gg")
+        self.load_image("assets/textures/buttons/GG/Button_improve.png", "button_improve_gg")
+        self.load_image("assets/textures/buttons/GG/Button_improvement.png", "button_improvement_gg")
+        self.load_image("assets/textures/buttons/GG/Button_talents.png", "button_talents_gg")
+        self.load_image("assets/textures/buttons/GG/Button_weapon.png", "button_weapon_gg")
+
+        # ---- Кнопки (Заражение) ----
+        self.load_image("assets/textures/buttons/Infection/Button_activate.png", "button_activate_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_artifacts.png", "button_artifacts_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_change.png", "button_change_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_change_2.png", "button_change_2_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_characteristic.png", "button_characteristic_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_constellations.png", "button_constellations_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_elevate.png", "button_elevate_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_elevation.png", "button_elevation_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_equip.png", "button_equip_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_equip_2.png", "button_equip_2_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_improve.png", "button_improve_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_improvement.png", "button_improvement_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_talents.png", "button_talents_infection")
+        self.load_image("assets/textures/buttons/Infection//Button_weapon.png", "button_weapon_infection")
 
         # ---- Артефакты ----
         self.load_image("assets/textures/artifacts/Flower_2.png", "flower_2")
@@ -84,6 +100,7 @@ class ResourceManager:
 
         # ---- Меню персонажей (Портреты) ----
         self.load_image("assets/textures/characters_menu/characters_portraits/GG.png", "gg")
+        self.load_image("assets/textures/characters_menu/characters_portraits/Infection.png", "infection")
 
         # ---- Меню персонажей (ГГ) ----
         self.load_image("assets/textures/characters_menu/GG/GG_artifacts.png", "gg_artifacts")
@@ -92,6 +109,16 @@ class ResourceManager:
         self.load_image("assets/textures/characters_menu/GG/GG_talents.png", "gg_talents")
         self.load_image("assets/textures/characters_menu/GG/GG_upgrade.png", "gg_upgrade")
         self.load_image("assets/textures/characters_menu/GG/GG_weapon.png", "gg_weapon")
+        self.load_image("assets/textures/characters_menu/GG/Popup.png", "gg_popup")
+
+        # ---- Меню персонажей (Заражение) ----
+        self.load_image("assets/textures/characters_menu/Infection/GG_artifacts.png", "infection_artifacts")
+        self.load_image("assets/textures/characters_menu/Infection/GG_constellations.png", "infection_constellations")
+        self.load_image("assets/textures/characters_menu/Infection/GG_menu.png", "infection_menu")
+        self.load_image("assets/textures/characters_menu/Infection/GG_talents.png", "infection_talents")
+        self.load_image("assets/textures/characters_menu/Infection/GG_upgrade.png", "infection_upgrade")
+        self.load_image("assets/textures/characters_menu/Infection/GG_weapon.png", "infection_weapon")
+        self.load_image("assets/textures/characters_menu/Infection/Popup.png", "infection_popup")
 
         # ---- Меню персонажей (Предметы) ----
         self.load_image("assets/textures/characters_menu/items/Oak_wood_menu_GG.png", "oak_wood_menu_gg")
@@ -161,7 +188,6 @@ class ResourceManager:
 
         # ---- Остатки ----
         self.load_image("assets/textures/Dialog_box.png", "dialog_box")
-        self.load_image("assets/textures/Popup.png", "popup")
         self.load_image("assets/textures/Squad_list.png", "squad_list")
 
         # ---- Иконка ----
