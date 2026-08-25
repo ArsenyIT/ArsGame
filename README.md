@@ -431,7 +431,7 @@
         * self.max_level = 10 - максимальный уровень.
         * self.talents = talents or {"normal": 1, "skill": 1, "burst": 1} - таланты.
         * self.constellation = 0 - уровень созвездия.
-        * self.weapon = None - оружие
+        * self.weapon = None - оружие.
         * self.artifacts = {...} - артефакты.
         * self.artifact_data = {} - данные артефакта.
         * self.weapon_data = {} - данные оружия.
@@ -464,7 +464,7 @@
     * while self.exp >= self.exp_next: self.exp -= self.exp_next and self.level_up() - когда кол-во опыта превышает нужное для следующего уровня кол-во опыта, вычитает нужное для следующего уровня кол-во опыта и повышаем уровень.
 * level_up(self):
     * Назначение: Повышает уровень песонажа и увеличивает значение статов.
-    * self.level += 1 - повышаем уровень
+    * self.level += 1 - повышаем уровень.
     * growth = self.growth_data.get(str(self.level), {}) - получаем данные о прокачке персонажа.
     * self.name_stat += growth.get("...", 0) - увеличиваем значение статов.
     * self.exp_next = int(self.exp_next * 1.5) + 250 - увеличиваем значение exp_next.
