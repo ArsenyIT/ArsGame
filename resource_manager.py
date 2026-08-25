@@ -141,7 +141,7 @@ class ResourceManager:
         self.load_image("assets/textures/characters/GG/stand/GG_straight_1.png", "gg_straight_1")
         self.load_image("assets/textures/characters/GG/stand/GG_straight_2.png", "gg_straight_2")
 
-        # ---- Персонажи (ГГ идя) ----
+        # ---- Персонажи (ГГ ходьба) ----
         self.load_image("assets/textures/characters/GG/go/GG_goes_left_1.png", "gg_goes_left_1")
         self.load_image("assets/textures/characters/GG/go/GG_goes_left_2.png", "gg_goes_left_2")
         self.load_image("assets/textures/characters/GG/go/GG_goes_left_3.png", "gg_goes_left_3")
