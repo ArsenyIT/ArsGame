@@ -1,7 +1,7 @@
 {
   "characters": [
     {
-      "name": "Герой",
+      "name": "Арсений",
       "level": 1,
       "max_level": 10,
       "exp": 0,
@@ -100,6 +100,39 @@
           "exp_next": 100
         }
       }
+    },
+    {
+      "name": "Заражение",
+      "level": 1,
+      "max_level": 10,
+      "exp": 0,
+      "exp_next": 1000,
+      "base_hp": 650,
+      "base_atk": 120,
+      "base_defense": 250,
+      "crit_rate": 5,
+      "crit_dmg": 50,
+      "energy_recharge": 100,
+      "elemental_mastery": 15,
+      "phys_bonus": 0,
+      "resistance": 1,
+      "speed": 10,
+      "talents": {
+        "normal": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "constellation": 0,
+      "weapon": null,
+      "artifacts": {
+        "flower": null,
+        "plume": null,
+        "sands": null,
+        "goblet": null,
+        "circlet": null
+      },
+      "artifact_data": {},
+      "weapon_data": {}
     }
   ]
 }

@@ -1,0 +1,138 @@
+{
+  "characters": [
+    {
+      "name": "Арсений",
+      "level": 1,
+      "max_level": 10,
+      "exp": 0,
+      "exp_next": 1000,
+      "base_hp": 670,
+      "base_atk": 105,
+      "base_defense": 300,
+      "crit_rate": 5,
+      "crit_dmg": 50,
+      "energy_recharge": 100,
+      "elemental_mastery": 15,
+      "phys_bonus": 0,
+      "resistance": 1,
+      "speed": 10,
+      "talents": {
+        "normal": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "constellation": 0,
+      "weapon": "2",
+      "artifacts": {
+        "flower": null,
+        "plume": "6",
+        "sands": null,
+        "goblet": null,
+        "circlet": null
+      },
+      "artifact_data": {
+        "3": {
+          "level": 1,
+          "exp": 50,
+          "exp_next": 100,
+          "sub_stats": [],
+          "growth_key": "flower_hp",
+          "artifact_id": "flower_2",
+          "main_stat": {
+            "hp": 1000
+          }
+        },
+        "4": {
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
+          "sub_stats": [],
+          "growth_key": "sands_hp_percent",
+          "artifact_id": "sands_2",
+          "main_stat": {
+            "hp_percent": 4.0
+          }
+        },
+        "5": {
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
+          "sub_stats": [],
+          "growth_key": "goblet_hydro_dmg_percent",
+          "artifact_id": "goblet_2",
+          "main_stat": {
+            "hydro_dmg_percent": 5.0
+          }
+        },
+        "6": {
+          "level": 4,
+          "exp": 0,
+          "exp_next": 575,
+          "sub_stats": [
+            {
+              "stat": "Crit DMG%",
+              "value": 5.3
+            }
+          ],
+          "growth_key": "plume_atk",
+          "artifact_id": "plume_1"
+        },
+        "7": {
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
+          "sub_stats": [],
+          "growth_key": "plume_atk",
+          "artifact_id": "plume_2"
+        }
+      },
+      "weapon_data": {
+        "1": {
+          "level": 1,
+          "weapon_id": "sword_of_steel",
+          "exp": 0,
+          "exp_next": 100
+        },
+        "2": {
+          "level": 1,
+          "weapon_id": "rusted_sword",
+          "exp": 0,
+          "exp_next": 100
+        }
+      }
+    },
+    {
+      "name": "Заражение",
+      "level": 1,
+      "max_level": 10,
+      "exp": 0,
+      "exp_next": 1000,
+      "base_hp": 650,
+      "base_atk": 120,
+      "base_defense": 250,
+      "crit_rate": 5,
+      "crit_dmg": 50,
+      "energy_recharge": 100,
+      "elemental_mastery": 15,
+      "phys_bonus": 0,
+      "resistance": 1,
+      "speed": 10,
+      "talents": {
+        "normal": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "constellation": 0,
+      "weapon": null,
+      "artifacts": {
+        "flower": null,
+        "plume": null,
+        "sands": null,
+        "goblet": null,
+        "circlet": null
+      },
+      "artifact_data": {},
+      "weapon_data": {}
+    }
+  ]
+}

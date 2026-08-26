@@ -112,12 +112,12 @@ class ResourceManager:
         self.load_image("assets/textures/characters_menu/GG/Popup.png", "gg_popup")
 
         # ---- Меню персонажей (Заражение) ----
-        self.load_image("assets/textures/characters_menu/Infection/GG_artifacts.png", "infection_artifacts")
-        self.load_image("assets/textures/characters_menu/Infection/GG_constellations.png", "infection_constellations")
-        self.load_image("assets/textures/characters_menu/Infection/GG_menu.png", "infection_menu")
-        self.load_image("assets/textures/characters_menu/Infection/GG_talents.png", "infection_talents")
-        self.load_image("assets/textures/characters_menu/Infection/GG_upgrade.png", "infection_upgrade")
-        self.load_image("assets/textures/characters_menu/Infection/GG_weapon.png", "infection_weapon")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_artifacts.png", "infection_artifacts")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_constellations.png", "infection_constellations")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_menu.png", "infection_menu")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_talents.png", "infection_talents")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_upgrade.png", "infection_upgrade")
+        self.load_image("assets/textures/characters_menu/Infection/Infection_weapon.png", "infection_weapon")
         self.load_image("assets/textures/characters_menu/Infection/Popup.png", "infection_popup")
 
         # ---- Меню персонажей (Предметы) ----

@@ -156,7 +156,7 @@ class Character:
     def __init__(self, name, exp, exp_next,
                  base_hp, base_atk, base_defense, portrait_path,
                  crit_rate, crit_dmg, energy_recharge, elemental_mastery, phys_bonus, resistance, speed,
-                 talents=None, growth_file = "GG_growth.json"):
+                 talents=None, growth_file = "GG_growth.json", resource_key="gg"):
         self.name = name
         self.level = 1
         self.max_level = 10
@@ -185,6 +185,7 @@ class Character:
         self.weapon_data = {}
         self.portrait_path = portrait_path
         self.growth_file = growth_file
+        self.resource_key = resource_key
         self.load_growth_data()
 
     def load_growth_data(self):

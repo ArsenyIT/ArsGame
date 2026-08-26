@@ -18,7 +18,7 @@ class Player:
         with open("assets/data/characters/Infection.json", "r", encoding="utf-8") as f:
             inf_data = json.load(f)
 
-        hero = Character(
+        GG = Character(
             name=data["name"],
             exp=data["exp"],
             exp_next=data["exp_next"],
@@ -33,7 +33,8 @@ class Player:
             resistance=data["resistance"],
             speed=data["speed"],
             talents=data["talents"],
-            portrait_path=data.get("portrait_path", None)
+            portrait_path=data.get("portrait_path", None),
+            resource_key="gg"
         )
         Infection = Character(
             name=inf_data["name"],
@@ -51,9 +52,10 @@ class Player:
             speed=inf_data["speed"],
             talents=inf_data["talents"],
             portrait_path=inf_data.get("portrait_path", None),
-            growth_file="Infection_growth.json"
+            growth_file="Infection_growth.json",
+            resource_key="infection"
         )
-        self.party = [hero, Infection]
+        self.party = [GG, Infection]
 
         # Загружаем данные персонажей
         self.load_party("assets/data/party_save.json")

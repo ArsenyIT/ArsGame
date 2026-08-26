@@ -9,6 +9,7 @@ class CharacterState:
         # Список персонажей
         self.characters = []
         self.current_index = 0
+        self.button_images = {}
         self.menu_buttons = []
         self.offset_y = self.game.HEIGHT * 0.013 #10
         self.offset_x = self.game.WIDTH * 0.0073 #10
@@ -33,52 +34,10 @@ class CharacterState:
                 elemental_mastery=10,
                 phys_bonus=0,
                 resistance=1,
-                speed=10
+                speed=10,
+                resource_key = "gg"
             )]
-        self.GG_menu = self.game.resources.get_image("gg_menu")
-        self.portrait_GG = self.characters[self.current_index].portrait_path
-        try:
-            self.portrait_img = pygame.image.load(self.portrait_GG).convert_alpha()
-        except pygame.error:
-            print("Портрет не найден, используется заглушка")
-            # Создаём заглушку (цветной прямоугольник)
-            self.portrait_img = pygame.Surface((290, 415))
-            self.portrait_img.fill((150, 150, 200))
-        self.button_images = {}
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
-        for name in button_names:
-            filename = f"button_{name}"
-            try:
-                img = self.game.resources.get_image(filename)
-                # Масштабируем под размер кнопки (btn_width, btn_height)
-                img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
-                self.button_images[name] = img
-            except pygame.error:
-                print(f"Не удалось загрузить картинку для кнопки {name}, используется заглушка")
-                # Можно создать цветной прямоугольник как запасной вариант
-                surf = pygame.Surface((self.btn_width, self.btn_height))
-                surf.fill((80, 80, 120))
-                self.button_images[name] = surf
-        filename = "button_improvement"
-        try:
-            img = self.game.resources.get_image(filename)
-            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
-            self.button_images["Улучшение"] = img
-        except pygame.error:
-            print("Не удалось загрузить картинку для кнопки Повышение уровня, используется заглушка")
-            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
-            surf.fill((80, 80, 120))
-            self.button_images["Улучшение"] = surf
-        filename = "button_elevation"
-        try:
-            img = self.game.resources.get_image(filename)
-            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
-            self.button_images["Возвышение"] = img
-        except pygame.error:
-            print("Не удалось загрузить картинку для кнопки Возвышение")
-            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
-            surf.fill((80, 80, 120))
-            self.button_images["Возвышение"] = surf
+        self.update_ui()
 
     def on_exit(self):
         self.game.save_all()
@@ -90,10 +49,12 @@ class CharacterState:
                 if event.key == pygame.K_c or event.key == pygame.K_ESCAPE:
                     self.game.change_state("world")
                 # Переключение персонажей
-                #if event.key == pygame.K_q:
-                #    self.current_index = (self.current_index - 1) % len(self.characters)
-                #if event.key == pygame.K_e:
-                #    self.current_index = (self.current_index + 1) % len(self.characters)
+                if event.key == pygame.K_q:
+                    self.current_index = (self.current_index - 1) % len(self.characters)
+                    self.update_ui()
+                if event.key == pygame.K_e:
+                    self.current_index = (self.current_index + 1) % len(self.characters)
+                    self.update_ui()
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):
@@ -112,14 +73,71 @@ class CharacterState:
                             self.game.change_state("constellations")
                         break
 
+    def update_ui(self):
+        char = self.characters[self.current_index]
+        char_key = self.characters[self.current_index].resource_key
+
+        self.menu = self.game.resources.get_image(f"{char_key}_menu")
+        if self.menu is None:
+            self.menu = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.menu.fill((40, 40, 60))
+
+        self.portrait = self.characters[self.current_index].portrait_path
+        try:
+            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+        except (pygame.error, FileNotFoundError, AttributeError):
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
+            print(f"Портрет для {char.name} не найден, создана заглушка")
+
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        for name in button_names:
+            filename = f"button_{name}_{char_key}"
+            img = self.game.resources.get_image(filename)
+            if img is not None:
+                img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
+                self.button_images[name] = img
+            else:
+                surf = pygame.Surface((self.btn_width, self.btn_height))
+                surf.fill((80, 80, 120))
+                self.button_images[name] = surf
+                print(f"Кнопка {name} для {char_key} не найдена, создана заглушка")
+
+        # Кнопка улучшения
+        filename = f"button_improvement_{char_key}"
+        img = self.game.resources.get_image(filename)
+        if img is not None:
+            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
+            self.button_images["Улучшение"] = img
+        else:
+            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
+            surf.fill((80, 80, 120))
+            self.button_images["Улучшение"] = surf
+            print(f"Кнопка улучшения для {char_key} не найдена")
+
+        # Кнопка возвышения
+        filename = f"button_elevation_{char_key}"
+        img = self.game.resources.get_image(filename)
+        if img is not None:
+            img = pygame.transform.scale(img, (self.level_up_rect.width, self.level_up_rect.height))
+            self.button_images["Возвышение"] = img
+        else:
+            surf = pygame.Surface((self.level_up_rect.width, self.level_up_rect.height))
+            surf.fill((80, 80, 120))
+            self.button_images["Возвышение"] = surf
+            print(f"Кнопка возвышения для {char_key} не найдена")
+
+
     def draw(self, screen):
-        screen.blit(self.GG_menu, (0,0))
-        screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
+        if self.menu:
+            screen.blit(self.menu, (0, 0))
+        if self.portrait_img:
+            screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
 
         if not self.characters:
             return
 
-        char = self.characters[self.current_index]
+        char = self.game.player.party[self.current_index]
 
         # Имя и уровень
         name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,200))
@@ -168,7 +186,6 @@ class CharacterState:
             self.menu_buttons.append({"text": text, "rect": rect})
 
         if self.characters:
-            char = self.characters[self.current_index]
             if char.can_ascend():
                 screen.blit(self.button_images["Возвышение"], self.level_up_rect)
             else:
