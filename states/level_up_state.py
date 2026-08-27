@@ -9,11 +9,24 @@ class LevelUpState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.bg = self.game.resources.get_image("gg_upgrade")
-        self.button_img = self.game.resources.get_image("button_improve")
-        self.ascend_img = self.game.resources.get_image("button_elevate")
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_artifacts")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
+
+        try:
+            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+        except (pygame.error, FileNotFoundError, AttributeError):
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
+            print(f"Портрет для {char.name} не найден, создана заглушка")
+
+        self.button_img = self.game.resources.get_image(f"button_improve_{char_key}")
+        self.ascend_img = self.game.resources.get_image(f"button_elevate_{char_key}")
         self.use_button_rect = pygame.Rect(self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.0807) #900,630,258,62
-        self.portrait_GG = self.game.resources.get_image("gg")
 
     def on_exit(self):
         self.game.save_all()
@@ -27,7 +40,7 @@ class LevelUpState:
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.use_button_rect.collidepoint(event.pos):
                     if self.game.player.party:
-                        char = self.game.player.party[0]
+                        char = self.game.player.party[self.game.selected_character_index]
                         if char.can_ascend():
                             # Логика возвышения
                             shard_id = "oak_wood"
@@ -46,15 +59,15 @@ class LevelUpState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_GG, (self.game.WIDTH * 0.132, self.game.HEIGHT * 0.2344)) #180
-        char = self.game.player.party[0]
+        screen.blit(self.portrait_img, (self.game.WIDTH * 0.132, self.game.HEIGHT * 0.2344)) #180
+        char = self.game.player.party[self.game.selected_character_index]
         if char.can_ascend():
             screen.blit(self.ascend_img, (self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82)) #900,630
         else:
             screen.blit(self.button_img, (self.game.WIDTH * 0.66, self.game.HEIGHT * 0.82)) #900,630
 
         if self.game.player.party:
-            char = self.game.player.party[0]
+            char = self.game.player.party[self.game.selected_character_index]
             books = self.game.player.inventory.get_count("story_of_the_Almighty")
             # Отображение уровня
             level_text = self.font.render(f"Уровень: {char.level}", True, (255, 255, 255))

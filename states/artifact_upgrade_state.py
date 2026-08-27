@@ -25,25 +25,28 @@ class ArtifactUpgradeState:
         if hasattr(self.game, "temp_slot"):
             del self.game.temp_slot
 
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_upgrade")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
         try:
-            self.bg = self.game.resources.get_image("gg_upgrade")
-        except:
-            self.bg = None
-        try:
-            self.popup_bg = self.game.resources.get_image("popup")
+            self.popup_bg = self.game.resources.get_image(f"{char_key}_popup")
         except:
             self.popup_bg = None
 
         try:
-            self.equip_btn_img = self.game.resources.get_image("button_equip")
+            self.equip_btn_img = self.game.resources.get_image(f"button_equip_{char_key}")
         except:
             self.equip_btn_img = None
         try:
-            self.unequip_btn_img = self.game.resources.get_image("button_change")
+            self.unequip_btn_img = self.game.resources.get_image(f"button_change_{char_key}")
         except:
             self.unequip_btn_img = None
         try:
-            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
+            self.upgrade_btn_img = self.game.resources.get_image(f"button_improve_{char_key}")
         except:
             self.upgrade_btn_img = None
 
@@ -65,7 +68,6 @@ class ArtifactUpgradeState:
             "goblet_2": self.load_icon("goblet_2"),
         }
 
-        char = self.game.player.party[0]
         self.equipped_uid = char.artifacts.get(self.slot)  # UID или None
         self.update_popup_list()
 
@@ -80,7 +82,7 @@ class ArtifactUpgradeState:
         # Обновляет список UID артефактов для плашки (фильтрует по слоту)
         self.popup_uids = []
         inventory = self.game.player.inventory
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
         # Получаем все UID артефактов
         all_uids = inventory.get_all_uids("artifacts")
         for uid in all_uids:
@@ -118,7 +120,7 @@ class ArtifactUpgradeState:
         # Проверка кликов по навигационным кнопкам отсутствует (как и в weapon_state) – можно добавить, если нужно
         # Кнопка "Экипировать/Сменить"
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
-            char = self.game.player.party[0]
+            char = self.game.player.party[self.game.selected_character_index]
             if self.equipped_uid is not None:
                 # Снимаем артефакт
                 char.unequip_artifact(self.slot)
@@ -140,7 +142,7 @@ class ArtifactUpgradeState:
         # Кнопка "Улучшить"
         if hasattr(self, 'upgrade_btn_rect') and self.upgrade_btn_rect.collidepoint(pos):
             if self.equipped_uid is not None:
-                char = self.game.player.party[0]
+                char = self.game.player.party[self.game.selected_character_index]
                 inventory = self.game.player.inventory
                 success = char.upgrade_artifact(self.equipped_uid, inventory)
                 if success:
@@ -156,7 +158,7 @@ class ArtifactUpgradeState:
                 if rect.collidepoint(pos):
                     if idx < len(self.popup_uids):
                         uid = self.popup_uids[idx]
-                        char = self.game.player.party[0]
+                        char = self.game.player.party[self.game.selected_character_index]
                         if self.equipped_uid is not None:
                             char.unequip_artifact(self.slot)
                         char.equip_artifact(self.slot, uid)
@@ -193,7 +195,7 @@ class ArtifactUpgradeState:
         title = self.font.render(f"Слот: {slot_display}", True, (255, 255, 255))
         screen.blit(title, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.039))
 
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
 
         # ---- Отображение экипированного артефакта ----
         if self.equipped_uid is not None:
@@ -306,10 +308,10 @@ class ArtifactUpgradeState:
                     else:
                         main_display = f"Основной: {stat_name} +{value}"
                     main_surf = self.stats_font.render(main_display, True, (255, 255, 200))
-                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0,1888))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1888))
                 else:
                     main_surf = self.stats_font.render("Основной: нет", True, (200, 200, 200))
-                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0,1888))
+                    screen.blit(main_surf, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1888))
 
                 y_sel_sub = self.game.HEIGHT * 0.2279
                 if sub_stats:
@@ -384,7 +386,7 @@ class ArtifactUpgradeState:
         start_y = popup_rect.y + self.game.HEIGHT * 0.0911
         self.popup_cell_rects = []
 
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
 
         for idx, uid in enumerate(self.popup_uids):
             row = idx // cols

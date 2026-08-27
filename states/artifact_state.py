@@ -22,10 +22,21 @@ class ArtifactState:
                                                   self.circle_radius * 2, self.circle_radius * 2)
 
     def on_enter(self):
-        print("Вход в экран Артефакты")
         self.font = pygame.font.Font(None, 36)
-        self.bg = self.game.resources.get_image("gg_artifacts")
-        self.portrait_GG = self.game.resources.get_image("gg")
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_artifacts")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
+
+        try:
+            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+        except (pygame.error, FileNotFoundError, AttributeError):
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
+            print(f"Портрет для {char.name} не найден, создана заглушка")
 
         self.artifact_icons = {
             "plume_1": self.game.resources.get_image("plume_1"),
@@ -38,7 +49,7 @@ class ArtifactState:
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"button_{name}"
+            filename = f"button_{name}_{char_key}"
             try:
                 img = self.game.resources.get_image(filename)
                 img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
@@ -92,11 +103,11 @@ class ArtifactState:
         screen.blit(self.bg, (0, 0))
         portrait_x = int(self.game.WIDTH * 0.41) #560
         portrait_y = int(self.game.HEIGHT * 0.28)
-        screen.blit(self.portrait_GG, (portrait_x, portrait_y))
+        screen.blit(self.portrait_img, (portrait_x, portrait_y))
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
 
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
         for slot_name, pos in self.circle_positions.items():
             x, y = pos
             # Проверяем, есть ли артефакт в этом слоте

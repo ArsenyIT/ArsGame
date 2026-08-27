@@ -49,14 +49,29 @@ class ConstellationsState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.const_font = pygame.font.Font(None, 28)
-        self.popup_bg = self.game.resources.get_image("popup")
-        self.portrait_GG = self.game.resources.get_image("gg")
-        self.bg = self.game.resources.get_image("gg_constellations")
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_constellations")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
+        try:
+            self.popup_bg = self.game.resources.get_image(f"{char_key}_popup")
+        except:
+            self.popup_bg = None
+
+        try:
+            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+        except (pygame.error, FileNotFoundError, AttributeError):
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
+            print(f"Портрет для {char.name} не найден, создана заглушка")
 
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"button_{name}"
+            filename = f"button_{name}_{char_key}"
             try:
                 img = self.game.resources.get_image(filename)
                 # Масштабируем под размер кнопки (btn_width, btn_height)
@@ -77,7 +92,7 @@ class ConstellationsState:
             rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)
             self.nav_buttons.append({"text": text, "rect": rect})
 
-        self.activate_btn = self.game.resources.get_image("button_activate")
+        self.activate_btn = self.game.resources.get_image(f"button_activate_{char_key}")
 
     def on_exit(self):
         self.game.save_all()
@@ -96,7 +111,7 @@ class ConstellationsState:
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 # Обработка клика по кнопке активации (если плашка открыта)
                 if hasattr(self, 'activate_btn_rect') and self.activate_btn_rect.collidepoint(event.pos):
-                    char = self.game.player.party[0]
+                    char = self.game.player.party[self.game.selected_character_index]
                     if self.active_circle is not None:
                         i = self.active_circle
                         if char.constellation == i:  # только если это следующее по порядку
@@ -135,7 +150,7 @@ class ConstellationsState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_GG, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_img, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
 
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
@@ -145,7 +160,7 @@ class ConstellationsState:
             popup_rect = pygame.Rect(0, 0, self.game.WIDTH * 0.2928, self.game.HEIGHT) #400,768
             screen.blit(self.popup_bg, popup_rect)
 
-            char = self.game.player.party[0]
+            char = self.game.player.party[self.game.selected_character_index]
             i = self.active_circle
             display_level = i + 1
             max_level = 5

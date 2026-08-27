@@ -33,33 +33,18 @@ class WeaponState:
         except:
             self.popup_bg = None
         # Кнопки
-        filename = f"button_equip_2_{char_key}"
-        img = self.game.resources.get_image(filename)
-        if img is not None:
-            img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
-            self.button_images["Экипировать"] = img
-        else:
-            surf = pygame.Surface((self.btn_width, self.btn_height))
-            surf.fill((80, 80, 120))
-            self.button_images["Экипировать"] = surf
-        filename = f"button_change_2_{char_key}"
-        img = self.game.resources.get_image(filename)
-        if img is not None:
-            img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
-            self.button_images["Сменить"] = img
-        else:
-            surf = pygame.Surface((self.btn_width, self.btn_height))
-            surf.fill((80, 80, 120))
-            self.button_images["Сменить"] = surf
-        filename = f"button_improvement_{char_key}"
-        img = self.game.resources.get_image(filename)
-        if img is not None:
-            img = pygame.transform.scale(img, (self.btn_width, self.btn_height))
-            self.button_images["Улучшение"] = img
-        else:
-            surf = pygame.Surface((self.btn_width, self.btn_height))
-            surf.fill((80, 80, 120))
-            self.button_images["Улучшение"] = surf
+        try:
+            self.equip_btn_img = self.game.resources.get_image(f"button_equip_2_{char_key}")
+        except:
+            self.equip_btn_img = None
+        try:
+            self.unequip_btn_img = self.game.resources.get_image(f"button_change_2_{char_key}")
+        except:
+            self.unequip_btn_img = None
+        try:
+            self.upgrade_btn_img = self.game.resources.get_image(f"button_improvement_{char_key}")
+        except:
+            self.upgrade_btn_img = None
 
         # Загрузка иконок для оружия (по шаблонному ID)
         self.weapon_icons = {}
@@ -89,7 +74,6 @@ class WeaponState:
             self.weapons[w_id] = None
 
     def load_navigation_buttons(self):
-        self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         char_index = self.game.selected_character_index
         char = self.game.player.party[char_index]
@@ -285,10 +269,10 @@ class WeaponState:
         btn_height = self.game.HEIGHT * 0.0807 #62
 
         if self.equipped_uid is not None:
-            btn_img = self.button_images["Сменить"]
+            btn_img = self.unequip_btn_img
             btn_text = "Сменить"
         else:
-            btn_img = self.button_images["Экипировать"]
+            btn_img = self.equip_btn_img
             btn_text = "Экипировать"
 
         self.equip_btn_rect = pygame.Rect(self.game.WIDTH * 0.8089, btn_y, btn_width, btn_height) #1105
@@ -301,8 +285,8 @@ class WeaponState:
             screen.blit(text, (self.equip_btn_rect.x + self.game.WIDTH * 0.0073, self.equip_btn_rect.y + self.game.HEIGHT * 0.013)) #10
 
         self.upgrade_btn_rect = pygame.Rect(self.game.WIDTH * 0.8089, btn_y - self.game.HEIGHT * 0.095, btn_width, btn_height) #1105,73
-        if self.button_images["Улучшение"]:
-            screen.blit(self.button_images["Улучшение"], self.upgrade_btn_rect)
+        if self.upgrade_btn_img:
+            screen.blit(self.upgrade_btn_img, self.upgrade_btn_rect)
         else:
             pygame.draw.rect(screen, (60, 60, 80), self.upgrade_btn_rect)
             pygame.draw.rect(screen, (200, 200, 200), self.upgrade_btn_rect, 2)

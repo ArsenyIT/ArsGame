@@ -30,16 +30,29 @@ class TalentsState:
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
         self.stats_font = pygame.font.Font(None, 28)
-        self.popup_bg = self.game.resources.get_image("popup")
-        self.portrait_GG = self.game.resources.get_image("gg")
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_talents")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
         try:
-            self.bg = self.game.resources.get_image("gg_talents")
-        except pygame.error:
-            self.bg = None
+            self.popup_bg = self.game.resources.get_image(f"{char_key}_popup")
+        except:
+            self.popup_bg = None
+
+        try:
+            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+        except (pygame.error, FileNotFoundError, AttributeError):
+            self.portrait_img = pygame.Surface((290, 415))
+            self.portrait_img.fill((150, 150, 200))
+            print(f"Портрет для {char.name} не найден, создана заглушка")
+
         self.button_images = {}
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         for name in button_names:
-            filename = f"button_{name}"
+            filename = f"button_{name}_{char_key}"
             try:
                 img = self.game.resources.get_image(filename)
                 # Масштабируем под размер кнопки (btn_width, btn_height)
@@ -70,7 +83,7 @@ class TalentsState:
         #        self.icons[name] = None
 
         try:
-            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
+            self.upgrade_btn_img = self.game.resources.get_image(f"button_improve_{char_key}")
         except pygame.error:
             self.upgrade_btn_img = None
 
@@ -137,7 +150,7 @@ class TalentsState:
         #Попытка улучшить активный талант
         if not self.active_talent:
             return
-        char = self.game.player.party[0]  # временно первый персонаж
+        char = self.game.player.party[self.game.selected_character_index]  # временно первый персонаж
         talent_name = self.active_talent
         current_level = char.talents[talent_name]
         if not char.can_upgrade_talent(talent_name):
@@ -157,14 +170,14 @@ class TalentsState:
     def draw(self, screen):
         # Отрисовка фона
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_GG, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_img, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
 
         # Рисуем кнопки навигации (пока заглушка)
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
 
         # Отрисовка кругов с иконками
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
         for name, pos in self.circle_positions.items():
             x, y = pos
             # Рисуем круг (можно сделать разным цветом для активного)

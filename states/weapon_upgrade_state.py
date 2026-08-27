@@ -24,16 +24,18 @@ class WeaponUpgradeState:
             del self.game.temp_weapon_uid
 
         # Здесь загружаем фон и кнопки
+        char_index = self.game.selected_character_index
+        char = self.game.player.party[char_index]
+        char_key = char.resource_key
+        self.bg = self.game.resources.get_image(f"{char_key}_upgrade")
+        if self.bg is None:
+            self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
+            self.bg.fill((40, 40, 60))
         try:
-            self.bg = self.game.resources.get_image("gg_upgrade")
-        except:
-            self.bg = None
-        try:
-            self.upgrade_btn_img = self.game.resources.get_image("button_improve")
+            self.upgrade_btn_img = self.game.resources.get_image(f"button_improve_{char_key}")
         except:
             self.upgrade_btn_img = None
 
-        char = self.game.player.party[0]
         self.weapon_data = char.weapon_data.get(str(self.weapon_uid), {})
         if not self.weapon_data:
             print(f"Оружие с UID {self.weapon_uid} не найдено в данных!")
@@ -57,7 +59,7 @@ class WeaponUpgradeState:
                     self.try_upgrade()
 
     def try_upgrade(self):
-        char = self.game.player.party[0]
+        char = self.game.player.party[self.game.selected_character_index]
         inventory = self.game.player.inventory
         success = char.upgrade_weapon(str(self.weapon_uid), inventory)
         if success:
