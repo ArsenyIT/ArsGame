@@ -52,9 +52,11 @@ class CharacterState:
                 if event.key == pygame.K_q:
                     self.current_index = (self.current_index - 1) % len(self.characters)
                     self.update_ui()
+                    self.game.selected_character_index = self.current_index
                 if event.key == pygame.K_e:
                     self.current_index = (self.current_index + 1) % len(self.characters)
                     self.update_ui()
+                    self.game.selected_character_index = self.current_index
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):

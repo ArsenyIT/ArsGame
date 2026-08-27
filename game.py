@@ -13,6 +13,7 @@ class Game:
         self.states = {}           # Словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # Начальное состояние
+        self.selected_character_index = 0
 
     def load_states(self):
         from states.world_state import WorldState
