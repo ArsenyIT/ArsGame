@@ -1,5 +1,6 @@
 import pygame
 from inventory import PREFIX_WEAPON, PREFIX_ARTIFACT
+from input_handler import InputHandler
 
 class InventoryState:
     def __init__(self, game):
@@ -35,12 +36,12 @@ class InventoryState:
         self.inventory_menu_1 = self.game.resources.get_image("menu_inventory_1")
         self.inventory_menu_2 = self.game.resources.get_image("menu_inventory_2")
 
-        self.weapon_iсon = self.game.resources.get_image("icon_weapons")
-        self.food_iсon = self.game.resources.get_image("icon_foods")
-        self.potion_iсon = self.game.resources.get_image("icon_potions")
-        self.resurs_iсon = self.game.resources.get_image("icon_resources")
-        self.artifact_iсon = self.game.resources.get_image("icon_artifacts")
-        self.rare_resources_iсon = self.game.resources.get_image("icon_rare_resources")
+        self.weapon_icon = self.game.resources.get_image("icon_weapons")
+        self.food_icon = self.game.resources.get_image("icon_foods")
+        self.potion_icon = self.game.resources.get_image("icon_potions")
+        self.resurs_icon = self.game.resources.get_image("icon_resources")
+        self.artifact_icon = self.game.resources.get_image("icon_artifacts")
+        self.rare_resources_icon = self.game.resources.get_image("icon_rare_resources")
         self.special_tools_icon = self.game.resources.get_image("icon_special_tools")
 
         self.empty_cell = self.game.resources.get_image("cell_inventory")
@@ -79,11 +80,11 @@ class InventoryState:
         self.game.save_all()
 
     def update(self, dt, events):
+        if InputHandler.is_key_pressed(events, pygame.K_b) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
+
         for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_b or event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 for btn in self.section_buttons:
                     if btn["rect"].collidepoint(event.pos):
                         self.current_section = btn["section"]
@@ -118,13 +119,13 @@ class InventoryState:
         icon_5 = pygame.Rect(self.game.WIDTH * 0.3755, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #513,127,116
         icon_6 = pygame.Rect(self.game.WIDTH * 0.46925, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #641,127,116
         icon_7 = pygame.Rect(self.game.WIDTH * 0.563, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #769,127,116
-        screen.blit(self.artifact_iсon, icon_1)
-        screen.blit(self.weapon_iсon, icon_2)
-        screen.blit(self.food_iсon, icon_3)
-        screen.blit(self.potion_iсon, icon_4)
-        screen.blit(self.resurs_iсon, icon_5)
+        screen.blit(self.artifact_icon, icon_1)
+        screen.blit(self.weapon_icon, icon_2)
+        screen.blit(self.food_icon, icon_3)
+        screen.blit(self.potion_icon, icon_4)
+        screen.blit(self.resurs_icon, icon_5)
         screen.blit(self.special_tools_icon, icon_6)
-        screen.blit(self.rare_resources_iсon, icon_7)
+        screen.blit(self.rare_resources_icon, icon_7)
 
         # Получаем список предметов
         items_dict = self.game.player.inventory.items

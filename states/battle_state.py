@@ -1,4 +1,5 @@
 import pygame
+from input_handler import InputHandler
 
 class BattleState:
     def __init__(self, game):
@@ -12,11 +13,9 @@ class BattleState:
         print("Выход из боя")
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                # Временно: выход из боя по ESC (потом заменим на условия победы/поражения)
-                if event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
+        # Временно: выход из боя по ESC (потом заменим на условия победы/поражения)
+        if InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
 
     def draw(self, screen):
         screen.fill((30, 30, 30))  # тёмный фон для боя

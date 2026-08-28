@@ -1,5 +1,6 @@
 import pygame
 from game_data import Character
+from input_handler import InputHandler
 
 class CharacterState:
     def __init__(self, game):
@@ -43,22 +44,21 @@ class CharacterState:
         self.game.save_all()
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                # Возврат в мир
-                if event.key == pygame.K_c or event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
-                # Переключение персонажей
-                if event.key == pygame.K_q:
-                    self.current_index = (self.current_index - 1) % len(self.characters)
-                    self.update_ui()
-                    self.game.selected_character_index = self.current_index
-                if event.key == pygame.K_e:
-                    self.current_index = (self.current_index + 1) % len(self.characters)
-                    self.update_ui()
-                    self.game.selected_character_index = self.current_index
+        # Возврат в мир
+        if InputHandler.is_key_pressed(events, pygame.K_c) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
+        # Переключение персонажей
+        if InputHandler.is_key_pressed(events, pygame.K_q):
+            self.current_index = (self.current_index - 1) % len(self.characters)
+            self.update_ui()
+            self.game.selected_character_index = self.current_index
+        if InputHandler.is_key_pressed(events, pygame.K_e):
+            self.current_index = (self.current_index + 1) % len(self.characters)
+            self.update_ui()
+            self.game.selected_character_index = self.current_index
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.level_up_rect.collidepoint(event.pos):
                     self.game.change_state("level_up")
                 for btn in self.menu_buttons:

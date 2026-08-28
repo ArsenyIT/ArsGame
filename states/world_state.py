@@ -1,6 +1,7 @@
 import pygame
 import json
 from camera import Camera
+from input_handler import InputHandler
 
 class WorldState:
     def __init__(self, game):
@@ -78,59 +79,57 @@ class WorldState:
 
     def update(self, dt, events):
         # Обработать ввод для перемещения, открытия меню, начала диалога и т.д.
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_b:
-                    self.game.change_state("inventory")
-                elif event.key == pygame.K_c:
-                    self.game.change_state("character")
-                elif event.key == pygame.K_m:
-                    self.game.change_state("map")
-                elif event.key == pygame.K_j:
-                    self.game.change_state("quest_log")
-                elif event.key == pygame.K_g:
-                    self.game.change_state("tutorials")
-                elif event.key == pygame.K_t:
-                    self.game.change_state("party")
-                elif event.key == pygame.K_f:
-                    if self.near_item == True:
-                        print('Получен Предмет')
-                        self.game.player.inventory.add_item("oak_wood", 1)
-                        self.item = False
-                    else:
-                        self.game.change_state("dialog")
-                elif event.key == pygame.K_F1:
-                    self.game.change_state("events")
-                elif event.key == pygame.K_F2:
-                    self.game.change_state("battlepass")
-                elif event.key == pygame.K_F3:
-                    self.game.change_state("gacha")
-                elif event.key == pygame.K_F4:
-                    self.game.change_state("passport")
+        if InputHandler.is_key_pressed(events, pygame.K_b):
+            self.game.change_state("inventory")
+        if InputHandler.is_key_pressed(events, pygame.K_c):
+            self.game.change_state("character")
+        if InputHandler.is_key_pressed(events, pygame.K_m):
+            self.game.change_state("map")
+        if InputHandler.is_key_pressed(events, pygame.K_j):
+            self.game.change_state("quest_log")
+        if InputHandler.is_key_pressed(events, pygame.K_g):
+            self.game.change_state("tutorials")
+        if InputHandler.is_key_pressed(events, pygame.K_t):
+            self.game.change_state("party")
+        if InputHandler.is_key_pressed(events, pygame.K_f):
+            if self.near_item == True:
+                print('Получен Предмет')
+                self.game.player.inventory.add_item("oak_wood", 1)
+                self.item = False
+            else:
+                self.game.change_state("dialog")
+        if InputHandler.is_key_pressed(events, pygame.K_F1):
+            self.game.change_state("events")
+        if InputHandler.is_key_pressed(events, pygame.K_F2):
+            self.game.change_state("battlepass")
+        if InputHandler.is_key_pressed(events, pygame.K_F3):
+            self.game.change_state("gacha")
+        if InputHandler.is_key_pressed(events, pygame.K_F4):
+            self.game.change_state("passport")
 
         keys = pygame.key.get_pressed()
         self.is_moving = False
-        if keys[pygame.K_w]:
+        if InputHandler.is_key_held(keys, pygame.K_w):
             self.hero_rect.y -= 5
             self.is_moving = True
-        if keys[pygame.K_s]:
+        if InputHandler.is_key_held(keys, pygame.K_s):
             self.hero_rect.y += 5
             self.is_moving = True
-        if keys[pygame.K_a]:
+        if InputHandler.is_key_held(keys, pygame.K_a):
             self.hero_rect.x -= 5
             self.is_moving = True
-        if keys[pygame.K_d]:
+        if InputHandler.is_key_held(keys, pygame.K_d):
             self.hero_rect.x += 5
             self.is_moving = True
         self.camera.update(self.hero_rect)
 
-        if keys[pygame.K_w]:
+        if InputHandler.is_key_held(keys, pygame.K_w):
             self.direction = "back"
-        elif keys[pygame.K_s]:
+        if InputHandler.is_key_held(keys, pygame.K_s):
             self.direction = "straight"
-        elif keys[pygame.K_a]:
+        if InputHandler.is_key_held(keys, pygame.K_a):
             self.direction = "left"
-        elif keys[pygame.K_d]:
+        if InputHandler.is_key_held(keys, pygame.K_d):
             self.direction = "right"
 
         if not self.is_moving:

@@ -1,4 +1,5 @@
 import pygame
+from input_handler import InputHandler
 
 class ConstellationsState:
     def __init__(self, game):
@@ -98,17 +99,16 @@ class ConstellationsState:
         self.game.save_all()
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    if self.active_circle is not None:
-                        self.active_circle = None
-                    else:
-                        self.game.change_state("world")
-                elif event.key == pygame.K_c:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            if self.active_circle is not None:
+                self.active_circle = None
+            else:
+                self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_c):
+            self.game.change_state("world")
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 # Обработка клика по кнопке активации (если плашка открыта)
                 if hasattr(self, 'activate_btn_rect') and self.activate_btn_rect.collidepoint(event.pos):
                     char = self.game.player.party[self.game.selected_character_index]

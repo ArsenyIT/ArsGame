@@ -1,4 +1,5 @@
 import pygame
+from input_handler import InputHandler
 
 class GachaState:
     def __init__(self, game):
@@ -11,11 +12,8 @@ class GachaState:
         print("Выход из Баннеров")
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                # Возврат в мир по той же клавише или ESC
-                if event.key == pygame.K_F3 or event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_F3) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
 
     def draw(self, screen):
         screen.fill((80, 40, 80))  # Уникальный цвет для каждого состояния

@@ -1,4 +1,5 @@
 import pygame
+from input_handler import InputHandler
 
 class ArtifactState:
     def __init__(self, game):
@@ -71,12 +72,11 @@ class ArtifactState:
         print("Выход из экрана Артефакты")
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_c or event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_c) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 # Проверка кликов по кругам (переход в artifact_upgrade)
                 for slot_name, rect in self.circle_rects.items():
                     if rect.collidepoint(event.pos):

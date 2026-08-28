@@ -1,4 +1,5 @@
 import pygame
+from input_handler import InputHandler
 
 class PartyState:
     def __init__(self, game):
@@ -11,14 +12,11 @@ class PartyState:
         print("Выход из настроек отряда")
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                # Возврат в мир по той же клавише или ESC
-                if event.key == pygame.K_t or event.key == pygame.K_ESCAPE:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_t) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
 
     def draw(self, screen):
-        screen.fill((70, 70, 30))  # Уникальный цвет для каждого состояния
+        screen.fill((70, 70, 30))
         font = pygame.font.Font(None, 48)
         text = font.render("Отряд (заглушка)", True, (255,255,255))
         screen.blit(text, (screen.get_width()//2 - text.get_width()//2, screen.get_height()//2))

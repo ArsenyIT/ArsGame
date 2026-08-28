@@ -1,6 +1,7 @@
 import pygame
 from inventory import ITEM_DATA
 from game_data import get_artifact_main_stat_value
+from input_handler import InputHandler
 
 class ArtifactUpgradeState:
     def __init__(self, game):
@@ -100,17 +101,16 @@ class ArtifactUpgradeState:
         self.game.save_all()
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    if self.show_popup:
-                        self.show_popup = False
-                    else:
-                        self.game.change_state("artifact")
-                elif event.key == pygame.K_c:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_c):
+            self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            if self.show_popup:
+                self.show_popup = False
+            else:
+                self.game.change_state("artifact")
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.show_popup:
                         self.handle_popup_click(event.pos)
                     else:

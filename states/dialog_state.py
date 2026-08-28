@@ -1,6 +1,7 @@
 import pygame
 import json
 import os
+from input_handler import  InputHandler
 
 class DialogState:
     def __init__(self, game):
@@ -72,22 +73,18 @@ class DialogState:
             del self.game.temp_scene
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
-                    # Если есть следующая реплика
-                    if self.current_line + 1 < len(self.dialog_lines):
-                        self.current_line += 1
-                    else:
-                        # Диалог закончен – возврат в мир
-                        if self.current_chapter_index + 1 < len(self.chapter_files):
-                            self.current_chapter_index += 1
-                            self.load_scene(self.chapter_files[self.current_chapter_index])
-                        else:
-                            self.game.change_state("world")
-                elif event.key == pygame.K_ESCAPE:
-                    # Прервать диалог
+        if InputHandler.is_key_pressed(events, pygame.K_SPACE) or InputHandler.is_key_pressed(events, pygame.K_RETURN):
+            # Если есть следующая реплика
+            if self.current_line + 1 < len(self.dialog_lines):
+                self.current_line += 1
+            else:
+                if self.current_chapter_index + 1 < len(self.chapter_files):
+                    self.current_chapter_index += 1
+                    self.load_scene(self.chapter_files[self.current_chapter_index])
+                else:
                     self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            self.game.change_state("world")
 
     def draw(self, screen):
         screen.fill((0, 0, 0))  # Уникальный цвет для каждого состояния

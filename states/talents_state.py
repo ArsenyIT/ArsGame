@@ -1,6 +1,7 @@
 import pygame
 from inventory import ITEM_DATA
 from game_data import TALENT_BOOK_REQUIREMENTS
+from input_handler import InputHandler
 
 class TalentsState:
     def __init__(self, game):
@@ -91,18 +92,16 @@ class TalentsState:
         self.game.save_all()
 
     def update(self, dt, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    if self.active_talent:
-                        # Если открыта плашка, закрываем её
-                        self.active_talent = None
-                    else:
-                        self.game.change_state("world")
-                elif event.key == pygame.K_c:
-                    self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
+            if self.active_talent:
+                self.active_talent = None # Если открыта плашка, закрываем её
+            else:
+                self.game.change_state("world")
+        if InputHandler.is_key_pressed(events, pygame.K_c):
+            self.game.change_state("world")
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.active_talent:
                     # Если плашка открыта, обрабатываем клики внутри неё
                     self.handle_click_inside_popup(event.pos)
