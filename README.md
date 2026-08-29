@@ -689,81 +689,80 @@ load_all() – загружает все ресурсы, используемы�
 ### Файл init:
 
 ### Файл world_state:
-1. Разбор файла world_state.py
-1.1 Предназначение
-world_state.py — это главное игровое состояние, в котором происходит весь геймплей на карте. Здесь:
-Загружается и отрисовывается карта (тайлы).
-Управляется камера (следование за игроком).
-Обрабатывается движение персонажа (WASD).
-Реализованы анимации (стоячие позы и ходьба).
-Обрабатывается взаимодействие с предметами (сбор по F).
-Происходит переключение на другие состояния (инвентарь, персонаж, карта и т.д.).
-1.2 Структура и атрибуты (в __init__)
-self.game – ссылка на главный объект игры (доступ к состояниям, ресурсам, игроку).
-self.hero_rect – прямоугольник персонажа в мировых координатах. Координаты и размеры вычислены адаптивно (проценты от WIDTH и HEIGHT).
-self.item_rect – прямоугольник собираемого предмета (тестовый дубовый бревно).
-self.hint_font – шрифт для подсказки "Нажмите F".
-self.near_item – флаг, находится ли игрок рядом с предметом.
-self.item – флаг, существует ли предмет на карте (исчезает после сбора).
-self.tile_size – размер одного тайла в пикселях (50).
-self.direction – текущее направление персонажа ("right", "left", "back", "straight").
-self.idle_frames – словарь со списками ключей спрайтов для стоячих анимаций (по направлениям).
-self.walk_frames – аналогично для ходьбы.
-self.idle_frames_index / self.walk_frames_index – текущий индекс кадра.
-self.idle_timer / self.walk_timer – таймеры для переключения кадров.
-self.idle_interval / self.walk_interval – интервалы смены кадров (в секундах).
-self.is_moving – флаг движения (используется для выбора анимации).
-1.3 Метод on_enter(self)
-Вызывается при переходе в состояние мира.
-Что делает:
-Загружает карту из assets/maps/map.json (JSON содержит "data" – двумерный массив тайлов).
-Создаёт объект камеры (Camera), передавая размеры карты в пикселях, размер тайла и размеры экрана.
-Загружает текстуры тайлов из менеджера ресурсов (по числовым кодам из карты).
-Загружает спрайт предмета (oak_wood) и фоновое изображение списка отряда (squad_list).
-Важно: все текстуры берутся из ResourceManager через get_image().
-1.4 Метод update(self, dt, events)
-Вызывается каждый кадр. Отвечает за логику игры в мире.
-Что делает:
-Обработка однократных нажатий клавиш через InputHandler.is_key_pressed(events, key):
-B → открывает инвентарь.
-C → открывает экран персонажа.
-M → открывает карту.
-J → открывает задания.
-G → открывает обучения.
-T → открывает отряд.
-F → либо собирает предмет (если рядом), либо открывает диалог (если предмета нет).
-F1–F4 → открывают соответствующие заглушки.
-Движение персонажа:
-Получает состояние всех клавиш через pygame.key.get_pressed().
-Проверяет зажатые WASD через InputHandler.is_key_held(keys, key).
-Сдвигает hero_rect на 5 пикселей в соответствующую сторону.
-Устанавливает флаг self.is_moving = True, если хотя бы одна клавиша зажата.
-Обновляет камеру (self.camera.update(self.hero_rect)) после каждого движения.
-Обновление направления:
-На основе зажатых WASD устанавливает self.direction в соответствующее значение ("back", "straight", "left", "right").
-Анимации:
-Если персонаж стоит (not self.is_moving):
-Увеличивает idle_timer на dt.
-При достижении idle_interval переключает кадр (циклически) и сбрасывает таймер.
-Если персонаж движется:
-Сбрасывает idle_frames_index и idle_timer.
-Увеличивает walk_timer.
-При достижении walk_interval переключает кадр ходьбы (циклически) и сбрасывает таймер.
-Проверка столкновения с предметом:
-Если hero_rect пересекается с item_rect, устанавливает self.near_item = True.
-1.5 Метод draw(self, screen)
-Вызывается каждый кадр для отрисовки.
-Что делает:
-Отрисовывает видимую часть карты через self.camera.draw_map().
-Получает экранные координаты персонажа через self.camera.apply(self.hero_rect).
-Выбирает спрайт:
-Если is_moving == False – берёт кадр из idle_frames по текущему индексу.
-Иначе – из walk_frames.
-Получает изображение из менеджера ресурсов и блочит его на экранные координаты.
-Отрисовывает рамку отряда (список отряда) – она статична, привязана к экрану.
-Если предмет существует (self.item == True):
-Получает экранные координаты предмета через камеру и блочит его.
-Если предмет рядом и существует – рисует подсказку "Нажмите F" над предметом (с учётом камеры).
+1. Предназначение:
+* Главное игровое состояние, в котором происходит весь геймплей на карте.
+
+2. Библиотеки:
+* import pygame (Для работы с текстурами)
+* import json (Работа с данными персонажами)
+* from camera import Camera (Работа с камерой)
+* from input_handler import InputHandler (Обработка действий)
+
+3. Класс WorldState:
+* Функция init(self, game):
+    * Назначение: Создание мира, переход во все остальные события и обработка передвижения персонажа.
+    * Параметры:
+        * self - ссылка на объект.
+        * game – ссылка на главный объект игры (доступ к состояниям, ресурсам, игроку).
+    * Атрибуты:
+        * hero_rect – прямоугольник персонажа в мировых координатах. Координаты и размеры вычислены адаптивно (проценты от WIDTH и HEIGHT). 
+        * item_rect – прямоугольник собираемого предмета (тестовый дубовый бревно). 
+        * hint_font – шрифт для подсказки "Нажмите F". 
+        * near_item – флаг, находится ли игрок рядом с предметом. 
+        * item – флаг, существует ли предмет на карте (исчезает после сбора). 
+        * tile_size – размер одного тайла в пикселях (50). 
+        * direction – текущее направление персонажа ("right", "left", "back", "straight"). 
+        * idle_frames – словарь со списками ключей спрайтов для стоячих анимаций (по направлениям). 
+        * walk_frames – аналогично для ходьбы. 
+        * idle_frames_index / self.walk_frames_index – текущий индекс кадра. 
+        * idle_timer / self.walk_timer – таймеры для переключения кадров. 
+        * idle_interval / self.walk_interval – интервалы смены кадров (в секундах). 
+        * is_moving – флаг движения (используется для выбора анимации).
+      
+4. Функции класса WorldState:
+* Метод on_enter(self):
+    * Назначение: Загрузка всех нужных текстур и json файлов, а также создание объекта камеры.
+    * with open("assets/maps/map.json", "r", encoding="utf-8") as f: map_json = json.load(f) - чтение json файла по карте.
+    * self.map_data = map_json["data"] - получение данных карты.
+    * map_width = len(self.map_data[0]) * self.tile_size - ширина карты.
+    * map_height = len(self.map_data) * self.tile_size - высота карты.
+    * self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT) - создаём объект камеры.
+    * self.tile_textures = {...} - загрузка тайлов карты.
+    * self.item_img = self.game.resources.get_image("oak_wood") - загрузка предмета.
+    * self.squad = self.game.resources.get_image("squad_list") - загрузка списка персонажей.
+* Функция update(self, dt, events):
+    * Назначение: Обработка всех событий в мире.
+    * Параметры:
+        * dt - время между кадрами.
+        * events - все события.
+    * if InputHandler.is_key_pressed(events, pygame.K_): self.game.change_state("...") - обработка событий для перехода на другое состояние.
+    * if InputHandler.is_key_pressed(events, pygame.K_f): if self.near_item == True: self.game.player.inventory.add_item("oak_wood", 1) self.item = False - обработка события для получения события.
+    * keys = pygame.key.get_pressed() - получаем нажатые клавиши.
+    * if InputHandler.is_key_held(keys, pygame.K_): self.hero_rect -+= 5 self.is_moving = True - обработка события для передвижения персонажа.
+    * if InputHandler.is_key_held(keys, pygame.K_): self.direction = "..." - смена текстуры при движении.
+    * if not self.is_moving: self.idle_timer += dt - если персонаж стоит то добавляется время для смены позы персонажа. 
+    * if self.idle_timer >= self.idle_interval: self.idle_frames_index = (self.idle_frames_index + 1) % len(self.idle_frames[self.direction]) self.idle_timer = 0.0 - если таймер равен или больше интервала то меняется поза персонажа и обнуляется таймер.
+    * else: self.idle_frames_index = 0 self.idle_timer = 0.0 - если персонаж не стоит то тогда текстура и таймер обнуляется.
+    * if self.is_moving: self.walk_timer += dt - если персонаж движется то добавляется время для смены позы персонажа. 
+    * if self.walk_timer >= self.walk_interval: self.walk_frames_index = (self.walk_frames_index + 1) % len(self.walk_frames[self.direction]) self.walk_timer = 0.0 - если таймер равен или больше интервала то меняется поза персонажа и обнуляется таймер.
+    * else: self.walk_frames_index = 0 self.walk_timer = 0.0 - - если персонаж не движется то тогда текстура и таймер обнуляется.
+    * if self.hero_rect.colliderect(self.item_rect): self.near_item = True - если персонаж касается предмета то тогда его можно подобрать. 
+* Функция draw(self, screen):
+    * Назначение: Отрисовывает видимую часть карты через self.camera.draw_map().
+    * Параметры:
+        * screen - экран.
+    self.camera.draw_map(screen, self.map_data, self.tile_textures) - отрисовываем карту.
+    hero_screen_rect = self.camera.apply(self.hero_rect) - получаем размеры персонажа.
+    if self.is_moving == False: frames = self.idle_frames[self.direction] key = frames[self.idle_frames_index] - смена текстуры стоя. 
+    elif self.is_moving == True: frames = self.walk_frames[self.direction] key = frames[self.walk_frames_index] - смена текстуры идя. 
+    player_sprite = self.game.resources.get_image(key) - получаем текстуру персонажа.
+    if player_sprite: screen.blit(player_sprite, hero_screen_rect) - отрисовка игрока. 
+    ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height) - размеры рамки отряда.
+    screen.blit(self.squad, ramka) - отрисовываем рамку отряда.
+    if self.item == True: item_screen_rect = self.camera.apply(self.item_rect) screen.blit(self.item_img, item_screen_rect) - если флаг истина то тогда предмет отрисовывается.
+    if self.near_item == True and self.item == True: item_screen_rect = self.camera.apply(self.item_rect) - если персонаж касается предмета то выводится текст подсказка.
+    hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10)) - надпись и цвет текста.
+    screen.blit(hint_surf, (hint_x, hint_y)) - отрисовка текста.
 
 ***
 
