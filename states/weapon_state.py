@@ -12,8 +12,6 @@ class WeaponState:
         self.equipped_uid = None  # UID экипированного оружия
         self.show_popup = False
         self.popup_uids = []  # Список UID для отображения в плашке
-        self.menu = None
-        self.portrait_img = None
         self.button_images = {}
         self.popup_selected_index = -1
         self.popup_cell_rects = []

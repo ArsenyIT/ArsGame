@@ -1,6 +1,5 @@
 import json
 import os
-import time
 import shutil
 
 PREFIX_ARTIFACT = "artifact_"
@@ -186,16 +185,6 @@ ITEM_DATA = {
     # Особые инструменты
     # Редкие ресурсы
 }
-
-class Item:
-    # Теперь конструктор принимает параметры
-    def __init__(self, item_id, max_stack=1000):
-        self.id = item_id  # Уникальный идентификатор (строка или число)
-        self.data = ITEM_DATA.get(item_id, {})
-        self.max_stack = max_stack  # Максимальное количество в стопке
-        self.items = {}
-        self.modified = False
-        self.counter = 0  # Случайный ID
 
 class Inventory:
     def __init__(self):

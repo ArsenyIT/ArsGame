@@ -23,11 +23,6 @@ class InventoryState:
             {"rect": pygame.Rect(self.game.WIDTH * 0.563, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15), "section": "rare_resources"}, #769,127,116
         ]
 
-    def get_item_list(self):
-        # Возвращает список (item_id, количество) из инвентаря
-        inv_dict = self.game.player.inventory.items
-        return list(inv_dict.items())
-
     def on_enter(self):
         # Загрузка данных инвентаря из глобального объекта
         print("Вход в инвентарь")
@@ -127,11 +122,6 @@ class InventoryState:
         screen.blit(self.special_tools_icon, icon_6)
         screen.blit(self.rare_resources_icon, icon_7)
 
-        # Получаем список предметов
-        items_dict = self.game.player.inventory.items
-        items_list = list(items_dict.items())  # [(item_id, quantity), ...]
-
-        all_items = self.game.player.inventory.items
         # Фильтруем по текущему разделу
         grouped_items = self.get_grouped_items(self.current_section)
         items_list = list(grouped_items.items())

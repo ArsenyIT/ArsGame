@@ -120,6 +120,5 @@ class ArtifactState:
                     if icon:
                         icon_rect = icon.get_rect(center=(x, y))
                         screen.blit(icon, icon_rect)
-                    # Если иконка не найдена, можно вывести сообщение в консоль
                     else:
                         print(f"Иконка для {artifact_id} не найдена")

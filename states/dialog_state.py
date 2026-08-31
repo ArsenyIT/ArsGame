@@ -10,7 +10,6 @@ class DialogState:
         self.name_font = None  # шрифт для имени говорящего
         self.dialog_lines = []  # список реплик (каждая реплика = dict с ключами speaker, text)
         self.current_line = 0  # индекс текущей реплики
-        self.scene = None  # имя сцены (будет передано перед входом)
         self.chapter_files = [
             "Tom_1/Season_1/Preface.json",
             "Tom_1/Season_1/Chapter_1.json",

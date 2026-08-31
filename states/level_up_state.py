@@ -13,7 +13,7 @@ class LevelUpState:
         char_index = self.game.selected_character_index
         char = self.game.player.party[char_index]
         char_key = char.resource_key
-        self.bg = self.game.resources.get_image(f"{char_key}_artifacts")
+        self.bg = self.game.resources.get_image(f"{char_key}_upgrade")
         if self.bg is None:
             self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.bg.fill((40, 40, 60))

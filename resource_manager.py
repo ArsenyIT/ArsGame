@@ -4,7 +4,6 @@ class ResourceManager:
     def __init__(self):
         self.images = {}
         self.fonts = {}
-        self.sounds = {}
 
     def load_image(self, path, key):
         try:

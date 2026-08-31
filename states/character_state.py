@@ -84,7 +84,6 @@ class CharacterState:
             self.menu = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.menu.fill((40, 40, 60))
 
-        self.portrait = self.characters[self.current_index].portrait_path
         try:
             self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):

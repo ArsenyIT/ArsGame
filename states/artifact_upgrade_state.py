@@ -117,7 +117,6 @@ class ArtifactUpgradeState:
                         self.handle_main_click(event.pos)
 
     def handle_main_click(self, pos):
-        # Проверка кликов по навигационным кнопкам отсутствует (как и в weapon_state) – можно добавить, если нужно
         # Кнопка "Экипировать/Сменить"
         if hasattr(self, 'equip_btn_rect') and self.equip_btn_rect.collidepoint(pos):
             char = self.game.player.party[self.game.selected_character_index]

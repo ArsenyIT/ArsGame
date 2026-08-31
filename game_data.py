@@ -99,59 +99,6 @@ def calculate_weapon_stats(weapon_id, level):
         "secondary_stat": sec_stat
     }
 
-class Weapon:
-    def __init__(self, name, weapon_type, rarity, base_atk):
-        self.name = name
-        self.weapon_type = weapon_type
-        self.rarity = rarity
-        self.base_atk = base_atk
-        self.secondary_stat = None
-        self.level = 1
-        self.max_level = 100
-        self.weapon_growth_data = {}
-        self.load_weapon_growth()
-
-    def load_weapon_growth(self):
-        with open("assets/data/weapon_growth.json", "r", encoding="utf-8") as f:
-            self.weapon_growth_data = json.load(f)
-
-    def get_total_atk(self):
-        return self.base_atk
-
-    def get_weapon_stats(self, weapon_id, level):
-        # Возвращает словарь с итоговой атакой и вторичным статом для оружия
-        weapon_template = ITEM_DATA.get(weapon_id, {})
-        base_atk = weapon_template.get("base_atk", 0)
-        secondary = weapon_template.get("secondary_stat", {})
-        sec_stat = secondary.get("stat", "")
-        sec_base = secondary.get("value", 0)
-
-        # Получаем бонусы из роста
-        growth = self.weapon_growth_data.get(weapon_id, {}).get(str(level), {})
-        atk_bonus = growth.get("atk_bonus", 0)
-        sec_bonus = growth.get("secondary_bonus", 0)
-
-        total_atk = base_atk + atk_bonus
-        total_sec = sec_base + sec_bonus
-
-        return {
-            "atk": total_atk,
-            "secondary_stat": sec_stat,
-            "secondary_value": total_sec
-        }
-
-class Artifact:
-    def __init__(self, slot, set_name, rarity, main_stat):
-        self.slot = slot
-        self.set_name = set_name
-        self.rarity = rarity
-        self.level = 0
-        self.main_stat = main_stat
-        self.sub_stats = []
-
-    def get_stat_bonus(self, stat_name):
-        pass
-
 class Character:
     def __init__(self, name, exp, exp_next,
                  base_hp, base_atk, base_defense, portrait_path,
