@@ -60,40 +60,41 @@ class Player:
         # Загружаем данные персонажей
         self.load_party("assets/data/party_save.json")
 
-        hero = self.party[0]
-        for uid in self.inventory.get_all_uids("weapons"):
-            uid_str = str(uid)
-            if uid_str not in hero.weapon_data:
-                for item_id, uids in self.inventory.items.items():
-                    if isinstance(uids, list) and uid in uids:
-                        if self.inventory.get_item_type(item_id) == "weapons":
-                            hero.weapon_data[uid_str] = {
-                                "level": 1,
-                                "weapon_id": item_id
-                            }
-                            print(f"Восстановлена запись для оружия {item_id} с UID {uid}")
-                        break
+        for hero in self.party:
+            for uid in self.inventory.get_all_uids("weapons"):
+                uid_str = str(uid)
+                if uid_str not in hero.weapon_data:
+                    for item_id, uids in self.inventory.items.items():
+                        if isinstance(uids, list) and uid in uids:
+                            if self.inventory.get_item_type(item_id) == "weapons":
+                                hero.weapon_data[uid_str] = {
+                                    "level": 1,
+                                    "weapon_id": item_id
+                                }
+                                print(f"Восстановлена запись для оружия {item_id} с UID {uid}")
+                            break
 
         # Восстанавливаем artifact_data для существующих UID артефактов
-        for uid in self.inventory.get_all_uids("artifacts"):
-            uid_str = str(uid)
-            if uid_str not in hero.artifact_data:
-                for item_id, uids in self.inventory.items.items():
-                    if isinstance(uids, list) and uid in uids:
-                        if self.inventory.get_item_type(item_id) == "artifacts":
-                            main_stat = generate_artifact_main_stat(item_id)
-                            if not main_stat:
-                                main_stat = {}
-                            hero.artifact_data[uid_str] = {
-                                "level": 1,
-                                "exp": 0,
-                                "exp_next": 100,
-                                "sub_stats": [],
-                                "main_stat": main_stat,
-                                "artifact_id": item_id
-                            }
-                            print(f"Восстановлена запись для артефакта {item_id} с UID {uid}")
-                        break
+        for hero in self.party:
+            for uid in self.inventory.get_all_uids("artifacts"):
+                uid_str = str(uid)
+                if uid_str not in hero.artifact_data:
+                    for item_id, uids in self.inventory.items.items():
+                        if isinstance(uids, list) and uid in uids:
+                            if self.inventory.get_item_type(item_id) == "artifacts":
+                                main_stat = generate_artifact_main_stat(item_id)
+                                if not main_stat:
+                                    main_stat = {}
+                                hero.artifact_data[uid_str] = {
+                                    "level": 1,
+                                    "exp": 0,
+                                    "exp_next": 100,
+                                    "sub_stats": [],
+                                    "main_stat": main_stat,
+                                    "artifact_id": item_id
+                                }
+                                print(f"Восстановлена запись для артефакта {item_id} с UID {uid}")
+                            break
 
         # Сохраняем партию, чтобы в следующий раз данные уже были
         self.save_party("assets/data/party_save.json")
