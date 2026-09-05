@@ -46,6 +46,10 @@ class ResourceManager:
         self.load_image("assets/textures/tiles/Void_2.png", "void_2")
         self.load_image("assets/textures/tiles/Path.png", "path")
         self.load_image("assets/textures/tiles/White.png", "white")
+        self.load_image("assets/textures/tiles/Water_1_level.png", "water_1_level")
+        self.load_image("assets/textures/tiles/Water_2_level.png", "water_2_level")
+        self.load_image("assets/textures/tiles/Water_3_level.png", "water_3_level")
+        self.load_image("assets/textures/tiles/Water_4_level.png", "water_4_level")
 
         # ---- Карты ----
         self.load_image("assets/textures/maps/Map_1.png", "map_1")
