@@ -140,7 +140,8 @@
           "main_stat": {
             "hp": 1000
           },
-          "artifact_id": "flower_2"
+          "artifact_id": "flower_2",
+          "growth_key": "flower_hp"
         },
         "4": {
           "level": 1,
@@ -150,7 +151,8 @@
           "main_stat": {
             "def_percent": 4.0
           },
-          "artifact_id": "sands_2"
+          "artifact_id": "sands_2",
+          "growth_key": "sands_def_percent"
         },
         "5": {
           "level": 1,
@@ -160,7 +162,8 @@
           "main_stat": {
             "hydro_dmg_percent": 5.0
           },
-          "artifact_id": "goblet_2"
+          "artifact_id": "goblet_2",
+          "growth_key": "goblet_hydro_dmg_percent"
         },
         "6": {
           "level": 1,
@@ -170,7 +173,8 @@
           "main_stat": {
             "atk": 100
           },
-          "artifact_id": "plume_1"
+          "artifact_id": "plume_1",
+          "growth_key": "plume_atk"
         },
         "7": {
           "level": 1,
@@ -180,7 +184,8 @@
           "main_stat": {
             "atk": 115
           },
-          "artifact_id": "plume_2"
+          "artifact_id": "plume_2",
+          "growth_key": "plume_atk"
         }
       },
       "weapon_data": {

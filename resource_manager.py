@@ -29,6 +29,7 @@ class ResourceManager:
         # ---- Тайлы ----
         self.load_image("assets/textures/tiles/Grass_1.png", "grass_1")
         self.load_image("assets/textures/tiles/Grass_2.png", "grass_2")
+        self.load_image("assets/textures/tiles/Forest_grass.png", "forest_grass")
         self.load_image("assets/textures/tiles/Border_1.png", "border_1")
         self.load_image("assets/textures/tiles/Border_2.png", "border_2")
         self.load_image("assets/textures/tiles/Border_3.png", "border_3")

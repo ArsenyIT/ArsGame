@@ -45,9 +45,28 @@ class WorldState:
         # загрузить карту, спрайты, инициализировать положение игрока
         with open("assets/maps/map.json", "r", encoding="utf-8") as f:
             map_json = json.load(f)
-        self.map_data = map_json["data"]
-        map_width = len(self.map_data[0]) * self.tile_size
-        map_height = len(self.map_data) * self.tile_size
+        map_width = map_json["width"] * self.tile_size
+        map_height = map_json["height"] * self.tile_size
+        self.ground_data = None
+        self.collision_data = None
+        self.collision_rects = []
+        for layer in map_json["layers"]:
+            if layer["type"] == "tilelayer":
+                if layer["name"] == "Ground":
+                    width = map_json["width"]
+                    height = map_json["height"]
+                    data_2d = [layer["data"][i * width: (i + 1) * width] for i in range(height)]
+                    self.ground_data = data_2d
+                if layer["name"] == "Collision_tiles":
+                    width = map_json["width"]
+                    height = map_json["height"]
+                    data_2d = [layer["data"][i * width: (i + 1) * width] for i in range(height)]
+                    self.collision_data = data_2d
+            elif layer["type"] == "objectgroup" and layer["name"] == "Collision_objects":
+                for obj in layer["objects"]:
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    self.collision_rects.append(rect)
+
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
             1: self.game.resources.get_image("grass_1"),
@@ -72,7 +91,8 @@ class WorldState:
             20: self.game.resources.get_image("border_square_2"),
             21: self.game.resources.get_image("border_square_3"),
             22: self.game.resources.get_image("border_square_4"),
-            23: self.game.resources.get_image("path")
+            23: self.game.resources.get_image("path"),
+            24: self.game.resources.get_image("forest_grass")
         }
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
@@ -80,6 +100,24 @@ class WorldState:
     def on_exit(self):
         # сохранить данные, очистить ресурсы
         pass
+
+    def check_tile_collision(self, rect):
+        left = rect.left // self.tile_size
+        right = (rect.right - 1) // self.tile_size
+        top = rect.top // self.tile_size
+        bottom = (rect.bottom - 1) // self.tile_size
+        if self.collision_data is not None:
+            width = len(self.collision_data[0])
+            height = len(self.collision_data)
+        else:
+            width = None
+            height = None
+        for row in range(top, bottom + 1):
+            for col in range(left, right + 1):
+                if self.collision_data[row][col] != 0:
+                    return True
+                else:
+                    return False
 
     def update(self, dt, events):
         # Обработать ввод для перемещения, открытия меню, начала диалога и т.д.
@@ -159,7 +197,7 @@ class WorldState:
             self.near_item = True
 
     def draw(self, screen):
-        self.camera.draw_map(screen, self.map_data, self.tile_textures)
+        self.camera.draw_map(screen, self.ground_data, self.tile_textures)
         hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
             frames = self.idle_frames[self.direction]
