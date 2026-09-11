@@ -6,11 +6,6 @@ from input_handler import InputHandler
 class WorldState:
     def __init__(self, game):
         self.game = game
-        hero_x = int(self.game.WIDTH * 0.05)
-        hero_y = int(self.game.HEIGHT * 0.1)
-        hero_width = int(self.game.WIDTH * 0.03)
-        hero_height = int(self.game.HEIGHT * 0.12)
-        self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
         item_x = int(self.game.WIDTH * 0.15)
         item_y = int(self.game.HEIGHT * 0.3)
         item_width = int(self.game.WIDTH * 0.01)
@@ -43,6 +38,13 @@ class WorldState:
 
     def on_enter(self):
         # загрузить карту, спрайты, инициализировать положение игрока
+        spawn_tile_x = 140
+        spawn_tile_y = 150
+        hero_x = spawn_tile_x * self.tile_size
+        hero_y = spawn_tile_y * self.tile_size
+        hero_width = int(self.game.WIDTH * 0.0329) #45
+        hero_height = int(self.game.HEIGHT * 0.12) #90
+        self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
         with open("assets/maps/map.json", "r", encoding="utf-8") as f:
             map_json = json.load(f)
         map_width = map_json["width"] * self.tile_size
@@ -102,22 +104,24 @@ class WorldState:
         pass
 
     def check_tile_collision(self, rect):
+        if self.collision_data is None:
+            return False
+
         left = rect.left // self.tile_size
         right = (rect.right - 1) // self.tile_size
         top = rect.top // self.tile_size
         bottom = (rect.bottom - 1) // self.tile_size
-        if self.collision_data is not None:
-            width = len(self.collision_data[0])
-            height = len(self.collision_data)
-        else:
-            width = None
-            height = None
+        width = len(self.collision_data[0])
+        height = len(self.collision_data)
         for row in range(top, bottom + 1):
             for col in range(left, right + 1):
+                if row < 0 or row >= height:
+                    return True
+                if col < 0 or col >= width:
+                    return True
                 if self.collision_data[row][col] != 0:
                     return True
-                else:
-                    return False
+        return False
 
     def update(self, dt, events):
         # Обработать ввод для перемещения, открытия меню, начала диалога и т.д.
@@ -164,6 +168,7 @@ class WorldState:
             self.hero_rect.x += 5
             self.is_moving = True
         self.camera.update(self.hero_rect)
+        print(self.check_tile_collision(self.hero_rect))
 
         if InputHandler.is_key_held(keys, pygame.K_w):
             self.direction = "back"
