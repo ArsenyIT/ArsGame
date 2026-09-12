@@ -52,6 +52,9 @@ class ResourceManager:
         self.load_image("assets/textures/tiles/Water_3_level.png", "water_3_level")
         self.load_image("assets/textures/tiles/Water_4_level.png", "water_4_level")
 
+        # ---- Объекты колизии ----
+        self.load_image("assets/textures/collision_objects/Oak_butt.png", "oak_butt")
+
         # ---- Карты ----
         self.load_image("assets/textures/maps/Map_1.png", "map_1")
 
