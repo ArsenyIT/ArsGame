@@ -98,6 +98,7 @@ class WorldState:
         }
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
+        self.oak_butt = self.game.resources.get_image("oak_butt")
 
     def on_exit(self):
         # сохранить данные, очистить ресурсы
@@ -155,29 +156,34 @@ class WorldState:
 
         keys = pygame.key.get_pressed()
         self.is_moving = False
+        dx = 0
+        dy = 0
+        move_speed = 5
         if InputHandler.is_key_held(keys, pygame.K_w):
-            self.hero_rect.y -= 5
-            self.is_moving = True
-        if InputHandler.is_key_held(keys, pygame.K_s):
-            self.hero_rect.y += 5
-            self.is_moving = True
-        if InputHandler.is_key_held(keys, pygame.K_a):
-            self.hero_rect.x -= 5
-            self.is_moving = True
-        if InputHandler.is_key_held(keys, pygame.K_d):
-            self.hero_rect.x += 5
-            self.is_moving = True
-        self.camera.update(self.hero_rect)
-        print(self.check_tile_collision(self.hero_rect))
-
-        if InputHandler.is_key_held(keys, pygame.K_w):
+            dy -= move_speed
             self.direction = "back"
+            self.is_moving = True
         if InputHandler.is_key_held(keys, pygame.K_s):
+            dy += move_speed
             self.direction = "straight"
+            self.is_moving = True
         if InputHandler.is_key_held(keys, pygame.K_a):
+            dx -= move_speed
             self.direction = "left"
+            self.is_moving = True
         if InputHandler.is_key_held(keys, pygame.K_d):
+            dx += move_speed
             self.direction = "right"
+            self.is_moving = True
+
+        new_rect_x = self.hero_rect.move(dx, 0)
+        if not self.check_tile_collision(new_rect_x) and not any(new_rect_x.colliderect(r) for r in self.collision_rects):
+            self.hero_rect.x = new_rect_x.x
+        new_rect_y = self.hero_rect.move(0, dy)
+        if not self.check_tile_collision(new_rect_y) and not any(new_rect_y.colliderect(r) for r in self.collision_rects):
+            self.hero_rect.y = new_rect_y.y
+
+        self.camera.update(self.hero_rect)
 
         if not self.is_moving:
             self.idle_timer += dt
@@ -203,6 +209,11 @@ class WorldState:
 
     def draw(self, screen):
         self.camera.draw_map(screen, self.ground_data, self.tile_textures)
+
+        for rect in self.collision_rects:
+            screen_rect = self.camera.apply(rect)
+            screen.blit(self.oak_butt, screen_rect)
+
         hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
             frames = self.idle_frames[self.direction]
@@ -213,6 +224,7 @@ class WorldState:
         player_sprite = self.game.resources.get_image(key)
         if player_sprite:
             screen.blit(player_sprite, hero_screen_rect)
+
         squad_width = int(self.game.WIDTH * 0.18)
         squad_height = int(self.game.HEIGHT * 0.45)
         squad_y = int(self.game.HEIGHT * 0.1)
