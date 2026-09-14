@@ -177,7 +177,7 @@ class ConstellationsState:
                 status_text = "Доступно для активации"
                 show_button = True
             else:
-                status_text = "Заблокировано (требуется предыдущее)"
+                status_text = "Заблокировано"
                 show_button = False
 
             status_full = f"Созвездие {display_level}: {status_text}"

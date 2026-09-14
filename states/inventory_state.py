@@ -8,7 +8,7 @@ class InventoryState:
         self.font = None
         self.current_section = "resources"
         self.cols = 23
-        self.rows = 13
+        self.rows = 15
         self.cell_size = 32
         self.cell_margin = 10
         self.grid_offset_x = self.game.WIDTH * 0.01464 #20
@@ -142,6 +142,3 @@ class InventoryState:
                     screen.blit(text_surf, (x, y + self.game.HEIGHT * 0.026)) #20
                 else:
                     screen.blit(self.empty_cell, (x, y))
-        # Подсказка внизу
-        hint = self.font.render("B/ESC - выход, Левая кнопка мыши - Выбор предмета и переход в другие разделы", True, (150, 150, 150))
-        screen.blit(hint, (self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.052)) #50,40

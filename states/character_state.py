@@ -128,7 +128,6 @@ class CharacterState:
             self.button_images["Возвышение"] = surf
             print(f"Кнопка возвышения для {char_key} не найдена")
 
-
     def draw(self, screen):
         if self.menu:
             screen.blit(self.menu, (0, 0))

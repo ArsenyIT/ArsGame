@@ -34,7 +34,7 @@ class LevelUpState:
 
     def update(self, dt, events):
         if InputHandler.is_key_pressed(events, pygame.K_c) or InputHandler.is_key_pressed(events, pygame.K_ESCAPE):
-            self.game.change_state("world")
+            self.game.change_state("character")
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:

@@ -24,7 +24,7 @@
       "constellation": 0,
       "weapon": "2",
       "artifacts": {
-        "flower": null,
+        "flower": "3",
         "plume": "6",
         "sands": null,
         "goblet": null,
