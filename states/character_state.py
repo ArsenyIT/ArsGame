@@ -6,17 +6,17 @@ class CharacterState:
     def __init__(self, game):
         self.game = game
         self.font = pygame.font.Font(None, 28)
-        self.title_font = pygame.font.Font(None, 36)
+        self.title_font = pygame.font.Font(None, 40)
         # Список персонажей
         self.characters = []
         self.current_index = 0
         self.button_images = {}
         self.menu_buttons = []
-        self.offset_y = self.game.HEIGHT * 0.013 #10
+        self.offset_y = self.game.HEIGHT * 0.026 #20
         self.offset_x = self.game.WIDTH * 0.0073 #10
         self.btn_width = int(self.game.WIDTH * 0.2372) #324
         self.btn_height = int(self.game.HEIGHT * 0.15625) #120
-        self.level_up_rect = pygame.Rect(self.game.WIDTH * 0.8089, self.game.HEIGHT * 0.6875, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.0807) #1105,590,258,62
+        self.level_up_rect = pygame.Rect(self.game.WIDTH * 0.8096, self.game.HEIGHT * 0.6875, self.game.WIDTH * 0.1889, self.game.HEIGHT * 0.082) #1106,590,258,63
 
     def on_enter(self):
         # Загрузить актуальных персонажей из game.player.party
@@ -140,11 +140,14 @@ class CharacterState:
         char = self.game.player.party[self.current_index]
 
         # Имя и уровень
-        name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,200))
+        name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,220))
         screen.blit(name_text, (self.game.WIDTH * 0.8419, self.game.HEIGHT * 0.0651)) #1150,50
 
+        characteristic_text = self.title_font.render("Характеристики:", True, (250, 250, 250))
+        screen.blit(characteristic_text, (self.game.WIDTH * 0.814, self.game.HEIGHT * 0.1367))  #1112,105
+
         x0 = self.game.WIDTH * 0.8067 #1102
-        y0 = self.game.HEIGHT * 0.12 #92
+        y0 = self.game.HEIGHT * 0.1823 #140
         x_left = x0 + self.offset_x
         y_start = y0 + self.offset_y
         line_height = self.game.HEIGHT * 0.039 #30
@@ -165,13 +168,13 @@ class CharacterState:
         ]
 
         for i, (name, val) in enumerate(stats_all):
-            text = self.font.render(f"{name}: {val}", True, (255, 255, 255))
+            text = self.font.render(f"{name}: {val}", True, (250, 250, 250))
             screen.blit(text, (x_left, y_start + i * line_height))
 
         # ---- Кнопки перехода ----
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
-        y0_btn = self.game.HEIGHT * 0.052 #40
+        y0_btn = self.game.HEIGHT * 0.058 #45
         btn_texts = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
 
         # Очищаем список кнопок перед перерисовкой
