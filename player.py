@@ -33,6 +33,7 @@ class Player:
             resistance=data["resistance"],
             speed=data["speed"],
             talents=data["talents"],
+            #type_damage=data["type_damage"],
             portrait_path=data.get("portrait_path", None),
             resource_key="gg"
         )
@@ -51,6 +52,7 @@ class Player:
             resistance=inf_data["resistance"],
             speed=inf_data["speed"],
             talents=inf_data["talents"],
+            #type_damage=inf_data["type_damage"],
             portrait_path=inf_data.get("portrait_path", None),
             growth_file="Infection_growth.json",
             resource_key="infection"

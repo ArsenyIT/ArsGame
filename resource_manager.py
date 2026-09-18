@@ -131,6 +131,10 @@ class ResourceManager:
         self.load_image("assets/textures/characters_menu/items/Oak_wood_menu_GG.png", "oak_wood_menu_gg")
         self.load_image("assets/textures/characters_menu/items/Story_of_the_Almighty_menu_GG.png", "story_of_the_almighty_menu_gg")
 
+        # ---- Меню персонажей (Иконки) ----
+        self.load_image("assets/textures/characters_menu/icons/type_damage/Phys_damage_type.png", "phys_damage_type")
+        self.load_image("assets/textures/characters_menu/icons/type_weapon/One_handed_sword.png", "one_handed_sword")
+
         # ---- Инвентарь (Артефакты) ----
         self.load_image("assets/textures/inventory/artifact_cell/Flower_2_inventory.png", "flower_2_inventory")
         self.load_image("assets/textures/inventory/artifact_cell/Plume_2_inventory.png", "plume_2_inventory")

@@ -101,8 +101,8 @@ class ArtifactState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        portrait_x = int(self.game.WIDTH * 0.41) #560
-        portrait_y = int(self.game.HEIGHT * 0.28)
+        portrait_x = int(self.game.WIDTH * 0.4282) #585
+        portrait_y = int(self.game.HEIGHT * 0.247) #190
         screen.blit(self.portrait_img, (portrait_x, portrait_y))
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])

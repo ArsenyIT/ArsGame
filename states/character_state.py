@@ -84,6 +84,9 @@ class CharacterState:
             self.menu = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.menu.fill((40, 40, 60))
 
+        self.type_damage = self.game.resources.get_image("phys_damage_type")
+        self.type_weapon = self.game.resources.get_image("one_handed_sword")
+
         try:
             self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):
@@ -132,22 +135,25 @@ class CharacterState:
         if self.menu:
             screen.blit(self.menu, (0, 0))
         if self.portrait_img:
-            screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.41), int(self.game.HEIGHT * 0.234))) #560,180
+            screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.4282), int(self.game.HEIGHT * 0.247))) #585,190
 
         if not self.characters:
             return
 
         char = self.game.player.party[self.current_index]
 
-        # Имя и уровень
-        name_text = self.title_font.render(f"{char.name}  Lv.{char.level}", True, (255,255,220))
-        screen.blit(name_text, (self.game.WIDTH * 0.8419, self.game.HEIGHT * 0.0651)) #1150,50
+        screen.blit(self.type_damage, (self.game.WIDTH * 0.8125, self.game.HEIGHT * 0.0455)) #1110,35
+        screen.blit(self.type_weapon, (self.game.WIDTH * 0.849, self.game.HEIGHT * 0.0455)) #1160,35
 
-        characteristic_text = self.title_font.render("Характеристики:", True, (250, 250, 250))
+        # Имя и уровень
+        name_text = self.title_font.render(f"{char.name}", True, (255,255,220))
+        screen.blit(name_text, (self.game.WIDTH * 0.8857, self.game.HEIGHT * 0.0651)) #1210,50
+
+        characteristic_text = self.title_font.render(f"Уровень {char.level}", True, (250, 250, 250))
         screen.blit(characteristic_text, (self.game.WIDTH * 0.814, self.game.HEIGHT * 0.1367))  #1112,105
 
         x0 = self.game.WIDTH * 0.8067 #1102
-        y0 = self.game.HEIGHT * 0.1823 #140
+        y0 = self.game.HEIGHT * 0.1757 #135
         x_left = x0 + self.offset_x
         y_start = y0 + self.offset_y
         line_height = self.game.HEIGHT * 0.039 #30
