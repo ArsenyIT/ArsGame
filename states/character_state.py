@@ -146,7 +146,7 @@ class CharacterState:
         screen.blit(self.type_weapon, (self.game.WIDTH * 0.849, self.game.HEIGHT * 0.0455)) #1160,35
 
         # Имя и уровень
-        name_text = self.title_font.render(f"{char.name}", True, (255,255,220))
+        name_text = self.title_font.render(f"{char.name}", True, (255,255,230))
         screen.blit(name_text, (self.game.WIDTH * 0.8857, self.game.HEIGHT * 0.0651)) #1210,50
 
         characteristic_text = self.title_font.render(f"Уровень {char.level}", True, (250, 250, 250))

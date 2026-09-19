@@ -101,11 +101,17 @@ class ArtifactState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        portrait_x = int(self.game.WIDTH * 0.4282) #585
-        portrait_y = int(self.game.HEIGHT * 0.247) #190
+        portrait_x = self.game.WIDTH * 0.4282 #585
+        portrait_y = self.game.HEIGHT * 0.247 #190
         screen.blit(self.portrait_img, (portrait_x, portrait_y))
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])
+
+        set_name = self.font.render("Сеты:", True, (250, 250, 250))
+        screen.blit(set_name, (self.game.WIDTH * 0.8126, self.game.HEIGHT * 0.0651))  # 1110,50
+
+        effects_name = self.font.render("Эффекты сета:", True, (250, 250, 250))
+        screen.blit(effects_name, (self.game.WIDTH * 0.8126, self.game.HEIGHT * 0.3033))  # 1110,50
 
         char = self.game.player.party[self.game.selected_character_index]
         for slot_name, pos in self.circle_positions.items():
