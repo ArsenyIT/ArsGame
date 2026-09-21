@@ -17,5 +17,7 @@
     "skill": 1,
     "burst": 1
   },
+  "type_damage": "phys_damage",
+  "type_weapon": "one_handed_sword",
   "portrait_path": "assets/textures/characters_menu/characters_portraits/GG.png"
 }

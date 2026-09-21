@@ -5,15 +5,15 @@ class ArtifactState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.offset_y = self.game.HEIGHT * 0.013
-        self.offset_x = self.game.WIDTH * 0.0073
+        self.offset_y = self.game.HEIGHT * 0.026 #20
+        self.offset_x = self.game.WIDTH * 0.0073 #10
         self.btn_width = int(self.game.WIDTH * 0.2372)
         self.btn_height = int(self.game.HEIGHT * 0.15625)
         self.circle_positions = {
-            "flower": (441, 238),
-            "plume": (1017, 239),
-            "sands": (439, 419),
-            "goblet": (1018, 421),
+            "flower": (self.game.WIDTH * 0.3265, self.game.HEIGHT * 0.2943), #446,226
+            "plume": (self.game.WIDTH * 0.7313, self.game.HEIGHT * 0.2943), #999,226
+            "sands": (self.game.WIDTH * 0.3265, self.game.HEIGHT * 0.56), #446,430
+            "goblet": (self.game.WIDTH * 0.7313, self.game.HEIGHT * 0.56), #999,430
         }
         self.circle_radius = 60
         self.circle_rects = {}
@@ -62,7 +62,7 @@ class ArtifactState:
 
         self.nav_buttons = []
         x0_btn = 0
-        y0_btn = int(self.game.HEIGHT * 0.0521)
+        y0_btn = self.game.HEIGHT * 0.058 #45
         for i, text in enumerate(button_names):
             y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
             rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)

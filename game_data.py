@@ -16,12 +16,12 @@ TALENT_BOOK_REQUIREMENTS = {
     3: (2, 4),
     4: (2, 6),
     5: (2, 8),
-    6: (3, 2),   # с 6 на 7: 2 книги 3★
+    6: (3, 2),
     7: (3, 3),
     8: (3, 4),
     9: (3, 6),
     10: (3, 8),
-    11: (4, 2),  # с 11 на 12: 2 книги 4★
+    11: (4, 2),
     12: (4, 4),
     13: (4, 6),
     14: (4, 8),
@@ -197,8 +197,8 @@ class Character:
                         total["elemental_mastery"] += value
                     elif stat_name == "phys_bonus":
                         total["phys_bonus"] += value
-                    # Другие типы можно добавить по необходимости
-                # Субстаты (если они есть)
+
+                # Субстаты
                 for sub in data.get("sub_stats", []):
                     sub_name = sub.get("stat")
                     sub_value = sub.get("value", 0)
@@ -274,7 +274,7 @@ class Character:
             return 20
 
     def get_talent_book_requirement(self, current_level):
-        # Возвращает (редкость, количество) книг для повышения таланта
+        # Возвращает редкость и количество книг для повышения таланта
         return TALENT_BOOK_REQUIREMENTS.get(current_level, (None, 0))
 
     def can_upgrade_talent(self, talent_name):
@@ -284,7 +284,7 @@ class Character:
         return current_level < max_level
 
     #def get_passive_talents(self):
-        #Возвращает список активных пассивных талантов
+        # Возвращает список активных пассивных талантов
     #    passives = []
     #    if self.level >= 1:
     #        passives.append(("Пассивный талант 1", "Увеличивает силу атаки на 10%"))

@@ -5,18 +5,18 @@ class ConstellationsState:
     def __init__(self, game):
         self.game = game
         self.font = None
-        self.offset_y = self.game.HEIGHT * 0.013  # 10
-        self.offset_x = self.game.WIDTH * 0.0073  # 10
-        self.btn_width = int(self.game.WIDTH * 0.2372)  # 324
-        self.btn_height = int(self.game.HEIGHT * 0.15625)  # 120
+        self.offset_y = self.game.HEIGHT * 0.026 #20
+        self.offset_x = self.game.WIDTH * 0.0073 #10
+        self.btn_width = int(self.game.WIDTH * 0.2372) #324
+        self.btn_height = int(self.game.HEIGHT * 0.15625) #120
         self.circle_positions = {
-            0: (1164, 117),  # координаты для 1-го созвездия
+            0: (1164, 117), # координаты для 1-го созвездия
             1: (1260, 253),
             2: (1264, 397),
             3: (1264, 541),
             4: (1158, 669),
         }
-        self.active_circle = None  # хранит индекс активного созвездия (0–4) или None
+        self.active_circle = None # хранит индекс активного созвездия (0–4) или None
 
     def get_constellation_description(self, level):
         # Описание бонусов для каждого созвездия (индексы 0–4)
@@ -86,7 +86,7 @@ class ConstellationsState:
         self.nav_buttons = []
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         x0_btn = 0
-        y0_btn = self.game.HEIGHT * 0.052 #40
+        y0_btn = self.game.HEIGHT * 0.058 #45
 
         for i, text in enumerate(button_names):
             y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
@@ -150,7 +150,7 @@ class ConstellationsState:
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_img, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.4282), int(self.game.HEIGHT * 0.247))) #585,190
 
         for btn in self.nav_buttons:
             screen.blit(self.button_images[btn["text"]], btn["rect"])

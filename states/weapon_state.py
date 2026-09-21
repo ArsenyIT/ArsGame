@@ -15,10 +15,10 @@ class WeaponState:
         self.button_images = {}
         self.popup_selected_index = -1
         self.popup_cell_rects = []
-        self.offset_y = self.game.HEIGHT * 0.013  #10
-        self.offset_x = self.game.WIDTH * 0.0073  #10
-        self.btn_width = self.game.WIDTH * 0.2372  #324
-        self.btn_height = self.game.HEIGHT * 0.15625  #120
+        self.offset_y = self.game.HEIGHT * 0.026 #20
+        self.offset_x = self.game.WIDTH * 0.0073 #10
+        self.btn_width = self.game.WIDTH * 0.2372 #324
+        self.btn_height = self.game.HEIGHT * 0.15625 #120
 
     def on_enter(self):
         self.font = pygame.font.Font(None, 36)
@@ -89,7 +89,7 @@ class WeaponState:
                 self.button_images[name] = surf
         self.nav_buttons = []
         x0_btn = 0
-        y0_btn = self.game.HEIGHT * 0.052
+        y0_btn = self.game.HEIGHT * 0.058 #45
         for i, text in enumerate(button_names):
             y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
             rect = pygame.Rect(x0_btn + self.offset_x, y, self.btn_width, self.btn_height)

@@ -1,14 +1,14 @@
 import pygame
 from game_data import Character
 from input_handler import InputHandler
+import json
 
 class CharacterState:
     def __init__(self, game):
         self.game = game
         self.font = pygame.font.Font(None, 28)
         self.title_font = pygame.font.Font(None, 40)
-        # Список персонажей
-        self.characters = []
+        self.characters = [] # Список персонажей
         self.current_index = 0
         self.button_images = {}
         self.menu_buttons = []
@@ -84,8 +84,14 @@ class CharacterState:
             self.menu = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.menu.fill((40, 40, 60))
 
-        self.type_damage = self.game.resources.get_image("phys_damage_type")
-        self.type_weapon = self.game.resources.get_image("one_handed_sword")
+        with open(f"assets/data/characters/{char_key}.json", "r", encoding="utf-8") as f:
+            character = json.load(f)
+
+        type_weapon = character["type_weapon"]
+        type_damage = character["type_damage"]
+
+        self.type_damage = self.game.resources.get_image(f"{type_damage}_type")
+        self.type_weapon = self.game.resources.get_image(f"{type_weapon}")
 
         try:
             self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()

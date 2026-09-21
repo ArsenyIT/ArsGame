@@ -14,9 +14,9 @@ class TalentsState:
              "burst": (1058, 235), #1058,235
             }
         self.circle_radius = 35
-        self.offset_y = self.game.HEIGHT * 0.013  # 10
-        self.offset_x = self.game.WIDTH * 0.0073  # 10
-        self.btn_width = self.game.WIDTH * 0.2372  # 324
+        self.offset_y = self.game.HEIGHT * 0.026 #20
+        self.offset_x = self.game.WIDTH * 0.0073 #10
+        self.btn_width = self.game.WIDTH * 0.2372 #324
         self.btn_height = self.game.HEIGHT * 0.15625 #120
         self.circle_rects = {}
         for name, pos in self.circle_positions.items():
@@ -67,7 +67,7 @@ class TalentsState:
         self.nav_buttons = []
         button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
         x0_btn = 0
-        y0_btn = self.game.HEIGHT * 0.052
+        y0_btn = self.game.HEIGHT * 0.058 #45
 
         for i, text in enumerate(button_names):
             y = y0_btn + self.offset_y + i * (self.btn_height + self.offset_y)
@@ -169,7 +169,7 @@ class TalentsState:
     def draw(self, screen):
         # Отрисовка фона
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.portrait_img, (self.game.WIDTH * 0.41, self.game.HEIGHT * 0.234)) #560,180
+        screen.blit(self.portrait_img, (int(self.game.WIDTH * 0.4282), int(self.game.HEIGHT * 0.247))) #585,190
 
         # Рисуем кнопки навигации (пока заглушка)
         for btn in self.nav_buttons:
