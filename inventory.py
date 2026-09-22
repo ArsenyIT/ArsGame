@@ -46,6 +46,7 @@ ITEM_DATA = {
     "name": "Перо_1",
     "rarity": 1,
     "slot": "plume",
+    "set": "??",
     "possible_main_stats": [
         {"atk": 100},
         {"atk": 110}
@@ -68,6 +69,7 @@ ITEM_DATA = {
         "name": "Перо_2",
         "rarity": 1,
         "slot": "plume",
+        "set": "???",
         "possible_main_stats": [
             {"atk": 105},
             {"atk": 115}
@@ -90,6 +92,7 @@ ITEM_DATA = {
         "name": "Цветок_1",
         "rarity": 1,
         "slot": "flower",
+        "set": "???",
         "possible_main_stats": [
             {"hp": 1000},
             {"hp": 1100}
@@ -112,6 +115,7 @@ ITEM_DATA = {
         "name": "Часы_1",
         "rarity": 1,
         "slot": "sands",
+        "set": "???",
         "possible_main_stats": [
             {"atk_percent": 4.0},
             {"hp_percent": 4.0},
@@ -137,6 +141,7 @@ ITEM_DATA = {
         "name": "Кубок_1",
         "rarity": 1,
         "slot": "goblet",
+        "set": "???",
         "possible_main_stats": [
             {"atk_percent": 4.0},
             {"hp_percent": 4.0},
