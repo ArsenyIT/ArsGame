@@ -64,7 +64,7 @@ class WeaponState:
         self.weapons = {}
         weapon_ids = ["sword_of_steel", "rusted_sword"]
         for w_id in weapon_ids:
-            weapon_name = f"{w_id}"
+            weapon_name = w_id
         try:
             weapon = self.game.resources.get_image(weapon_name)
             weapon = pygame.transform.scale(weapon, (180,415))
@@ -234,8 +234,8 @@ class WeaponState:
                     icon_display = pygame.transform.scale(icon, (180,415))
                     screen.blit(icon_display, (int(self.game.WIDTH * 0.417), int(self.game.HEIGHT * 0.234))) #570,180
                 # Полный текст для отображения
-                full_text = f"Экипировано: {name} (ур. {level})"
-                # Разбиваем на строки, если текст длинный (максимальная ширина, например, 200 пикселей)
+                full_text = f"{name} (ур. {level})"
+                # Разбиваем на строки, если текст длинный
                 lines = self.wrap_text(full_text, self.stats_font, self.game.WIDTH * 0.1464) #200
                 y_offset = self.game.HEIGHT * 0.1042 #80
                 for line in lines:
@@ -246,23 +246,16 @@ class WeaponState:
                 screen.blit(atk_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1823)) #1111,140
                 if sec_name:
                     sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (200, 200, 200))
-                    screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.208)) #1111,160
+                    screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.22135)) #1111,170
         else:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
             screen.blit(equip_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1042)) #1111,80
 
-        if self.selected_uid is not None:
-            data = char.weapon_data.get(str(self.selected_uid), {})
-            weapon_id = data.get("weapon_id")
-            level = data.get("level", 1)
-            if weapon_id:
-                template = ITEM_DATA.get(weapon_id, {})
-                name = template.get("name", "Неизвестно")
-                sel_text = self.stats_font.render(f"Выбрано: {name} (ур. {level})", True, (255, 255, 0))
-                screen.blit(sel_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1953)) #1111,150
+        characteristic_text = self.font.render("Характеристики:", True, (220, 220, 220))
+        screen.blit(characteristic_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1432)) #1111,110
 
         # Кнопки
-        btn_y = self.game.HEIGHT * 0.8333 #640
+        btn_y = self.game.HEIGHT * 0.8346 #641
         btn_width = self.game.WIDTH * 0.2035 #278
         btn_height = self.game.HEIGHT * 0.0807 #62
 
@@ -341,6 +334,3 @@ class WeaponState:
                     text_surf = self.stats_font.render(name, True, (255, 255, 255))
                     text_rect = text_surf.get_rect(center=rect.center)
                     screen.blit(text_surf, text_rect)
-
-        esc_text = self.stats_font.render("ESC для закрытия", True, (0, 0, 0))
-        screen.blit(esc_text, (popup_rect.x + self.game.WIDTH * 0.01464, self.game.HEIGHT * 0.9635))

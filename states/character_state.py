@@ -167,7 +167,7 @@ class CharacterState:
         # Общий список всех характеристик (в один столбик)
         total_stats = char.calculate_total_stats()
         stats_all = [
-            ("HP", f"{total_stats['hp']}/{char.base_hp}"),  # max_hp пока базовое
+            ("HP", f"{total_stats['hp']}/{char.base_hp}"),  # max_hp
             ("Сила атаки", str(total_stats['atk'])),
             ("Защита", str(total_stats['def'])),
             ("Шанс крита", f"{total_stats['crit_rate']}%"),
