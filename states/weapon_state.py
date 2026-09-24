@@ -67,7 +67,7 @@ class WeaponState:
             weapon_name = w_id
         try:
             weapon = self.game.resources.get_image(weapon_name)
-            weapon = pygame.transform.scale(weapon, (180,415))
+            weapon = pygame.transform.scale(weapon, (self.game.WIDTH * 0.1537, self.game.HEIGHT * 0.56)) #210,430
             self.weapons[w_id] = weapon
         except pygame.error:
             self.weapons[w_id] = None
@@ -231,8 +231,8 @@ class WeaponState:
                 sec_name = weapon_stats["secondary_stat"]
                 icon = self.weapons.get(weapon_id)
                 if icon:
-                    icon_display = pygame.transform.scale(icon, (180,415))
-                    screen.blit(icon_display, (int(self.game.WIDTH * 0.417), int(self.game.HEIGHT * 0.234))) #570,180
+                    icon_display = pygame.transform.scale(icon, (self.game.WIDTH * 0.1537, self.game.HEIGHT * 0.56)) #210,430
+                    screen.blit(icon_display, (self.game.WIDTH * 0.4392, self.game.HEIGHT * 0.234)) #600,180
                 # Полный текст для отображения
                 full_text = f"{name} (ур. {level})"
                 # Разбиваем на строки, если текст длинный
