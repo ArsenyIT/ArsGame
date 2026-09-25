@@ -117,6 +117,7 @@ class ResourceManager:
         self.load_image("assets/textures/characters_menu/GG/GG_upgrade.png", "gg_upgrade")
         self.load_image("assets/textures/characters_menu/GG/GG_weapon.png", "gg_weapon")
         self.load_image("assets/textures/characters_menu/GG/Popup.png", "gg_popup")
+        self.load_image("assets/textures/characters_menu/GG/GG_popup_weapon.png", "gg_popup_weapon")
 
         # ---- Меню персонажей (Заражение) ----
         self.load_image("assets/textures/characters_menu/Infection/Infection_artifacts.png", "infection_artifacts")

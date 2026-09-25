@@ -376,13 +376,13 @@ class ArtifactUpgradeState:
             pygame.draw.rect(screen, (200, 200, 200), popup_rect, 2)
 
         title = self.font.render("Выберите артефакт", True, (255, 255, 255))
-        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026)) #20
+        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.0073, popup_rect.y + self.game.HEIGHT * 0.013)) #10
 
         cell_size = 32
         margin = 10
         cols = 4
-        start_x = popup_rect.x + self.game.WIDTH * 0.01464
-        start_y = popup_rect.y + self.game.HEIGHT * 0.0911
+        start_x = popup_rect.x + self.game.WIDTH * 0.0073 #10
+        start_y = popup_rect.y + self.game.HEIGHT * 0.078 #60
         self.popup_cell_rects = []
 
         char = self.game.player.party[self.game.selected_character_index]
@@ -410,6 +410,3 @@ class ArtifactUpgradeState:
                     text_surf = self.stats_font.render(name, True, (255, 255, 255))
                     text_rect = text_surf.get_rect(center=rect.center)
                     screen.blit(text_surf, text_rect)
-
-        esc_text = self.stats_font.render("ESC для закрытия", True, (0, 0, 0))
-        screen.blit(esc_text, (self.game.WIDTH * 0.01464, self.game.HEIGHT * 0.9635))

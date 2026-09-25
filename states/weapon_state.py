@@ -28,7 +28,7 @@ class WeaponState:
         char_key = char.resource_key
         self.bg = self.game.resources.get_image(f"{char_key}_weapon")
         try:
-            self.popup_bg = self.game.resources.get_image(f"{char_key}_popup")
+            self.popup_bg = self.game.resources.get_image(f"{char_key}_popup_weapon")
         except:
             self.popup_bg = None
         # Кнопки
@@ -300,13 +300,13 @@ class WeaponState:
             pygame.draw.rect(screen, (200, 200, 200), popup_rect, 2)
 
         title = self.font.render("Выберите оружие", True, (255, 255, 255))
-        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.01464, popup_rect.y + self.game.HEIGHT * 0.026)) #20
+        screen.blit(title, (popup_rect.x + self.game.WIDTH * 0.0073, popup_rect.y + self.game.HEIGHT * 0.013)) #10
 
         cell_size = 32
         margin = 10
         cols = 4
-        start_x = popup_rect.x + self.game.WIDTH * 0.01464 #20
-        start_y = popup_rect.y + self.game.HEIGHT * 0.091 #70
+        start_x = popup_rect.x + self.game.WIDTH * 0.0073 #10
+        start_y = popup_rect.y + self.game.HEIGHT * 0.078 #60
         self.popup_cell_rects = []
 
         char = self.game.player.party[self.game.selected_character_index]
