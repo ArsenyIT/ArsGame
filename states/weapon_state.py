@@ -215,9 +215,6 @@ class WeaponState:
 
         char = self.game.player.party[self.game.selected_character_index]
 
-        title = self.font.render("Оружие", True, (255, 255, 255))
-        screen.blit(title, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.065)) #1111,50
-
         if self.equipped_uid is not None:
             data = char.weapon_data.get(str(self.equipped_uid), {})
             weapon_id = data.get("weapon_id")
@@ -232,27 +229,24 @@ class WeaponState:
                 icon = self.weapons.get(weapon_id)
                 if icon:
                     icon_display = pygame.transform.scale(icon, (self.game.WIDTH * 0.1537, self.game.HEIGHT * 0.56)) #210,430
-                    screen.blit(icon_display, (self.game.WIDTH * 0.4392, self.game.HEIGHT * 0.234)) #600,180
+                    screen.blit(icon_display, (self.game.WIDTH * 0.454, self.game.HEIGHT * 0.2474)) #620,190
                 # Полный текст для отображения
                 full_text = f"{name} (ур. {level})"
                 # Разбиваем на строки, если текст длинный
-                lines = self.wrap_text(full_text, self.stats_font, self.game.WIDTH * 0.1464) #200
-                y_offset = self.game.HEIGHT * 0.1042 #80
+                lines = self.wrap_text(full_text, self.font, self.game.WIDTH * 0.1757) #240
+                y_offset = self.game.HEIGHT * 0.065 #50
                 for line in lines:
-                    line_surf = self.stats_font.render(line, True, (220, 220, 220))
+                    line_surf = self.font.render(line, True, (250, 250, 250))
                     screen.blit(line_surf, (self.game.WIDTH * 0.8133, y_offset)) #1111
                     y_offset += self.game.HEIGHT * 0.03255 #(25) отступ между строками
-                atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (200, 200, 200))
-                screen.blit(atk_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1823)) #1111,140
+                atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (220, 220, 220))
+                screen.blit(atk_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1627)) #1111,125
                 if sec_name:
-                    sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (200, 200, 200))
-                    screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.22135)) #1111,170
+                    sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (220, 220, 220))
+                    screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.2018)) #1111,155
         else:
-            equip_text = self.stats_font.render("Оружие не экипировано", True, (200, 200, 200))
-            screen.blit(equip_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1042)) #1111,80
-
-        characteristic_text = self.font.render("Характеристики:", True, (220, 220, 220))
-        screen.blit(characteristic_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.1432)) #1111,110
+            equip_text = self.stats_font.render("Оружие не экипировано", True, (250, 250, 250))
+            screen.blit(equip_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.065)) #1111,50
 
         # Кнопки
         btn_y = self.game.HEIGHT * 0.8346 #641
