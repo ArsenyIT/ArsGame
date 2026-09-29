@@ -244,6 +244,9 @@ class WeaponState:
                 if sec_name:
                     sec_text = self.stats_font.render(f"{sec_name}: {sec_display}%", True, (220, 220, 220))
                     screen.blit(sec_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.2018)) #1111,155
+
+                effect_text = self.font.render("Бонус оружия:", True, (250, 250, 250))
+                screen.blit(effect_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.2539)) #1111,195
         else:
             equip_text = self.stats_font.render("Оружие не экипировано", True, (250, 250, 250))
             screen.blit(equip_text, (self.game.WIDTH * 0.8133, self.game.HEIGHT * 0.065)) #1111,50
