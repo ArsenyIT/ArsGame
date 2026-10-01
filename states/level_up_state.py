@@ -68,28 +68,24 @@ class LevelUpState:
 
         if self.game.player.party:
             char = self.game.player.party[self.game.selected_character_index]
-            books = self.game.player.inventory.get_count("story_of_the_Almighty")
             # Отображение уровня
             level_text = self.font.render(f"Уровень: {char.level}", True, (255, 255, 255))
-            screen.blit(level_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.065)) #1150,50
-            # Отображение количества книг
-            books_text = self.font.render(f"Книг: {books}", True, (255, 255, 255))
-            screen.blit(books_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1627)) #1150,125
+            screen.blit(level_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.026)) #680,20
 
             exp_ratio = char.exp / char.exp_next if char.exp_next > 0 else 0
-            pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1042, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.0195)) #1150,80,200,15
-            pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.1042, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.0195)) #1150,80,200,15
-            exp_text = self.font.render(f"Опыт: {char.exp}/{char.exp_next}", True, (200, 200, 200))
-            screen.blit(exp_text, (self.game.WIDTH * 0.842, self.game.HEIGHT * 0.13)) #1150,100
+            pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.4557, self.game.WIDTH * 0.4941, self.game.HEIGHT * 0.026)) #680,350,675,20
+            pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.4557, int(self.game.WIDTH * 0.4941 * exp_ratio), self.game.HEIGHT * 0.026)) #680,350,675,20
+            exp_text = self.stats_font.render(f"Опыт: {char.exp}/{char.exp_next}", True, (210, 210, 210))
+            screen.blit(exp_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.52)) #680,400
 
         # ---- Отображение статов персонажа ----
         x0 = self.game.WIDTH * 0.49 #670
-        y0 = self.game.HEIGHT * 0.013 #10
+        y0 = self.game.HEIGHT * 0.0586 #45
         offset_x = self.game.WIDTH * 0.0073 #10
         offset_y = self.game.HEIGHT * 0.013 #10
         x_left = x0 + offset_x
         y_start = y0 + offset_y
-        line_height = self.game.HEIGHT * 0.039 #30
+        line_height = self.game.HEIGHT * 0.0325 #30
 
         stats_all = [
             ("HP", f"{char.base_hp}/{char.base_hp}"),

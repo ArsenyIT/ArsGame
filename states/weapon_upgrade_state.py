@@ -90,18 +90,18 @@ class WeaponUpgradeState:
             sec_name = weapon_stats["secondary_stat"]
 
             # Выводим информацию
-            name_text = self.font.render(f"Оружие: {name}", True, (255, 255, 255))
-            screen.blit(name_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.039)) #700,30
+            name_text = self.font.render(f"{name}", True, (250, 250, 250))
+            screen.blit(name_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.026)) #680,20
 
             level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
-            screen.blit(level_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.078)) #700,60
+            screen.blit(level_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.078)) #680,60
 
-            atk_text = self.stats_font.render(f"Базовая атака: {atk_display}", True, (200, 200, 200))
-            screen.blit(atk_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.117)) #700,90
+            atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (200, 200, 200))
+            screen.blit(atk_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.117)) #680,90
 
             if sec_name:
                 sec_text = self.stats_font.render(f"{sec_name}: +{sec_display}", True, (200, 200, 200))
-                screen.blit(sec_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.15625)) #700,120
+                screen.blit(sec_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.15625)) #680,120
 
             # Кнопка "Улучшить"
             btn_y = self.game.HEIGHT * 0.82  # 630
@@ -117,16 +117,13 @@ class WeaponUpgradeState:
                 screen.blit(text, (self.upgrade_btn_rect.x + self.game.WIDTH * 0.0073, self.upgrade_btn_rect.y + self.game.HEIGHT * 0.013)) #10
         else:
             error_text = self.font.render("Ошибка: оружие не найдено", True, (255, 0, 0))
-            screen.blit(error_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.1042)) #700,80
+            screen.blit(error_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.1042)) #680,80
 
         exp = self.weapon_data.get("exp", 0)
         exp_next = self.weapon_data.get("exp_next", 100)
         exp_ratio = exp / exp_next if exp_next > 0 else 0
         # Полоска опыта
-        pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.26, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.0195)) #700,200,200,15
-        pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.26, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.0195)) #700,200,200,15
+        pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.26, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.0195)) #680,200,200,15
+        pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.26, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.0195)) #680,200,200,15
         exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
-        screen.blit(exp_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.28646)) #700,220
-        crystals = self.game.player.inventory.get_count("crystal_of_true_power")
-        crystal_text = self.stats_font.render(f"Кристаллов: {crystals}", True, (200, 200, 200))
-        screen.blit(crystal_text, (self.game.WIDTH * 0.512, self.game.HEIGHT * 0.3125)) #700,240
+        screen.blit(exp_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.28646)) #680,220
