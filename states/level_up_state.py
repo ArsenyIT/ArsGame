@@ -69,7 +69,7 @@ class LevelUpState:
         if self.game.player.party:
             char = self.game.player.party[self.game.selected_character_index]
             # Отображение уровня
-            level_text = self.font.render(f"Уровень: {char.level}", True, (255, 255, 255))
+            level_text = self.font.render(f"Уровень: {char.level}", True, (250, 250, 250))
             screen.blit(level_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.026)) #680,20
 
             exp_ratio = char.exp / char.exp_next if char.exp_next > 0 else 0
@@ -101,5 +101,5 @@ class LevelUpState:
         ]
 
         for i, (name, val) in enumerate(stats_all):
-            text = self.stats_font.render(f"{name}: {val}", True, (255, 255, 255))
+            text = self.stats_font.render(f"{name}: {val}", True, (250, 250, 250))
             screen.blit(text, (x_left, y_start + i * line_height))

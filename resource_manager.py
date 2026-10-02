@@ -47,10 +47,10 @@ class ResourceManager:
         self.load_image("assets/textures/tiles/Void_2.png", "void_2")
         self.load_image("assets/textures/tiles/Path.png", "path")
         self.load_image("assets/textures/tiles/White.png", "white")
-        self.load_image("assets/textures/tiles/Water_1_level.png", "water_1_level")
-        self.load_image("assets/textures/tiles/Water_2_level.png", "water_2_level")
-        self.load_image("assets/textures/tiles/Water_3_level.png", "water_3_level")
-        self.load_image("assets/textures/tiles/Water_4_level.png", "water_4_level")
+        self.load_image("assets/textures/tiles/Water/Water_1_level.png", "water_1_level")
+        self.load_image("assets/textures/tiles/Water/Water_2_level.png", "water_2_level")
+        self.load_image("assets/textures/tiles/Water/Water_3_level.png", "water_3_level")
+        self.load_image("assets/textures/tiles/Water/Water_4_level.png", "water_4_level")
 
         # ---- Объекты колизии ----
         self.load_image("assets/textures/collision_objects/Oak_butt.png", "oak_butt")
