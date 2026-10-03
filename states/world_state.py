@@ -94,7 +94,19 @@ class WorldState:
             21: self.game.resources.get_image("border_square_3"),
             22: self.game.resources.get_image("border_square_4"),
             23: self.game.resources.get_image("path"),
-            24: self.game.resources.get_image("forest_grass")
+            24: self.game.resources.get_image("forest_grass"),
+            25: self.game.resources.get_image("path_with_grass_1"),
+            26: self.game.resources.get_image("path_with_grass_2"),
+            27: self.game.resources.get_image("path_with_grass_3"),
+            28: self.game.resources.get_image("path_with_grass_4"),
+            29: self.game.resources.get_image("path_with_grass_angle_1"),
+            30: self.game.resources.get_image("path_with_grass_angle_2"),
+            31: self.game.resources.get_image("path_with_grass_angle_3"),
+            32: self.game.resources.get_image("path_with_grass_angle_4"),
+            33: self.game.resources.get_image("path_with_grass_rim_1"),
+            34: self.game.resources.get_image("path_with_grass_rim_2"),
+            35: self.game.resources.get_image("path_with_grass_rim_3"),
+            36: self.game.resources.get_image("path_with_grass_rim_4")
         }
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
