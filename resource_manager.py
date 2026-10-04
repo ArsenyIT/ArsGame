@@ -64,8 +64,14 @@ class ResourceManager:
         self.load_image("assets/textures/tiles/Water/Water_3_level.png", "water_3_level")
         self.load_image("assets/textures/tiles/Water/Water_4_level.png", "water_4_level")
 
-        # ---- Объекты колизии ----
+        # ---- Объекты коллизии ----
         self.load_image("assets/textures/collision_objects/Oak_butt.png", "oak_butt")
+        self.load_image("assets/textures/collision_objects/GG_house.png", "gg_house")
+        self.load_image("assets/textures/collision_objects/Fence/Fence_wall.png", "fence_wall")
+        self.load_image("assets/textures/collision_objects/Fence/Fence_left_wall.png", "fence_left_wall")
+        self.load_image("assets/textures/collision_objects/Fence/Fence_right_wall.png", "fence_right_wall")
+        self.load_image("assets/textures/collision_objects/Fence/Fence_left_angle.png", "fence_left_angle")
+        self.load_image("assets/textures/collision_objects/Fence/Fence_right_angle.png", "fence_right_angle")
 
         # ---- Карты ----
         self.load_image("assets/textures/maps/Map_1.png", "map_1")

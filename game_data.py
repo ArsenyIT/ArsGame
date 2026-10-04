@@ -36,10 +36,9 @@ _artifact_main_growth_cache = None
 
 def generate_artifact_main_stat(artifact_id):
     # Возвращает случайный основной стат для артефакта.
-    # Если для артефакта нет possible_main_stats, возвращает None.
     art_data = ITEM_DATA.get(artifact_id, {})
     possible_main = art_data.get("possible_main_stats", [])
-    if not possible_main:
+    if not possible_main: # Если для артефакта нет possible_main_stats, возвращает None.
         print(f"Для артефакта {artifact_id} не заданы возможные основные статы!")
         return None
     return random.choice(possible_main)

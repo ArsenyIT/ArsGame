@@ -66,8 +66,9 @@ class WorldState:
                     self.collision_data = data_2d
             elif layer["type"] == "objectgroup" and layer["name"] == "Collision_objects":
                 for obj in layer["objects"]:
+                    obj_name = obj.get("name")  # Имя объекта
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
-                    self.collision_rects.append(rect)
+                    self.collision_rects.append((rect, obj_name))
 
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
@@ -189,10 +190,10 @@ class WorldState:
             self.is_moving = True
 
         new_rect_x = self.hero_rect.move(dx, 0)
-        if not self.check_tile_collision(new_rect_x) and not any(new_rect_x.colliderect(r) for r in self.collision_rects):
+        if not self.check_tile_collision(new_rect_x) and not any(new_rect_x.colliderect(r) for r, _ in self.collision_rects):
             self.hero_rect.x = new_rect_x.x
         new_rect_y = self.hero_rect.move(0, dy)
-        if not self.check_tile_collision(new_rect_y) and not any(new_rect_y.colliderect(r) for r in self.collision_rects):
+        if not self.check_tile_collision(new_rect_y) and not any(new_rect_y.colliderect(r) for r, _ in self.collision_rects):
             self.hero_rect.y = new_rect_y.y
 
         self.camera.update(self.hero_rect)
@@ -222,9 +223,13 @@ class WorldState:
     def draw(self, screen):
         self.camera.draw_map(screen, self.ground_data, self.tile_textures)
 
-        for rect in self.collision_rects:
-            screen_rect = self.camera.apply(rect)
-            screen.blit(self.oak_butt, screen_rect)
+        for rect, tex_name in self.collision_rects:
+            img = self.game.resources.get_image(tex_name)
+            if img:
+                screen_rect = self.camera.apply(rect)
+                screen.blit(img, screen_rect)
+            else:
+                print(f"Текстура для {tex_name} не найдена")
 
         hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
