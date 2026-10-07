@@ -107,14 +107,25 @@ class WorldState:
             33: self.game.resources.get_image("path_with_grass_rim_1"),
             34: self.game.resources.get_image("path_with_grass_rim_2"),
             35: self.game.resources.get_image("path_with_grass_rim_3"),
-            36: self.game.resources.get_image("path_with_grass_rim_4")
+            36: self.game.resources.get_image("path_with_grass_rim_4"),
+            37: self.game.resources.get_image("path_with_forest_grass_1"),
+            38: self.game.resources.get_image("path_with_forest_grass_2"),
+            39: self.game.resources.get_image("path_with_forest_grass_3"),
+            40: self.game.resources.get_image("path_with_forest_grass_4"),
+            41: self.game.resources.get_image("path_with_forest_grass_angle_1"),
+            42: self.game.resources.get_image("path_with_forest_grass_angle_2"),
+            43: self.game.resources.get_image("path_with_forest_grass_angle_3"),
+            44: self.game.resources.get_image("path_with_forest_grass_angle_4"),
+            45: self.game.resources.get_image("path_with_forest_grass_rim_1"),
+            46: self.game.resources.get_image("path_with_forest_grass_rim_2"),
+            47: self.game.resources.get_image("path_with_forest_grass_rim_3"),
+            48: self.game.resources.get_image("path_with_forest_grass_rim_4"),
         }
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
         self.oak_butt = self.game.resources.get_image("oak_butt")
 
     def on_exit(self):
-        # сохранить данные, очистить ресурсы
         pass
 
     def check_tile_collision(self, rect):
