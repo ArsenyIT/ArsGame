@@ -43,6 +43,9 @@ class WeaponUpgradeState:
             self.game.change_state("weapon")
             return
 
+        weapon_name = self.weapon_data.get("weapon_id", "")
+        self.weapon_icon = self.game.resources.get_image(weapon_name)
+
     def on_exit(self):
         print("Выход из экрана Прокачка оружия")
         self.game.save_all()
@@ -78,6 +81,8 @@ class WeaponUpgradeState:
         else:
             screen.fill((40, 40, 60))
 
+        screen.blit(self.weapon_icon, (self.game.WIDTH * 0.161, self.game.HEIGHT * 0.2083)) #220,160
+
         # Информация об оружии
         weapon_id = self.weapon_data.get("weapon_id")
         level = self.weapon_data.get("level", 1)
@@ -93,20 +98,23 @@ class WeaponUpgradeState:
             name_text = self.font.render(f"{name}", True, (250, 250, 250))
             screen.blit(name_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.026)) #680,20
 
-            level_text = self.stats_font.render(f"Уровень: {level}", True, (220, 220, 220))
+            level_text = self.stats_font.render(f"Уровень: {level}", True, (250, 250, 250))
             screen.blit(level_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.078)) #680,60
 
-            atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (200, 200, 200))
-            screen.blit(atk_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.117)) #680,90
+            characteristic_text = self.stats_font.render("Характеристики:", True, (250, 250, 250))
+            screen.blit(characteristic_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.117)) #680,90
+
+            atk_text = self.stats_font.render(f"Базовая АТК: {atk_display}", True, (220, 220, 220))
+            screen.blit(atk_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.1822)) #680,140
 
             if sec_name:
-                sec_text = self.stats_font.render(f"{sec_name}: +{sec_display}", True, (200, 200, 200))
-                screen.blit(sec_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.15625)) #680,120
+                sec_text = self.stats_font.render(f"{sec_name}: +{sec_display}", True, (220, 220, 220))
+                screen.blit(sec_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.2213)) #680,170
 
             # Кнопка "Улучшить"
-            btn_y = self.game.HEIGHT * 0.82  # 630
-            btn_width = self.game.WIDTH * 0.2035  # 278
-            btn_height = self.game.HEIGHT * 0.0807  # 62
+            btn_y = self.game.HEIGHT * 0.82  #630
+            btn_width = self.game.WIDTH * 0.2035  #278
+            btn_height = self.game.HEIGHT * 0.0807  #62
             self.upgrade_btn_rect = pygame.Rect(self.game.WIDTH * 0.6588, btn_y, btn_width, btn_height) #900
             if self.upgrade_btn_img:
                 screen.blit(self.upgrade_btn_img, self.upgrade_btn_rect)
@@ -123,7 +131,7 @@ class WeaponUpgradeState:
         exp_next = self.weapon_data.get("exp_next", 100)
         exp_ratio = exp / exp_next if exp_next > 0 else 0
         # Полоска опыта
-        pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.26, self.game.WIDTH * 0.1464, self.game.HEIGHT * 0.0195)) #680,200,200,15
-        pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.26, int(self.game.WIDTH * 0.1464 * exp_ratio), self.game.HEIGHT * 0.0195)) #680,200,200,15
-        exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (200, 200, 200))
-        screen.blit(exp_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.28646)) #680,220
+        pygame.draw.rect(screen, (80, 80, 80), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.4557, self.game.WIDTH * 0.4941, self.game.HEIGHT * 0.026)) #680,350,675,20
+        pygame.draw.rect(screen, (100, 200, 100), (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.4557, int(self.game.WIDTH * 0.4941 * exp_ratio), self.game.HEIGHT * 0.026)) #680,350,675,20
+        exp_text = self.stats_font.render(f"Опыт: {exp}/{exp_next}", True, (210, 210, 210))
+        screen.blit(exp_text, (self.game.WIDTH * 0.4978, self.game.HEIGHT * 0.52)) #680,400
