@@ -541,8 +541,8 @@
                  "type":"collision",
                  "visible":true,
                  "width":50,
-                 "x":3242.0,
-                 "y":4456.0
+                 "x":3242,
+                 "y":4456
                 },
                 {
                  "height":25,
@@ -1335,6 +1335,54 @@
                  "width":216,
                  "x":7395,
                  "y":6850
+                },
+                {
+                 "height":125,
+                 "id":102,
+                 "name":"fence_wall",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"collision",
+                 "visible":true,
+                 "width":48,
+                 "x":7398,
+                 "y":7322
+                },
+                {
+                 "height":125,
+                 "id":103,
+                 "name":"fence_wall",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"collision",
+                 "visible":true,
+                 "width":48,
+                 "x":7350,
+                 "y":7322
+                },
+                {
+                 "height":125,
+                 "id":104,
+                 "name":"fence_left_angle",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"collision",
+                 "visible":true,
+                 "width":48,
+                 "x":7296,
+                 "y":7322
+                },
+                {
+                 "height":125,
+                 "id":105,
+                 "name":"fence_left_wall",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"collision",
+                 "visible":true,
+                 "width":48,
+                 "x":7296,
+                 "y":7224
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1568,7 +1616,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":102,
+ "nextobjectid":106,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",
