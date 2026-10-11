@@ -253,12 +253,12 @@ class WorldState:
         if player_sprite:
             screen.blit(player_sprite, hero_screen_rect)
 
-        squad_width = int(self.game.WIDTH * 0.18)
-        squad_height = int(self.game.HEIGHT * 0.45)
-        squad_y = int(self.game.HEIGHT * 0.1)
-        squad_x = self.game.WIDTH - squad_width - self.game.WIDTH * 0.02
-        ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
-        screen.blit(self.squad, ramka)
+        #squad_width = int(self.game.WIDTH * 0.18)
+        #squad_height = int(self.game.HEIGHT * 0.45)
+        #squad_y = int(self.game.HEIGHT * 0.1)
+        #squad_x = self.game.WIDTH - squad_width - self.game.WIDTH * 0.02
+        #ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
+        #screen.blit(self.squad, ramka)
 
         if self.item == True:
             item_screen_rect = self.camera.apply(self.item_rect)
