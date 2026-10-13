@@ -1,7 +1,7 @@
 import pygame
 from input_handler import InputHandler
 
-class ConstellationsState:
+class SymbolismState:
     def __init__(self, game):
         self.game = game
         self.font = None
@@ -53,7 +53,7 @@ class ConstellationsState:
         char_index = self.game.selected_character_index
         char = self.game.player.party[char_index]
         char_key = char.resource_key
-        self.bg = self.game.resources.get_image(f"{char_key}_constellations")
+        self.bg = self.game.resources.get_image(f"{char_key}_symbolism")
         if self.bg is None:
             self.bg = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.bg.fill((40, 40, 60))
@@ -70,7 +70,7 @@ class ConstellationsState:
             print(f"Портрет для {char.name} не найден, создана заглушка")
 
         self.button_images = {}
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         for name in button_names:
             filename = f"button_{name}_{char_key}"
             try:
@@ -84,7 +84,7 @@ class ConstellationsState:
                 surf.fill((80, 80, 120))
                 self.button_images[name] = surf
         self.nav_buttons = []
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         x0_btn = 0
         y0_btn = self.game.HEIGHT * 0.058 #45
 
@@ -144,7 +144,7 @@ class ConstellationsState:
                                 self.game.change_state("artifact")
                             elif text == "talents":
                                 self.game.change_state("talents")
-                            elif text == "constellations":
+                            elif text == "symbolism":
                                 pass
                             break
 

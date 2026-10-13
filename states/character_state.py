@@ -71,8 +71,8 @@ class CharacterState:
                             self.game.change_state("artifact")
                         elif btn["text"] == "talents":
                             self.game.change_state("talents")
-                        elif btn["text"] == "constellations":
-                            self.game.change_state("constellations")
+                        elif btn["text"] == "symbolism":
+                            self.game.change_state("symbolism")
                         break
 
     def update_ui(self):
@@ -100,7 +100,7 @@ class CharacterState:
             self.portrait_img.fill((150, 150, 200))
             print(f"Портрет для {char.name} не найден, создана заглушка")
 
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         for name in button_names:
             filename = f"button_{name}_{char_key}"
             img = self.game.resources.get_image(filename)
@@ -187,7 +187,7 @@ class CharacterState:
         # Параметры поля кнопок (левая колонка)
         x0_btn = 0
         y0_btn = self.game.HEIGHT * 0.058 #45
-        btn_texts = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        btn_texts = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
 
         # Очищаем список кнопок перед перерисовкой
         self.menu_buttons = []

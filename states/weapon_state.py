@@ -73,7 +73,7 @@ class WeaponState:
             self.weapons[w_id] = None
 
     def load_navigation_buttons(self):
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         char_index = self.game.selected_character_index
         char = self.game.player.party[char_index]
         char_key = char.resource_key
@@ -140,8 +140,8 @@ class WeaponState:
                     self.game.change_state("artifact")
                 elif btn["text"] == "talents":
                     self.game.change_state("talents")
-                elif btn["text"] == "constellations":
-                    self.game.change_state("constellations")
+                elif btn["text"] == "symbolism":
+                    self.game.change_state("symbolism")
                 break
 
         # Кнопка "Экипировать/Сменить"

@@ -51,7 +51,7 @@ class TalentsState:
             print(f"Портрет для {char.name} не найден, создана заглушка")
 
         self.button_images = {}
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         for name in button_names:
             filename = f"button_{name}_{char_key}"
             try:
@@ -65,7 +65,7 @@ class TalentsState:
                 surf.fill((80, 80, 120))
                 self.button_images[name] = surf
         self.nav_buttons = []
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         x0_btn = 0
         y0_btn = self.game.HEIGHT * 0.058 #45
 
@@ -128,8 +128,8 @@ class TalentsState:
                     self.game.change_state("artifact")
                 elif text == "talents":
                     pass
-                elif text == "constellations":
-                    self.game.change_state("constellations")
+                elif text == "symbolism":
+                    self.game.change_state("symbolism")
                 break
 
     def handle_click_on_circles(self, pos):

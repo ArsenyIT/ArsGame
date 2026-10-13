@@ -97,7 +97,7 @@ class ResourceManager:
         self.load_image("assets/textures/buttons/GG/Button_change.png", "button_change_gg")
         self.load_image("assets/textures/buttons/GG/Button_change_2.png", "button_change_2_gg")
         self.load_image("assets/textures/buttons/GG/Button_characteristic.png", "button_characteristic_gg")
-        self.load_image("assets/textures/buttons/GG/Button_constellations.png", "button_constellations_gg")
+        self.load_image("assets/textures/buttons/GG/Button_symbolism.png", "button_symbolism_gg")
         self.load_image("assets/textures/buttons/GG/Button_elevate.png", "button_elevate_gg")
         self.load_image("assets/textures/buttons/GG/Button_elevation.png", "button_elevation_gg")
         self.load_image("assets/textures/buttons/GG/Button_equip.png", "button_equip_gg")
@@ -113,7 +113,7 @@ class ResourceManager:
         self.load_image("assets/textures/buttons/Infection/Button_change.png", "button_change_infection")
         self.load_image("assets/textures/buttons/Infection/Button_change_2.png", "button_change_2_infection")
         self.load_image("assets/textures/buttons/Infection/Button_characteristic.png", "button_characteristic_infection")
-        self.load_image("assets/textures/buttons/Infection/Button_constellations.png", "button_constellations_infection")
+        self.load_image("assets/textures/buttons/Infection/Button_symbolism.png", "button_symbolism_infection")
         self.load_image("assets/textures/buttons/Infection/Button_elevate.png", "button_elevate_infection")
         self.load_image("assets/textures/buttons/Infection/Button_elevation.png", "button_elevation_infection")
         self.load_image("assets/textures/buttons/Infection/Button_equip.png", "button_equip_infection")
@@ -141,7 +141,7 @@ class ResourceManager:
 
         # ---- Меню персонажей (ГГ) ----
         self.load_image("assets/textures/characters_menu/GG/GG_artifacts.png", "gg_artifacts")
-        self.load_image("assets/textures/characters_menu/GG/GG_constellations.png", "gg_constellations")
+        self.load_image("assets/textures/characters_menu/GG/GG_symbolism.png", "gg_symbolism")
         self.load_image("assets/textures/characters_menu/GG/GG_menu.png", "gg_menu")
         self.load_image("assets/textures/characters_menu/GG/GG_talents.png", "gg_talents")
         self.load_image("assets/textures/characters_menu/GG/GG_upgrade.png", "gg_upgrade")

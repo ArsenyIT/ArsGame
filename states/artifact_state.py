@@ -52,7 +52,7 @@ class ArtifactState:
         }
 
         self.button_images = {}
-        button_names = ["characteristic", "weapon", "artifacts", "talents", "constellations"]
+        button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
         for name in button_names:
             filename = f"button_{name}_{char_key}"
             try:
@@ -112,8 +112,8 @@ class ArtifactState:
                             pass
                         elif text == "talents":
                             self.game.change_state("talents")
-                        elif text == "constellations":
-                            self.game.change_state("constellations")
+                        elif text == "symbolism":
+                            self.game.change_state("symbolism")
                         break
 
     def draw(self, screen):

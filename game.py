@@ -37,7 +37,7 @@ class Game:
         from states.artifact_upgrade_state import ArtifactUpgradeState
         from states.level_up_state import LevelUpState
         from states.talents_state import TalentsState
-        from states.constellations_state import ConstellationsState
+        from states.symbolism_state import SymbolismState
 
         self.states["world"] = WorldState(self)
         self.states["inventory"] = InventoryState(self)
@@ -60,7 +60,7 @@ class Game:
         self.states["artifact_upgrade"] = ArtifactUpgradeState(self)
         self.states["level_up"] = LevelUpState(self)
         self.states["talents"] = TalentsState(self)
-        self.states["constellations"] = ConstellationsState(self)
+        self.states["symbolism"] = SymbolismState(self)
 
     def change_state(self, new_state_name):
         if self.state:
