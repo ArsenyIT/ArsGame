@@ -7,15 +7,16 @@ from game_data import generate_artifact_main_stat
 from inventory import ITEM_DATA
 from inventory import PREFIX_WEAPON
 import shutil
+from utils import resource_path
 
 class Player:
     def __init__(self):
         self.inventory = Inventory()
-        self.inventory.load("assets/data/inventory.json")
+        self.inventory.load(resource_path("assets/data/inventory.json"))
 
-        with open("assets/data/characters/GG.json", "r", encoding="utf-8") as f:
+        with open(resource_path("assets/data/characters/GG.json"), "r", encoding="utf-8") as f:
             data = json.load(f)
-        with open("assets/data/characters/Infection.json", "r", encoding="utf-8") as f:
+        with open(resource_path("assets/data/characters/Infection.json"), "r", encoding="utf-8") as f:
             inf_data = json.load(f)
 
         GG = Character(
@@ -58,7 +59,7 @@ class Player:
         self.party = [GG, Infection]
 
         # Загружаем данные персонажей
-        self.load_party("assets/data/party_save.json")
+        self.load_party(resource_path("assets/data/party_save.json"))
 
         for hero in self.party:
             for uid in self.inventory.get_all_uids("weapons"):
@@ -97,7 +98,7 @@ class Player:
                             break
 
         # Сохраняем партию, чтобы в следующий раз данные уже были
-        self.save_party("assets/data/party_save.json")
+        self.save_party(resource_path("assets/data/party_save.json"))
 
     def mark_modified(self):
         self.modified = True

@@ -1,6 +1,7 @@
 import json
 from inventory import ITEM_DATA
 import random
+from utils import resource_path
 
 MAX_ARTIFACT_LEVEL_BY_RARITY = {
     1: 4,
@@ -47,7 +48,7 @@ def load_weapon_growth():
     global _weapon_growth_cache
     if _weapon_growth_cache is None:
         try:
-            with open("assets/data/weapon_growth.json", "r", encoding="utf-8") as f:
+            with open(resource_path("assets/data/weapon_growth.json"), "r", encoding="utf-8") as f:
                 _weapon_growth_cache = json.load(f)
         except FileNotFoundError:
             _weapon_growth_cache = {}
@@ -57,7 +58,7 @@ def load_artifact_main_growth():
     global _artifact_main_growth_cache
     if _artifact_main_growth_cache is None:
         try:
-            with open("assets/data/artifact_main_growth.json", "r", encoding="utf-8") as f:
+            with open(resource_path("assets/data/artifact_main_growth.json"), "r", encoding="utf-8") as f:
                 _artifact_main_growth_cache = json.load(f)
         except FileNotFoundError:
             _artifact_main_growth_cache = {}
@@ -135,7 +136,7 @@ class Character:
         self.load_growth_data()
 
     def load_growth_data(self):
-        with open(f"assets/data/characters/{self.growth_file}", "r", encoding="utf-8") as f:
+        with open(resource_path(f"assets/data/characters/{self.growth_file}"), "r", encoding="utf-8") as f:
             self.growth_data = json.load(f)
 
     def calculate_total_stats(self):

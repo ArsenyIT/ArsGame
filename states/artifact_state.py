@@ -2,6 +2,7 @@ import pygame
 from input_handler import InputHandler
 import json
 from inventory import ITEM_DATA
+from utils import resource_path
 
 class ArtifactState:
     def __init__(self, game):
@@ -37,7 +38,8 @@ class ArtifactState:
             self.bg.fill((40, 40, 60))
 
         try:
-            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+            path = resource_path(char.portrait_path)
+            self.portrait_img = pygame.image.load(path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):
             self.portrait_img = pygame.Surface((290, 415))
             self.portrait_img.fill((150, 150, 200))
@@ -148,7 +150,7 @@ class ArtifactState:
                     else:
                         print(f"Иконка для {artifact_id} не найдена")
 
-        with open(f"assets/data/artifact_sets.json", "r", encoding="utf-8") as f:
+        with open(resource_path("assets/data/artifact_sets.json"), "r", encoding="utf-8") as f:
             sets = json.load(f)
 
         for set_id, count in self.set_counts.items():

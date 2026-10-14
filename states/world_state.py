@@ -2,6 +2,7 @@ import pygame
 import json
 from camera import Camera
 from input_handler import InputHandler
+from utils import resource_path
 
 class WorldState:
     def __init__(self, game):
@@ -45,7 +46,7 @@ class WorldState:
         hero_width = int(self.game.WIDTH * 0.0329) #45
         hero_height = int(self.game.HEIGHT * 0.12) #90
         self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
-        with open("assets/maps/map.json", "r", encoding="utf-8") as f:
+        with open(resource_path("assets/maps/map.json"), "r", encoding="utf-8") as f:
             map_json = json.load(f)
         map_width = map_json["width"] * self.tile_size
         map_height = map_json["height"] * self.tile_size

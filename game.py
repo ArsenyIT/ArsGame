@@ -1,5 +1,6 @@
 from player import Player
 from resource_manager import ResourceManager
+from utils import resource_path
 
 class Game:
     def __init__(self, screen, WIDTH, HEIGHT):
@@ -79,10 +80,10 @@ class Game:
     def save_all(self):
         saved = False
         if self.player.inventory.modified:
-            self.player.inventory.save("assets/data/inventory.json")
+            self.player.inventory.save(resource_path("assets/data/inventory.json"))
             saved = True
         if self.player.modified:
-            self.player.save_party("assets/data/party_save.json")
+            self.player.save_party(resource_path("assets/data/party_save.json"))
             saved = True
         if saved:
             print("Всё сохранено")

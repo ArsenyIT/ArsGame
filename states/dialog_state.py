@@ -2,6 +2,7 @@ import pygame
 import json
 import os
 from input_handler import  InputHandler
+from utils import resource_path
 
 class DialogState:
     def __init__(self, game):
@@ -20,7 +21,7 @@ class DialogState:
         self.current_chapter_index = 0
 
     def load_scene(self, filename="Tom_1/Season_1/Preface"):
-        full_path = os.path.join("assets/data/dialogues", filename)
+        full_path = os.path.join(resource_path("assets/data/dialogues"), filename)
         with open(full_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         # Если data — список, то это массив реплик

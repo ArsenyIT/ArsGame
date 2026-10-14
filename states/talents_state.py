@@ -2,6 +2,7 @@ import pygame
 from inventory import ITEM_DATA
 from game_data import TALENT_BOOK_REQUIREMENTS
 from input_handler import InputHandler
+from utils import resource_path
 
 class TalentsState:
     def __init__(self, game):
@@ -44,7 +45,8 @@ class TalentsState:
             self.popup_bg = None
 
         try:
-            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+            path = resource_path(char.portrait_path)
+            self.portrait_img = pygame.image.load(path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):
             self.portrait_img = pygame.Surface((290, 415))
             self.portrait_img.fill((150, 150, 200))
@@ -77,7 +79,7 @@ class TalentsState:
         #self.icons = {}
         #for name in self.circle_positions.keys():
         #    try:
-        #        icon = pygame.image.load(f"assets/textures/icons/talent_{name}.png").convert_alpha()
+        #        icon = pygame.image.load(resource_path(f"assets/textures/icons/talent_{name}.png")).convert_alpha()
         #        icon = pygame.transform.scale(icon, (60, 60))
         #        self.icons[name] = icon
         #    except pygame.error:

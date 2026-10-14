@@ -16,6 +16,7 @@
     * photoroom.com
     * pixlr.com
 * Сюжет: полностью авторский.
+* Команда для обновления exe файла: pyinstaller --onefile --windowed --add-data "assets;assets" --icon=assets/textures/icon/Icon.ico --name ArsGame main.py
 
 ## СТРУКТУРА ПРОЕКТА
 ### ArsGame/

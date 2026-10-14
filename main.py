@@ -1,5 +1,6 @@
 import pygame
 from game import Game
+from utils import resource_path
 
 def main():
     # 1. Инициализация pygame
@@ -13,7 +14,7 @@ def main():
     pygame.display.set_caption("ArsGame")
 
     # 3. Устанавливаем иконку игры
-    icon = pygame.image.load("assets/textures/icon/Icon.png").convert_alpha()
+    icon = pygame.image.load(resource_path("assets/textures/icon/Icon.png")).convert_alpha()
     pygame.display.set_icon(icon)
 
     # 4. Часы для ограничения FPS

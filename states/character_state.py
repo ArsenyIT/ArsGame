@@ -2,6 +2,7 @@ import pygame
 from game_data import Character
 from input_handler import InputHandler
 import json
+from utils import resource_path
 
 class CharacterState:
     def __init__(self, game):
@@ -84,7 +85,7 @@ class CharacterState:
             self.menu = pygame.Surface((self.game.WIDTH, self.game.HEIGHT))
             self.menu.fill((40, 40, 60))
 
-        with open(f"assets/data/characters/{char_key}.json", "r", encoding="utf-8") as f:
+        with open(resource_path(f"assets/data/characters/{char_key}.json"), "r", encoding="utf-8") as f:
             character = json.load(f)
 
         type_weapon = character["type_weapon"]
@@ -94,7 +95,8 @@ class CharacterState:
         self.type_weapon = self.game.resources.get_image(f"{type_weapon}")
 
         try:
-            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+            path = resource_path(char.portrait_path)
+            self.portrait_img = pygame.image.load(path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):
             self.portrait_img = pygame.Surface((290, 415))
             self.portrait_img.fill((150, 150, 200))
