@@ -1,6 +1,7 @@
 import pygame
 from inventory import ITEM_DATA
 from input_handler import InputHandler
+from utils import resource_path
 
 class LevelUpState:
     def __init__(self, game):
@@ -19,7 +20,8 @@ class LevelUpState:
             self.bg.fill((40, 40, 60))
 
         try:
-            self.portrait_img = pygame.image.load(char.portrait_path).convert_alpha()
+            path = resource_path(char.portrait_path)
+            self.portrait_img = pygame.image.load(path).convert_alpha()
         except (pygame.error, FileNotFoundError, AttributeError):
             self.portrait_img = pygame.Surface((290, 415))
             self.portrait_img.fill((150, 150, 200))

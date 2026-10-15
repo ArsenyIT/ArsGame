@@ -65,12 +65,12 @@ class WeaponState:
         weapon_ids = ["sword_of_steel", "rusted_sword"]
         for w_id in weapon_ids:
             weapon_name = w_id
-        try:
-            weapon = self.game.resources.get_image(weapon_name)
-            weapon = pygame.transform.scale(weapon, (self.game.WIDTH * 0.1537, self.game.HEIGHT * 0.56)) #210,430
-            self.weapons[w_id] = weapon
-        except pygame.error:
-            self.weapons[w_id] = None
+            try:
+                weapon = self.game.resources.get_image(weapon_name)
+                weapon = pygame.transform.scale(weapon, (self.game.WIDTH * 0.1537, self.game.HEIGHT * 0.56)) #210,430
+                self.weapons[w_id] = weapon
+            except pygame.error:
+                self.weapons[w_id] = None
 
     def load_navigation_buttons(self):
         button_names = ["characteristic", "weapon", "artifacts", "talents", "symbolism"]
