@@ -85,6 +85,9 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/collision_objects/Fence/Fence_right_wall.png"), "fence_right_wall")
         self.load_image(resource_path("assets/textures/collision_objects/Fence/Fence_left_angle.png"), "fence_left_angle")
         self.load_image(resource_path("assets/textures/collision_objects/Fence/Fence_right_angle.png"), "fence_right_angle")
+        self.load_image(resource_path("assets/textures/collision_objects/Chests/Old_chest.png"),"old_chest")
+        self.load_image(resource_path("assets/textures/collision_objects/Chests/Chest.png"), "chest")
+        self.load_image(resource_path("assets/textures/collision_objects/Chests/Big_chest.png"), "big_chest")
 
         # ---- Карты ----
         self.load_image(resource_path("assets/textures/maps/Map_1.png"), "map_1")
