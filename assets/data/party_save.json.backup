@@ -22,7 +22,7 @@
         "burst": 1
       },
       "constellation": 0,
-      "weapon": null,
+      "weapon": "2",
       "artifacts": {
         "flower": "3",
         "plume": "6",
