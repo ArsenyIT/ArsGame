@@ -89,6 +89,9 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/collision_objects/chests/Chest.png"), "chest")
         self.load_image(resource_path("assets/textures/collision_objects/chests/Big_chest.png"), "big_chest")
 
+        # ---- Объекты поверх персонажа ----
+        self.load_image(resource_path("assets/textures/overlay/Oak.png"), "oak")
+
         # ---- Карты ----
         self.load_image(resource_path("assets/textures/maps/Map_1.png"), "map_1")
 

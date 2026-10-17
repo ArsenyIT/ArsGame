@@ -53,6 +53,7 @@ class WorldState:
         self.ground_data = None
         self.collision_data = None
         self.collision_rects = []
+        self.overlay_rects = []
         for layer in map_json["layers"]:
             if layer["type"] == "tilelayer":
                 if layer["name"] == "Ground":
@@ -70,6 +71,10 @@ class WorldState:
                     obj_name = obj.get("name")  # Имя объекта
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.collision_rects.append((rect, obj_name))
+            elif layer["type"] == "objectgroup" and layer["name"] == "Overlay":
+                for obj in layer["objects"]:
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    self.overlay_rects.append((rect, obj["name"]))
 
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
@@ -253,6 +258,11 @@ class WorldState:
         player_sprite = self.game.resources.get_image(key)
         if player_sprite:
             screen.blit(player_sprite, hero_screen_rect)
+
+        for rect, tex_name in self.overlay_rects:
+            img = self.game.resources.get_image(tex_name)
+            if img:
+                screen.blit(img, self.camera.apply(rect))
 
         #squad_width = int(self.game.WIDTH * 0.18)
         #squad_height = int(self.game.HEIGHT * 0.45)
