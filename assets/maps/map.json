@@ -1525,8 +1525,8 @@
                  "type":"collision",
                  "visible":true,
                  "width":50,
-                 "x":4976.67,
-                 "y":1337.33
+                 "x":4976,
+                 "y":1337
                 },
                 {
                  "height":25,
@@ -1537,8 +1537,8 @@
                  "type":"collision",
                  "visible":true,
                  "width":50,
-                 "x":4927.33,
-                 "y":1266.67
+                 "x":4927,
+                 "y":1266
                 },
                 {
                  "height":25,
@@ -1549,8 +1549,8 @@
                  "type":"collision",
                  "visible":true,
                  "width":50,
-                 "x":4855.33,
-                 "y":1222.67
+                 "x":4855,
+                 "y":1222
                 },
                 {
                  "height":25,
@@ -2976,8 +2976,8 @@
                  "type":"overlay",
                  "visible":true,
                  "width":89,
-                 "x":5749,
-                 "y":2703
+                 "x":5719,
+                 "y":2632
                 },
                 {
                  "height":215,
@@ -2988,8 +2988,8 @@
                  "type":"overlay",
                  "visible":true,
                  "width":89,
-                 "x":5719,
-                 "y":2632
+                 "x":5749,
+                 "y":2703
                 },
                 {
                  "height":215,
@@ -3086,6 +3086,78 @@
                  "width":89,
                  "x":5109,
                  "y":1291
+                },
+                {
+                 "height":215,
+                 "id":259,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":5109,
+                 "y":1291
+                },
+                {
+                 "height":215,
+                 "id":260,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":5047,
+                 "y":1253
+                },
+                {
+                 "height":215,
+                 "id":261,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":5012,
+                 "y":1193
+                },
+                {
+                 "height":215,
+                 "id":262,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":4957,
+                 "y":1122
+                },
+                {
+                 "height":215,
+                 "id":263,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":4908,
+                 "y":1051
+                },
+                {
+                 "height":215,
+                 "id":264,
+                 "name":"oak",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"overlay",
+                 "visible":true,
+                 "width":89,
+                 "x":4836,
+                 "y":1007
                 },
                 {
                  "height":215,
@@ -3403,7 +3475,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":259,
+ "nextobjectid":265,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",
