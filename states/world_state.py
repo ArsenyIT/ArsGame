@@ -126,6 +126,7 @@ class WorldState:
             46: self.game.resources.get_image("path_with_forest_grass_rim_2"),
             47: self.game.resources.get_image("path_with_forest_grass_rim_3"),
             48: self.game.resources.get_image("path_with_forest_grass_rim_4"),
+            49: self.game.resources.get_image("grass_with_flowers")
         }
         self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")

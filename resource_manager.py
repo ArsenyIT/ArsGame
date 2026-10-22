@@ -31,6 +31,7 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/tiles/Grass_1.png"), "grass_1")
         self.load_image(resource_path("assets/textures/tiles/Grass_2.png"), "grass_2")
         self.load_image(resource_path("assets/textures/tiles/Forest_grass.png"), "forest_grass")
+        self.load_image(resource_path("assets/textures/tiles/Grass_with_flowers.png"), "grass_with_flowers")
         self.load_image(resource_path("assets/textures/tiles/Border_1.png"), "border_1")
         self.load_image(resource_path("assets/textures/tiles/Border_2.png"), "border_2")
         self.load_image(resource_path("assets/textures/tiles/Border_3.png"), "border_3")
@@ -97,7 +98,12 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/maps/Map_1.png"), "map_1")
 
         # ---- Предметы ----
-        self.load_image(resource_path("assets/textures/items/Oak_wood_item.png"), "oak_wood")
+        self.load_image(resource_path("assets/textures/items/Oak_wood.png"), "oak_wood")
+        self.load_image(resource_path("assets/textures/items/Poppy.png"), "poppy")
+        self.load_image(resource_path("assets/textures/items/Chamomile.png"), "chamomile")
+
+        # ---- Кнопки мира ----
+        self.load_image(resource_path("assets/textures/buttons/world/World_button_collect.png"), "world_button_collect")
 
         # ---- Кнопки (ГГ) ----
         self.load_image(resource_path("assets/textures/buttons/GG/Button_activate.png"), "button_activate_gg")
