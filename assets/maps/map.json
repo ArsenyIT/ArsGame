@@ -235,7 +235,7 @@
                 {
                  "height":42,
                  "id":265,
-                 "name":"\u0441hamomile",
+                 "name":"chamomile",
                  "opacity":1,
                  "properties":[
                         {
@@ -252,7 +252,7 @@
                  "type":"items",
                  "visible":true,
                  "width":15,
-                 "x":7021.33333333333,
+                 "x":7021.33,
                  "y":1468
                 },
                 {
@@ -283,6 +283,17 @@
                  "id":267,
                  "name":"oak_wood",
                  "opacity":1,
+                 "properties":[
+                        {
+                         "name":"amount",
+                         "type":"int",
+                         "value":1
+                        },
+                        {
+                         "name":"respawn",
+                         "type":"int",
+                         "value":15
+                        }],
                  "rotation":0,
                  "type":"items",
                  "visible":true,

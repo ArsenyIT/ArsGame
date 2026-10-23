@@ -41,12 +41,16 @@ class InventoryState:
 
         self.empty_cell = self.game.resources.get_image("cell_inventory")
         self.oak_wood_inventory = self.game.resources.get_image("oak_wood_inventory")
+        self.poppy_inventory = self.game.resources.get_image("poppy_inventory")
+        self.chamomile_inventory = self.game.resources.get_image("chamomile_inventory")
         self.story_of_the_Almighty_inventory = self.game.resources.get_image("story_of_the_almighty_inventory")
+
         self.plume_1_inventory = self.game.resources.get_image("plume_1_inventory")
         self.plume_2_inventory = self.game.resources.get_image("plume_2_inventory")
         self.goblet_2_inventory = self.game.resources.get_image("goblet_2_inventory")
         self.sands_2_inventory = self.game.resources.get_image("sands_2_inventory")
         self.flower_2_inventory = self.game.resources.get_image("flower_2_inventory")
+
         self.artifact_exp_inventory = self.game.resources.get_image("artifact_exp_inventory")
         self.sword_of_steel_inventory = self.game.resources.get_image("sword_of_steel_inventory")
         self.rusted_sword_inventory = self.game.resources.get_image("rusted_sword_inventory")
@@ -56,6 +60,8 @@ class InventoryState:
 
         self.item_icons = {
             "oak_wood": self.oak_wood_inventory,
+            "poppy": self.poppy_inventory,
+            "chamomile": self.chamomile_inventory,
             "story_of_the_Almighty": self.story_of_the_Almighty_inventory,
             "plume_1": self.plume_1_inventory,
             "plume_2": self.plume_2_inventory,

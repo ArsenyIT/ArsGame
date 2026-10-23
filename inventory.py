@@ -12,6 +12,16 @@ ITEM_DATA = {
         "name": "Дубовое бревно",
         "rarity": 1,
     },
+    "poppy": {
+        "type": "resources",
+        "name": "Мак",
+        "rarity": 1,
+    },
+    "chamomile": {
+        "type": "resources",
+        "name": "Ромашка",
+        "rarity": 1,
+    },
     "story_of_the_Almighty": {
         "type": "resources",
         "name": "Сказание о Всемогущем",

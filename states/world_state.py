@@ -3,18 +3,16 @@ import json
 from camera import Camera
 from input_handler import InputHandler
 from utils import resource_path
+import time
 
 class WorldState:
     def __init__(self, game):
         self.game = game
-        item_x = int(self.game.WIDTH * 0.15)
-        item_y = int(self.game.HEIGHT * 0.3)
-        item_width = int(self.game.WIDTH * 0.01)
-        item_height = int(self.game.HEIGHT * 0.045)
-        self.item_rect = pygame.Rect(item_x, item_y, item_width, item_height)
+        self.items = []
+        self.items_state = {}
+        self.map_name = "World_1"
+        self.near_item_data = None
         self.hint_font = pygame.font.Font(None, 24)
-        self.near_item = False
-        self.item = True
         self.tile_size = 50
         self.direction = "right"
         self.idle_frames = {
@@ -46,6 +44,9 @@ class WorldState:
         hero_width = int(self.game.WIDTH * 0.0329) #45
         hero_height = int(self.game.HEIGHT * 0.12) #90
         self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
+        with open(resource_path("assets/data/items_state.json"), "r", encoding="utf-8") as f:
+            all_state = json.load(f)
+        self.items_state = all_state.get(self.map_name, {})
         with open(resource_path("assets/maps/map.json"), "r", encoding="utf-8") as f:
             map_json = json.load(f)
         map_width = map_json["width"] * self.tile_size
@@ -54,6 +55,7 @@ class WorldState:
         self.collision_data = None
         self.collision_rects = []
         self.overlay_rects = []
+        self.items = []
         for layer in map_json["layers"]:
             if layer["type"] == "tilelayer":
                 if layer["name"] == "Ground":
@@ -75,6 +77,17 @@ class WorldState:
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.overlay_rects.append((rect, obj["name"]))
+            elif layer["type"] == "objectgroup" and layer["name"] == "Items":
+                for obj in layer["objects"]:
+                    props = {p["name"]: p["value"] for p in obj.get("properties", [])}
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    self.items.append({
+                        "id": str(obj["id"]),
+                        "name": obj["name"],
+                        "rect": rect,
+                        "amount": props.get("amount", 1),
+                        "respawn": props.get("respawn", 0),
+                    })
 
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
         self.tile_textures = {
@@ -128,9 +141,7 @@ class WorldState:
             48: self.game.resources.get_image("path_with_forest_grass_rim_4"),
             49: self.game.resources.get_image("grass_with_flowers")
         }
-        self.item_img = self.game.resources.get_image("oak_wood")
         self.squad = self.game.resources.get_image("squad_list")
-        self.oak_butt = self.game.resources.get_image("oak_butt")
 
     def on_exit(self):
         pass
@@ -155,6 +166,26 @@ class WorldState:
                     return True
         return False
 
+    def save_items_state(self):
+        path = resource_path("assets/data/items_state.json")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                all_state = json.load(f)
+        except FileNotFoundError:
+            all_state = {}
+        all_state[self.map_name] = self.items_state
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(all_state, f, ensure_ascii=False, indent=2)
+
+    def is_item_available(self, item):
+        state = self.items_state.get(item["id"], {})
+        if not state.get("collected"):
+            return True
+        respawn_at = state.get("respawn_at", 0)
+        if respawn_at == 0:
+            return False  # Собран навсегда
+        return time.time() >= respawn_at  # Возродился?
+
     def update(self, dt, events):
         # Обработать ввод для перемещения, открытия меню, начала диалога и т.д.
         if InputHandler.is_key_pressed(events, pygame.K_b):
@@ -170,12 +201,18 @@ class WorldState:
         if InputHandler.is_key_pressed(events, pygame.K_t):
             self.game.change_state("party")
         if InputHandler.is_key_pressed(events, pygame.K_f):
-            if self.near_item == True:
-                print('Получен Предмет')
-                self.game.player.inventory.add_item("oak_wood", 1)
-                self.item = False
+            if self.near_item_data is not None:
+                item = self.near_item_data
+                self.game.player.inventory.add_item(item["name"], item["amount"])
+                now = time.time()
+                state = self.items_state.setdefault(item["id"], {})
+                state["collected"] = True
+                state["respawn_at"] = (now + item["respawn"]) if item["respawn"] > 0 else 0
+                self.save_items_state()  # Отдельный метод — сохранить items_state.json
+                self.near_item_data = None
             else:
                 self.game.change_state("dialog")
+
         if InputHandler.is_key_pressed(events, pygame.K_F1):
             self.game.change_state("events")
         if InputHandler.is_key_pressed(events, pygame.K_F2):
@@ -234,9 +271,11 @@ class WorldState:
             self.walk_frames_index = 0
             self.walk_timer = 0.0
 
-        self.near_item = False
-        if self.hero_rect.colliderect(self.item_rect):
-            self.near_item = True
+        self.near_item_data = None
+        for item in self.items:
+            if self.hero_rect.colliderect(item["rect"]) and self.is_item_available(item):
+                self.near_item_data = item
+                break
 
     def draw(self, screen):
         self.camera.draw_map(screen, self.ground_data, self.tile_textures)
@@ -248,6 +287,15 @@ class WorldState:
                 screen.blit(img, screen_rect)
             else:
                 print(f"Текстура для {tex_name} не найдена")
+
+        now = time.time()
+
+        for item in self.items:
+            if not self.is_item_available(item):
+                continue
+            img = self.game.resources.get_image(item["name"])
+            if img:
+                screen.blit(img, self.camera.apply(item["rect"]))
 
         hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
@@ -272,12 +320,8 @@ class WorldState:
         #ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
         #screen.blit(self.squad, ramka)
 
-        if self.item == True:
-            item_screen_rect = self.camera.apply(self.item_rect)
-            screen.blit(self.item_img, item_screen_rect)
-
-        if self.near_item == True and self.item == True:
-            item_screen_rect = self.camera.apply(self.item_rect)
+        if self.near_item_data is not None:
+            item_screen_rect = self.camera.apply(self.near_item_data["rect"])
             hint_x = item_screen_rect.x - 10
             hint_y = item_screen_rect.y - 20
             hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10))
