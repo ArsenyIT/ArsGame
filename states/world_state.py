@@ -81,10 +81,16 @@ class WorldState:
                 for obj in layer["objects"]:
                     props = {p["name"]: p["value"] for p in obj.get("properties", [])}
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+
+                    # Зона сбора: расширяем rect предмета на pickup_padding пикселей с каждой стороны.
+                    pickup_padding = props.get("pickup_padding", 25)
+                    pickup_zone = rect.inflate(pickup_padding * 2, pickup_padding * 2)
+
                     self.items.append({
                         "id": str(obj["id"]),
                         "name": obj["name"],
                         "rect": rect,
+                        "pickup_zone": pickup_zone,
                         "amount": props.get("amount", 1),
                         "respawn": props.get("respawn", 0),
                     })
@@ -142,6 +148,7 @@ class WorldState:
             49: self.game.resources.get_image("grass_with_flowers")
         }
         self.squad = self.game.resources.get_image("squad_list")
+        self.world_collect = self.game.resources.get_image("world_button_collect")
 
     def on_exit(self):
         pass
@@ -273,7 +280,7 @@ class WorldState:
 
         self.near_item_data = None
         for item in self.items:
-            if self.hero_rect.colliderect(item["rect"]) and self.is_item_available(item):
+            if self.hero_rect.colliderect(item["pickup_zone"]) and self.is_item_available(item):
                 self.near_item_data = item
                 break
 
@@ -287,8 +294,6 @@ class WorldState:
                 screen.blit(img, screen_rect)
             else:
                 print(f"Текстура для {tex_name} не найдена")
-
-        now = time.time()
 
         for item in self.items:
             if not self.is_item_available(item):
@@ -324,5 +329,4 @@ class WorldState:
             item_screen_rect = self.camera.apply(self.near_item_data["rect"])
             hint_x = item_screen_rect.x - 10
             hint_y = item_screen_rect.y - 20
-            hint_surf = self.hint_font.render("Нажмите F", True, (10, 10, 10))
-            screen.blit(hint_surf, (hint_x, hint_y))
+            screen.blit(self.world_collect, (hint_x, hint_y))
