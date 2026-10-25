@@ -327,6 +327,6 @@ class WorldState:
 
         if self.near_item_data is not None:
             item_screen_rect = self.camera.apply(self.near_item_data["rect"])
-            hint_x = item_screen_rect.x - 10
-            hint_y = item_screen_rect.y - 20
+            hint_x = item_screen_rect.x - self.game.WIDTH * 0.0183 #25
+            hint_y = item_screen_rect.y - self.game.HEIGHT * 0.039 #30
             screen.blit(self.world_collect, (hint_x, hint_y))
