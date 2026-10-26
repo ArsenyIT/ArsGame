@@ -88,7 +88,7 @@ class DialogState:
 
     def draw(self, screen):
         screen.fill((0, 0, 0))  # Уникальный цвет для каждого состояния
-        dialog_rect = pygame.Rect(self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.195, self.game.WIDTH - self.game.WIDTH * 0.073, self.game.HEIGHT * 0.15625) #50,150,100,120
+        dialog_rect = pygame.Rect(self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.26, self.game.WIDTH - self.game.WIDTH * 0.073, self.game.HEIGHT * 0.15625) #50,200,100,120
         screen.blit(self.dialog_window, dialog_rect)
 
         if not self.dialog_lines or self.current_line >= len(self.dialog_lines):

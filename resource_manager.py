@@ -208,7 +208,7 @@ class ResourceManager:
         # ---- Инвентарь ----
         self.load_image(resource_path("assets/textures/inventory/Artifact_exp_inventory.png"), "artifact_exp_inventory")
         self.load_image(resource_path("assets/textures/inventory/Cell_inventory.png"), "cell_inventory")
-        self.load_image(resource_path("assets/textures/inventory/Crystal_of_true_power_inventory.png"), "crystall_of_true_inventory")
+        self.load_image(resource_path("assets/textures/inventory/Crystal_of_true_power_inventory.png"), "crystal_of_true_power_inventory")
         self.load_image(resource_path("assets/textures/inventory/Hero_duplicate_inventory.png"), "Hero_duplicate_inventory")
         self.load_image(resource_path("assets/textures/inventory/Oak_wood_inventory.png"), "oak_wood_inventory")
         self.load_image(resource_path("assets/textures/inventory/Story_of_the_Almighty_inventory.png"), "story_of_the_almighty_inventory")
