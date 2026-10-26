@@ -212,7 +212,7 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/inventory/Hero_duplicate_inventory.png"), "Hero_duplicate_inventory")
         self.load_image(resource_path("assets/textures/inventory/Oak_wood_inventory.png"), "oak_wood_inventory")
         self.load_image(resource_path("assets/textures/inventory/Story_of_the_Almighty_inventory.png"), "story_of_the_almighty_inventory")
-        self.load_image(resource_path("assets/textures/inventory/Talent_book_2_inventory.png"), "talent_book_2_inventory")
+        self.load_image(resource_path("assets/textures/inventory/Fencing_textbook_inventory.png"), "fencing_textbook_inventory")
         self.load_image(resource_path("assets/textures/inventory/Poppy_inventory.png"), "poppy_inventory")
         self.load_image(resource_path("assets/textures/inventory/Chamomile_inventory.png"), "chamomile_inventory")
 

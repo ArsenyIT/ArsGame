@@ -28,10 +28,10 @@ ITEM_DATA = {
         "rarity": 4,
         "exp_gain": 10000   # Кол-во опыта даёт книга
     },
-    "talent_book_2": {
+    "fencing_textbook": {
         "type": "resources",
-        "name": "Книга талантов 2★",
-        "rarity": 2,
+        "name": "Учебник по фехтованию",
+        "rarity": 3,
     },
     "hero_duplicate": {
         "type": "resources",

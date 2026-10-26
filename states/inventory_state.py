@@ -55,7 +55,7 @@ class InventoryState:
         self.sword_of_steel_inventory = self.game.resources.get_image("sword_of_steel_inventory")
         self.rusted_sword_inventory = self.game.resources.get_image("rusted_sword_inventory")
         self.hero_duplicate_inventory = self.game.resources.get_image("hero_duplicate_inventory")
-        self.talent_book_2_inventory = self.game.resources.get_image("talent_book_2_inventory")
+        self.fencing_textbook_inventory = self.game.resources.get_image("fencing_textbook_inventory")
         self.crystal_of_true_power_inventory = self.game.resources.get_image("crystal_of_true_power_inventory")
 
         self.item_icons = {
@@ -72,7 +72,7 @@ class InventoryState:
             "sword_of_steel": self.sword_of_steel_inventory,
             "rusted_sword": self.rusted_sword_inventory,
             "hero_duplicate": self.hero_duplicate_inventory,
-            "talent_book_2": self.talent_book_2_inventory,
+            "fencing_textbook": self.fencing_textbook_inventory,
             "crystal_of_true_power": self.crystal_of_true_power_inventory
         }
 
