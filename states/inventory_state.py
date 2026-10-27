@@ -51,7 +51,7 @@ class InventoryState:
         self.sands_2_inventory = self.game.resources.get_image("sands_2_inventory")
         self.flower_2_inventory = self.game.resources.get_image("flower_2_inventory")
 
-        self.artifact_exp_inventory = self.game.resources.get_image("artifact_exp_inventory")
+        self.magic_elixir_inventory = self.game.resources.get_image("magic_elixir_inventory")
         self.sword_of_steel_inventory = self.game.resources.get_image("sword_of_steel_inventory")
         self.rusted_sword_inventory = self.game.resources.get_image("rusted_sword_inventory")
         self.hero_duplicate_inventory = self.game.resources.get_image("hero_duplicate_inventory")
@@ -68,7 +68,7 @@ class InventoryState:
             "goblet_2": self.goblet_2_inventory,
             "sands_2": self.sands_2_inventory,
             "flower_2": self.flower_2_inventory,
-            "artifact_exp": self.artifact_exp_inventory,
+            "magic_elixir": self.magic_elixir_inventory,
             "sword_of_steel": self.sword_of_steel_inventory,
             "rusted_sword": self.rusted_sword_inventory,
             "hero_duplicate": self.hero_duplicate_inventory,

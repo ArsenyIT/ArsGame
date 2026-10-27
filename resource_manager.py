@@ -206,7 +206,7 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/inventory/menu_inventory/Menu_inventory_2.png"), "menu_inventory_2")
 
         # ---- Инвентарь ----
-        self.load_image(resource_path("assets/textures/inventory/Artifact_exp_inventory.png"), "artifact_exp_inventory")
+        self.load_image(resource_path("assets/textures/inventory/Magic_elixir_inventory.png"), "magic_elixir_inventory")
         self.load_image(resource_path("assets/textures/inventory/Cell_inventory.png"), "cell_inventory")
         self.load_image(resource_path("assets/textures/inventory/Crystal_of_true_power_inventory.png"), "crystal_of_true_power_inventory")
         self.load_image(resource_path("assets/textures/inventory/Hero_duplicate_inventory.png"), "Hero_duplicate_inventory")

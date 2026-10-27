@@ -38,7 +38,7 @@ ITEM_DATA = {
         "name": "Дубликат героя",
         "rarity": 5,
     },
-    "artifact_exp": {
+    "Magic_elixir": {
         "type": "resources",
         "name": "Артефактный опыт",
         "rarity": 2,
