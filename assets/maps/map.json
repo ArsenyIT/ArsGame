@@ -309,6 +309,89 @@
         },
         {
          "draworder":"topdown",
+         "id":6,
+         "name":"Chests",
+         "objects":[
+                {
+                 "height":20,
+                 "id":272,
+                 "name":"old_chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":35,
+                 "x":8177.33333333333,
+                 "y":7445.33333333333
+                },
+                {
+                 "height":20,
+                 "id":273,
+                 "name":"old_chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":35,
+                 "x":8294.66666666667,
+                 "y":7450.66666666667
+                },
+                {
+                 "height":25,
+                 "id":274,
+                 "name":"chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":40,
+                 "x":8337.33333333333,
+                 "y":7549.33333333333
+                },
+                {
+                 "height":25,
+                 "id":275,
+                 "name":"chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":40,
+                 "x":8341.33333333333,
+                 "y":7617.33333333333
+                },
+                {
+                 "height":35,
+                 "id":276,
+                 "name":"big_chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":45,
+                 "x":8446.66666666667,
+                 "y":7540
+                },
+                {
+                 "height":35,
+                 "id":277,
+                 "name":"big_chest",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"chests",
+                 "visible":true,
+                 "width":45,
+                 "x":8450.66666666667,
+                 "y":7610.66666666667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        },
+        {
+         "draworder":"topdown",
          "id":3,
          "name":"Collision_objects",
          "objects":[
@@ -3554,8 +3637,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":268,
+ "nextlayerid":7,
+ "nextobjectid":278,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.2",
