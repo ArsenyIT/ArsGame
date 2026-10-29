@@ -22,33 +22,79 @@ ITEM_DATA = {
         "name": "Ромашка",
         "rarity": 1,
     },
+    "notes_for_beginner": {
+        "type": "resources",
+        "name": "Записи новичка",
+        "rarity": 2,
+        "exp_gain": 1000   # Кол-во опыта даёт книга
+    },
+    "guide_for_the_experienced_traveler": {
+        "type": "resources",
+        "name": "Сборник опытного путешественника",
+        "rarity": 3,
+        "exp_gain": 5000   # Кол-во опыта даёт книга
+    },
     "story_of_the_Almighty": {
         "type": "resources",
         "name": "Сказание о Всемогущем",
         "rarity": 4,
         "exp_gain": 10000   # Кол-во опыта даёт книга
     },
+    "collection_fencing_exercises": {
+        "type": "resources",
+        "name": "Сборник упражнений по фехтованию",
+        "rarity": 2,
+    },
     "fencing_textbook": {
         "type": "resources",
         "name": "Учебник по фехтованию",
         "rarity": 3,
+    },
+    "notes_fencing_master": {
+        "type": "resources",
+        "name": "Записи мастера по фехтованию",
+        "rarity": 4,
     },
     "hero_duplicate": {
         "type": "resources",
         "name": "Дубликат героя",
         "rarity": 5,
     },
-    "Magic_elixir": {
+    "magic_elixir": {
         "type": "resources",
-        "name": "Артефактный опыт",
+        "name": "Магический эликсир",
         "rarity": 2,
-        "exp_gain": 50   # Кол-во опыта даёт один флакон
+        "exp_gain": 50   # Кол-во опыта
+    },
+    "concentrated_elixir_of_secret_magic": {
+        "type": "resources",
+        "name": "Концентрированный эликсир тайной магии",
+        "rarity": 3,
+        "exp_gain": 200   # Кол-во опыта
+    },
+    "highly_concentrated_forbidden_magic": {
+        "type": "resources",
+        "name": "Высококонцентрированная запретная магия",
+        "rarity": 4,
+        "exp_gain": 1000   # Кол-во опыта
+    },
+    "electrified_crystal_fragments": {
+        "type": "resources",
+        "name": "Наэлектризованные фрагменты кристалла",
+        "rarity": 1,
+        "exp_gain": 50
+    },
+    "charged_crystal_fragment": {
+        "type": "resources",
+        "name": "Заряженный фрагмент кристалла",
+        "rarity": 2,
+        "exp_gain": 250
     },
     "crystal_of_true_power": {
         "type": "resources",
         "name": "Кристалл истинной силы",
         "rarity": 3,
-        "exp_gain": 50
+        "exp_gain": 1000
     },
     # Артефакты
     "plume_1": {
