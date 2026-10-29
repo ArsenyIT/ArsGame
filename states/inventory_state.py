@@ -102,7 +102,10 @@ class InventoryState:
                 continue
             if item_type in ["artifacts", "weapons"]:
                 # value – список UID
-                count = len(value)
+                if isinstance(value, list):
+                    count = len(value)  # уникальные: количество = число UID
+                else:
+                    count = value  # количество уже число
                 grouped[item_id] = grouped.get(item_id, 0) + count
             else:
                 # ресурсы – число

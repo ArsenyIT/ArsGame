@@ -26,19 +26,19 @@ ITEM_DATA = {
         "type": "resources",
         "name": "Записи новичка",
         "rarity": 2,
-        "exp_gain": 1000   # Кол-во опыта даёт книга
+        "exp_gain": 1000   # Кол-во опыта
     },
     "guide_for_the_experienced_traveler": {
         "type": "resources",
         "name": "Сборник опытного путешественника",
         "rarity": 3,
-        "exp_gain": 5000   # Кол-во опыта даёт книга
+        "exp_gain": 5000   # Кол-во опыта
     },
     "story_of_the_Almighty": {
         "type": "resources",
         "name": "Сказание о Всемогущем",
         "rarity": 4,
-        "exp_gain": 10000   # Кол-во опыта даёт книга
+        "exp_gain": 10000   # Кол-во опыта
     },
     "collection_fencing_exercises": {
         "type": "resources",

@@ -20,7 +20,7 @@ class DialogState:
         ]
         self.current_chapter_index = 0
 
-    def load_scene(self, filename="Tom_1/Season_1/Preface"):
+    def load_scene(self, filename="tom_1/season_1/preface"):
         full_path = os.path.join(resource_path("assets/data/dialogues"), filename)
         with open(full_path, "r", encoding="utf-8") as f:
             data = json.load(f)
