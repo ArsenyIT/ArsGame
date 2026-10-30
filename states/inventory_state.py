@@ -40,39 +40,70 @@ class InventoryState:
         self.special_tools_icon = self.game.resources.get_image("icon_special_tools")
 
         self.empty_cell = self.game.resources.get_image("cell_inventory")
+
         self.oak_wood_inventory = self.game.resources.get_image("oak_wood_inventory")
         self.poppy_inventory = self.game.resources.get_image("poppy_inventory")
         self.chamomile_inventory = self.game.resources.get_image("chamomile_inventory")
+
+        self.notes_for_beginner_inventory = self.game.resources.get_image("notes_for_beginner_inventory")
+        self.guide_for_the_experienced_traveler_inventory = self.game.resources.get_image("guide_for_the_experienced_traveler_inventory")
         self.story_of_the_Almighty_inventory = self.game.resources.get_image("story_of_the_almighty_inventory")
 
         self.plume_1_inventory = self.game.resources.get_image("plume_1_inventory")
+
         self.plume_2_inventory = self.game.resources.get_image("plume_2_inventory")
         self.goblet_2_inventory = self.game.resources.get_image("goblet_2_inventory")
         self.sands_2_inventory = self.game.resources.get_image("sands_2_inventory")
         self.flower_2_inventory = self.game.resources.get_image("flower_2_inventory")
 
         self.magic_elixir_inventory = self.game.resources.get_image("magic_elixir_inventory")
+        self.concentrated_elixir_of_secret_magic_inventory = self.game.resources.get_image("concentrated_elixir_of_secret_magic_inventory")
+        self.highly_concentrated_forbidden_magic_inventory = self.game.resources.get_image("highly_concentrated_forbidden_magic_inventory")
+
         self.sword_of_steel_inventory = self.game.resources.get_image("sword_of_steel_inventory")
         self.rusted_sword_inventory = self.game.resources.get_image("rusted_sword_inventory")
+
         self.hero_duplicate_inventory = self.game.resources.get_image("hero_duplicate_inventory")
+
+        self.collection_fencing_exercises_inventory = self.game.resources.get_image("collection_fencing_exercises_inventory")
         self.fencing_textbook_inventory = self.game.resources.get_image("fencing_textbook_inventory")
+        self.notes_fencing_master_inventory = self.game.resources.get_image("notes_fencing_master_inventory")
+
+        self.electrified_crystal_fragments_inventory = self.game.resources.get_image("electrified_crystal_fragments_inventory")
+        self.charged_crystal_fragment_inventory = self.game.resources.get_image("charged_crystal_fragment_inventory")
         self.crystal_of_true_power_inventory = self.game.resources.get_image("crystal_of_true_power_inventory")
 
         self.item_icons = {
             "oak_wood": self.oak_wood_inventory,
             "poppy": self.poppy_inventory,
             "chamomile": self.chamomile_inventory,
+
+            "notes_for_beginner": self.notes_for_beginner_inventory,
+            "guide_for_the_experienced_traveler": self.guide_for_the_experienced_traveler_inventory,
             "story_of_the_Almighty": self.story_of_the_Almighty_inventory,
+
             "plume_1": self.plume_1_inventory,
+
             "plume_2": self.plume_2_inventory,
             "goblet_2": self.goblet_2_inventory,
             "sands_2": self.sands_2_inventory,
             "flower_2": self.flower_2_inventory,
+
             "magic_elixir": self.magic_elixir_inventory,
+            "concentrated_elixir_of_secret_magic": self.concentrated_elixir_of_secret_magic_inventory,
+            "highly_concentrated_forbidden_magic": self.highly_concentrated_forbidden_magic_inventory,
+
             "sword_of_steel": self.sword_of_steel_inventory,
             "rusted_sword": self.rusted_sword_inventory,
+
             "hero_duplicate": self.hero_duplicate_inventory,
+
+            "collection_fencing_exercises": self.collection_fencing_exercises_inventory,
             "fencing_textbook": self.fencing_textbook_inventory,
+            "notes_fencing_master": self.notes_fencing_master_inventory,
+
+            "electrified_crystal_fragments": self.electrified_crystal_fragments_inventory,
+            "charged_crystal_fragment": self.charged_crystal_fragment_inventory,
             "crystal_of_true_power": self.crystal_of_true_power_inventory
         }
 
