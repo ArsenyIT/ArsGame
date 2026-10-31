@@ -14,9 +14,9 @@ class DialogState:
         self.chapter_files = [
             "Tom_1/Season_1/Preface.json",
             "Tom_1/Season_1/Chapter_1.json",
-            "Tom_1/Season_1/Chapter_2.json",
-            "Tom_1/Season_1/Chapter_3.json",
-            "Tom_1/Season_1/Chapter_4.json"
+            #"Tom_1/Season_1/Chapter_2.json",
+            #"Tom_1/Season_1/Chapter_3.json",
+            #"Tom_1/Season_1/Chapter_4.json"
         ]
         self.current_chapter_index = 0
 
@@ -99,7 +99,7 @@ class DialogState:
         text = line.get("text", "")
 
         # Имя говорящего
-        name_surf = self.name_font.render(speaker, True, (255, 255, 100))
+        name_surf = self.name_font.render(speaker, True, (255, 255, 150))
         screen.blit(name_surf, (dialog_rect.x + int(self.game.WIDTH * 0.022), dialog_rect.y + int(self.game.HEIGHT * 0.013))) #30,10
 
         # Текст

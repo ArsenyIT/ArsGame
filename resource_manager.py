@@ -88,8 +88,8 @@ class ResourceManager:
         # ---- Объекты коллизии ----
         self.load_image(resource_path("assets/textures/collision_objects/Oak_butt.png"), "oak_butt")
             # ---- Дом ----
-        self.load_image(resource_path("assets/textures/collision_objects/GG_house.png"), "gg_house")
-        self.load_image(resource_path("assets/textures/collision_objects/Neighbour_house.png"), "neighbour_house")
+        self.load_image(resource_path("assets/textures/collision_objects/house/GG_house.png"), "gg_house")
+        self.load_image(resource_path("assets/textures/collision_objects/house/Neighbour_house.png"), "neighbour_house")
             # ---- Забор ----
         self.load_image(resource_path("assets/textures/collision_objects/fence/GG_fence_wall.png"), "gg_fence_wall")
         self.load_image(resource_path("assets/textures/collision_objects/fence/GG_fence_left_wall.png"), "gg_fence_left_wall")
