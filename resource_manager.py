@@ -218,7 +218,7 @@ class ResourceManager:
             # ---- Кристалл ----
         self.load_image(resource_path("assets/textures/inventory/crystal/Electrified_crystal_fragments_inventory.png"), "electrified_crystal_fragments_inventory")
         self.load_image(resource_path("assets/textures/inventory/crystal/Charged_crystal_fragment_inventory.png"), "charged_crystal_fragment_inventory")
-        self.load_image(resource_path("assets/textures/inventory/crystal/Crystal_of_true_power_inventory.png"), "crystal_of_true_power_inventory_inventory")
+        self.load_image(resource_path("assets/textures/inventory/crystal/Crystal_of_true_power_inventory.png"), "crystal_of_true_power_inventory")
             # ---- Рукописи ----
         self.load_image(resource_path("assets/textures/inventory/manuscripts/Notes_for_beginner_inventory.png"), "notes_for_beginner_inventory")
         self.load_image(resource_path("assets/textures/inventory/manuscripts/Guide_for_the_experienced_traveler_inventory.png"), "guide_for_the_experienced_traveler_inventory")

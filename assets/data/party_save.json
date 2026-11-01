@@ -75,7 +75,10 @@
             }
           ],
           "growth_key": "plume_atk",
-          "artifact_id": "plume_1"
+          "artifact_id": "plume_1",
+          "main_stat": {
+            "atk": 100
+          }
         },
         "7": {
           "level": 1,
@@ -84,6 +87,16 @@
           "sub_stats": [],
           "growth_key": "plume_atk",
           "artifact_id": "plume_2"
+        },
+        "8": {
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 110
+          },
+          "artifact_id": "plume_1"
         }
       },
       "weapon_data": {
@@ -140,8 +153,7 @@
           "main_stat": {
             "hp": 1000
           },
-          "artifact_id": "flower_2",
-          "growth_key": "flower_hp"
+          "artifact_id": "flower_2"
         },
         "4": {
           "level": 1,
@@ -151,8 +163,7 @@
           "main_stat": {
             "def_percent": 4.0
           },
-          "artifact_id": "sands_2",
-          "growth_key": "sands_def_percent"
+          "artifact_id": "sands_2"
         },
         "5": {
           "level": 1,
@@ -160,10 +171,9 @@
           "exp_next": 100,
           "sub_stats": [],
           "main_stat": {
-            "hydro_dmg_percent": 5.0
+            "geo_dmg_percent": 5.0
           },
-          "artifact_id": "goblet_2",
-          "growth_key": "goblet_hydro_dmg_percent"
+          "artifact_id": "goblet_2"
         },
         "6": {
           "level": 1,
@@ -173,8 +183,17 @@
           "main_stat": {
             "atk": 100
           },
-          "artifact_id": "plume_1",
-          "growth_key": "plume_atk"
+          "artifact_id": "plume_1"
+        },
+        "8": {
+          "level": 1,
+          "exp": 0,
+          "exp_next": 100,
+          "sub_stats": [],
+          "main_stat": {
+            "atk": 110
+          },
+          "artifact_id": "plume_1"
         },
         "7": {
           "level": 1,
@@ -182,10 +201,9 @@
           "exp_next": 100,
           "sub_stats": [],
           "main_stat": {
-            "atk": 115
+            "atk": 105
           },
-          "artifact_id": "plume_2",
-          "growth_key": "plume_atk"
+          "artifact_id": "plume_2"
         }
       },
       "weapon_data": {

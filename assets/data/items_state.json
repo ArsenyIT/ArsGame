@@ -11,6 +11,14 @@
     "266": {
       "collected": true,
       "respawn_at": 1792865282.5705378
+    },
+    "272": {
+      "collected": true,
+      "respawn_at": 0
+    },
+    "274": {
+      "collected": true,
+      "respawn_at": 0
     }
   }
 }

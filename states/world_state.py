@@ -3,13 +3,18 @@ import json
 from camera import Camera
 from input_handler import InputHandler
 from utils import resource_path
+from inventory import Inventory
 import time
+import random
 
 class WorldState:
     def __init__(self, game):
         self.game = game
+        self.inventory = game.player.inventory
         self.items = []
         self.items_state = {}
+        self.near_chest_data = None
+        self.chest_loot = {}
         self.map_name = "World_1"
         self.near_item_data = None
         self.hint_font = pygame.font.Font(None, 24)
@@ -47,6 +52,8 @@ class WorldState:
         with open(resource_path("assets/data/items_state.json"), "r", encoding="utf-8") as f:
             all_state = json.load(f)
         self.items_state = all_state.get(self.map_name, {})
+        with open(resource_path("assets/data/chest_loot.json"), "r", encoding="utf-8") as f:
+            self.chest_loot = json.load(f)
         with open(resource_path("assets/maps/map.json"), "r", encoding="utf-8") as f:
             map_json = json.load(f)
         map_width = map_json["width"] * self.tile_size
@@ -56,6 +63,7 @@ class WorldState:
         self.collision_rects = []
         self.overlay_rects = []
         self.items = []
+        self.chests = []
         for layer in map_json["layers"]:
             if layer["type"] == "tilelayer":
                 if layer["name"] == "Ground":
@@ -87,6 +95,24 @@ class WorldState:
                     pickup_zone = rect.inflate(pickup_padding * 2, pickup_padding * 2)
 
                     self.items.append({
+                        "id": str(obj["id"]),
+                        "name": obj["name"],
+                        "rect": rect,
+                        "pickup_zone": pickup_zone,
+                        "amount": props.get("amount", 1),
+                        "respawn": props.get("respawn", 0),
+                    })
+
+            elif layer["type"] == "objectgroup" and layer["name"] == "Chests":
+                for obj in layer["objects"]:
+                    props = {p["name"]: p["value"] for p in obj.get("properties", [])}
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+
+                    # Зона сбора: расширяем rect предмета на pickup_padding пикселей с каждой стороны.
+                    pickup_padding = props.get("pickup_padding", 25)
+                    pickup_zone = rect.inflate(pickup_padding * 2, pickup_padding * 2)
+
+                    self.chests.append({
                         "id": str(obj["id"]),
                         "name": obj["name"],
                         "rect": rect,
@@ -153,6 +179,15 @@ class WorldState:
     def on_exit(self):
         pass
 
+    def roll_chest_loot(self, chest_type):
+        result = []
+        table = self.chest_loot.get(chest_type, [])
+        for entry in table:
+            if random.random() * 100 < entry["chance"]:
+                amount = random.randint(entry["min"], entry["max"])
+                result.append((entry["item"], amount))
+        return result
+
     def check_tile_collision(self, rect):
         if self.collision_data is None:
             return False
@@ -208,7 +243,18 @@ class WorldState:
         if InputHandler.is_key_pressed(events, pygame.K_t):
             self.game.change_state("party")
         if InputHandler.is_key_pressed(events, pygame.K_f):
-            if self.near_item_data is not None:
+            if self.near_chest_data is not None:
+                chest = self.near_chest_data
+                loot = self.roll_chest_loot(chest["name"])
+                for item_name, amount in loot:
+                    print(f"PASSING: item_name={item_name!r} ({type(item_name).__name__}), amount={amount!r} ({type(amount).__name__})")
+                    self.inventory.add_item(item_name, amount)
+                state = self.items_state.setdefault(chest["id"], {})
+                state["collected"] = True
+                state["respawn_at"] = 0
+                self.save_items_state()
+                self.near_chest_data = None
+            elif self.near_item_data is not None:
                 item = self.near_item_data
                 self.game.player.inventory.add_item(item["name"], item["amount"])
                 now = time.time()
@@ -284,6 +330,12 @@ class WorldState:
                 self.near_item_data = item
                 break
 
+        self.near_chest_data = None
+        for chest in self.chests:
+            if self.hero_rect.colliderect(chest["pickup_zone"]) and self.is_item_available(chest):
+                self.near_chest_data = chest
+                break
+
     def draw(self, screen):
         self.camera.draw_map(screen, self.ground_data, self.tile_textures)
 
@@ -301,6 +353,13 @@ class WorldState:
             img = self.game.resources.get_image(item["name"])
             if img:
                 screen.blit(img, self.camera.apply(item["rect"]))
+
+        for chest in self.chests:
+            if not self.is_item_available(chest):
+                continue
+            img = self.game.resources.get_image(chest["name"])
+            if img:
+                screen.blit(img, self.camera.apply(chest["rect"]))
 
         hero_screen_rect = self.camera.apply(self.hero_rect)
         if self.is_moving == False:
@@ -325,7 +384,12 @@ class WorldState:
         #ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
         #screen.blit(self.squad, ramka)
 
-        if self.near_item_data is not None:
+        if self.near_chest_data is not None:
+            chest_screen_rect = self.camera.apply(self.near_chest_data["rect"])
+            hint_x = chest_screen_rect.x - self.game.WIDTH * 0.0146 #20
+            hint_y = chest_screen_rect.y - self.game.HEIGHT * 0.039 #30
+            screen.blit(self.world_collect, (hint_x, hint_y))
+        elif self.near_item_data is not None:
             item_screen_rect = self.camera.apply(self.near_item_data["rect"])
             hint_x = item_screen_rect.x - self.game.WIDTH * 0.0183 #25
             hint_y = item_screen_rect.y - self.game.HEIGHT * 0.039 #30

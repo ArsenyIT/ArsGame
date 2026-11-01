@@ -124,24 +124,22 @@ class InventoryState:
                         break
 
     def get_grouped_items(self, section):
-        # Возвращает словарь {шаблонный_ид: количество} для указанного раздела
-        grouped = {}
+        result = []
         inventory = self.game.player.inventory
         for item_id, value in inventory.items.items():
             item_type = inventory.get_item_type(item_id)
             if item_type != section:
                 continue
             if item_type in ["artifacts", "weapons"]:
-                # value – список UID
                 if isinstance(value, list):
-                    count = len(value)  # уникальные: количество = число UID
+                    for uid in value:
+                        result.append((item_id, uid, 1))
                 else:
-                    count = value  # количество уже число
-                grouped[item_id] = grouped.get(item_id, 0) + count
+                    # на случай багов — не падаем
+                    result.append((item_id, None, value))
             else:
-                # ресурсы – число
-                grouped[item_id] = grouped.get(item_id, 0) + value
-        return grouped
+                result.append((item_id, None, value))
+        return result
 
     def draw(self, screen):
         screen.blit(self.inventory_menu_1, (0, 0))
@@ -164,7 +162,7 @@ class InventoryState:
 
         # Фильтруем по текущему разделу
         grouped_items = self.get_grouped_items(self.current_section)
-        items_list = list(grouped_items.items())
+        items_list = grouped_items
 
         # Рисуем сетку
         for row in range(self.rows):
@@ -173,12 +171,16 @@ class InventoryState:
                 y = self.grid_offset_y + row * (self.cell_size + self.cell_margin)
                 idx = row * self.cols + col
                 if idx < len(items_list):
-                    item_id, quantity = items_list[idx]  # сначала получаем данные
-                    icon = self.item_icons.get(item_id, self.oak_wood_inventory)  # если нет иконки, используем oak_wood_inventory
+                    item_id, uid, quantity = items_list[idx]  # ← три значения
+
+                    icon = self.item_icons.get(item_id, self.oak_wood_inventory)
                     screen.blit(icon, (x, y))
-                    # Текст с кол-вом предметов
-                    text = f"х{quantity}"
-                    text_surf = self.quantity_font.render(text, True, (255, 255, 255))
-                    screen.blit(text_surf, (x, y + self.game.HEIGHT * 0.026)) #20
+
+                    if uid is None:
+                        # ресурс — показываем счётчик
+                        text = f"х{quantity}"
+                        text_surf = self.quantity_font.render(text, True, (255, 255, 255))
+                        screen.blit(text_surf, (x, y + self.game.HEIGHT * 0.026))
+                    # для артефактов/оружия счётчик не рисуем — каждый экземпляр отдельный
                 else:
                     screen.blit(self.empty_cell, (x, y))

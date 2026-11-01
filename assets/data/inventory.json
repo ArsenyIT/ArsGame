@@ -15,16 +15,22 @@
     5
   ],
   "plume_1": [
-    6
+    6,
+    8
   ],
   "plume_2": [
     7
   ],
-  "magic_elixir": 113,
+  "magic_elixir": 128,
   "story_of_the_Almighty": 14,
-  "fencing_textbook": 40,
+  "fencing_textbook": 42,
   "crystal_of_true_power": 2,
   "oak_wood": 6,
   "chamomile": 15,
-  "poppy": 10
+  "poppy": 10,
+  "notes_for_beginner": 14,
+  "guide_for_the_experienced_traveler": 6,
+  "collection_fencing_exercises": 5,
+  "electrified_crystal_fragments": 23,
+  "charged_crystal_fragment": 8
 }

@@ -283,7 +283,7 @@ class Inventory:
             self.modified = True
             return uid
         else:
-            print(f"Неизвестный тип предмета: {item_type}")
+            print(f"add_item: неизвестный item_id {item_id!r} (нет в ITEM_DATA)")
             return None
 
     def remove_item(self, item_id, uid=None):
@@ -343,18 +343,17 @@ class Inventory:
         self.modified = False
 
     def load(self, filename):
-        # Попытка загрузить основной файл
         try:
             with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             if self._validate_data(data):
                 self.items = data
                 self.modified = False
+                self._restore_uid_counter()
                 return
         except (FileNotFoundError, json.JSONDecodeError):
             pass
 
-        # Если основной файл невалиден или не загрузился — пробуем бэкап
         backup_file = filename + ".backup"
         try:
             with open(backup_file, 'r', encoding='utf-8') as f:
@@ -362,15 +361,24 @@ class Inventory:
             if self._validate_data(data):
                 self.items = data
                 self.modified = False
+                self._restore_uid_counter()
                 print("Загружен бэкап инвентаря")
                 return
         except (FileNotFoundError, json.JSONDecodeError):
             pass
 
-        # Если ничего не вышло — пустой инвентарь
         self.items = {}
         self.modified = False
         print("Инвентарь повреждён, создан новый")
+
+    def _restore_uid_counter(self):
+        max_uid = 0
+        for value in self.items.values():
+            if isinstance(value, list):
+                for uid in value:
+                    if isinstance(uid, int) and uid > max_uid:
+                        max_uid = uid
+        self.uid_counter = max_uid
 
     def _validate_data(self, data):
         if not isinstance(data, dict):
