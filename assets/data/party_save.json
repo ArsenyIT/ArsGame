@@ -140,7 +140,8 @@
       "main_stat": {
         "atk": 110
       },
-      "artifact_id": "plume_1"
+      "artifact_id": "plume_1",
+      "growth_key": "plume_atk"
     }
   },
   "weapon_data": {

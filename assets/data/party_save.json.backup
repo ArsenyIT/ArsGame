@@ -131,6 +131,17 @@
       },
       "artifact_id": "plume_1",
       "growth_key": "plume_atk"
+    },
+    "9": {
+      "level": 1,
+      "exp": 0,
+      "exp_next": 100,
+      "sub_stats": [],
+      "main_stat": {
+        "atk": 110
+      },
+      "artifact_id": "plume_1",
+      "growth_key": "plume_atk"
     }
   },
   "weapon_data": {

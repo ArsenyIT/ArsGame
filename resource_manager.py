@@ -270,3 +270,6 @@ class ResourceManager:
 
         # ---- Иконка ----
         self.load_image(resource_path("assets/textures/icon/Icon.png"), "icon")
+
+        # ---- Дверь ----
+        self.load_image(resource_path("assets/textures/door/GG_door.png"), "gg_door")

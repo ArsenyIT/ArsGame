@@ -64,6 +64,7 @@ class WorldState:
         self.overlay_rects = []
         self.items = []
         self.chests = []
+        self.doors = []
         for layer in map_json["layers"]:
             if layer["type"] == "tilelayer":
                 if layer["name"] == "Ground":
@@ -81,7 +82,12 @@ class WorldState:
                     obj_name = obj.get("name")  # Имя объекта
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.collision_rects.append((rect, obj_name))
-            elif layer["type"] == "objectgroup" and layer["name"] == "Overlay":
+            elif layer["type"] == "objectgroup" and layer["name"] == "Collision_objects":
+                for obj in layer["objects"]:
+                    obj_name = obj.get("name")
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    self.doors.append((rect, obj_name))
+            elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.overlay_rects.append((rect, obj["name"]))
@@ -343,6 +349,14 @@ class WorldState:
             img = self.game.resources.get_image(tex_name)
             if img:
                 screen_rect = self.camera.apply(rect)
+                screen.blit(img, screen_rect)
+            else:
+                print(f"Текстура для {tex_name} не найдена")
+
+        for door, tex_name in self.doors:
+            img = self.game.resources.get_image(tex_name)
+            if img:
+                screen_rect = self.camera.apply(door)
                 screen.blit(img, screen_rect)
             else:
                 print(f"Текстура для {tex_name} не найдена")
