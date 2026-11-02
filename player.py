@@ -13,6 +13,8 @@ class Player:
     def __init__(self):
         self.inventory = Inventory()
         self.inventory.load(resource_path("assets/data/inventory.json"))
+        self.artifact_data = {}  # {uid_str: {...}} — метаданные ВСЕХ артефактов
+        self.weapon_data = {}  # {uid_str: {...}} — метаданные ВСЕГО оружия
 
         with open(resource_path("assets/data/characters/GG.json"), "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -61,41 +63,35 @@ class Player:
         # Загружаем данные персонажей
         self.load_party(resource_path("assets/data/party_save.json"))
 
-        for hero in self.party:
-            for uid in self.inventory.get_all_uids("weapons"):
-                uid_str = str(uid)
-                if uid_str not in hero.weapon_data:
-                    for item_id, uids in self.inventory.items.items():
-                        if isinstance(uids, list) and uid in uids:
-                            if self.inventory.get_item_type(item_id) == "weapons":
-                                hero.weapon_data[uid_str] = {
-                                    "level": 1,
-                                    "weapon_id": item_id
-                                }
-                                print(f"Восстановлена запись для оружия {item_id} с UID {uid}")
-                            break
+        # Восстановление метаданных для оружия (если UID есть в инвентаре, но нет в self.weapon_data)
+        for uid in self.inventory.get_all_uids("weapons"):
+            uid_str = str(uid)
+            if uid_str not in self.weapon_data:
+                for item_id, uids in self.inventory.items.items():
+                    if isinstance(uids, list) and uid in uids:
+                        if self.inventory.get_item_type(item_id) == "weapons":
+                            self.weapon_data[uid_str] = {"level": 1, "weapon_id": item_id}
+                        break
 
-        # Восстанавливаем artifact_data для существующих UID артефактов
-        for hero in self.party:
-            for uid in self.inventory.get_all_uids("artifacts"):
-                uid_str = str(uid)
-                if uid_str not in hero.artifact_data:
-                    for item_id, uids in self.inventory.items.items():
-                        if isinstance(uids, list) and uid in uids:
-                            if self.inventory.get_item_type(item_id) == "artifacts":
-                                main_stat = generate_artifact_main_stat(item_id)
-                                if not main_stat:
-                                    main_stat = {}
-                                hero.artifact_data[uid_str] = {
-                                    "level": 1,
-                                    "exp": 0,
-                                    "exp_next": 100,
-                                    "sub_stats": [],
-                                    "main_stat": main_stat,
-                                    "artifact_id": item_id
-                                }
-                                print(f"Восстановлена запись для артефакта {item_id} с UID {uid}")
-                            break
+        # Восстановление метаданных для артефактов
+        for uid in self.inventory.get_all_uids("artifacts"):
+            uid_str = str(uid)
+            if uid_str not in self.artifact_data:
+                for item_id, uids in self.inventory.items.items():
+                    if isinstance(uids, list) and uid in uids:
+                        if self.inventory.get_item_type(item_id) == "artifacts":
+                            main_stat = generate_artifact_main_stat(item_id) or {}
+                            self.artifact_data[uid_str] = {
+                                "level": 1, "exp": 0, "exp_next": 100,
+                                "sub_stats": [], "main_stat": main_stat, "artifact_id": item_id
+                            }
+                            print(f"Восстановлена запись для артефакта {item_id} с UID {uid}")
+                        break
+
+        # Привязываем ссылки, чтобы все Character-методы работали без правок
+        for char in self.party:
+            char.artifact_data = self.artifact_data
+            char.weapon_data = self.weapon_data
 
         # Сохраняем партию, чтобы в следующий раз данные уже были
         self.save_party(resource_path("assets/data/party_save.json"))
@@ -106,7 +102,6 @@ class Player:
     def add_artifact(self, artifact_id):
         uid = self.inventory.add_item(artifact_id, 1)
         if uid:
-            hero = self.party[0]
             art_data = ITEM_DATA.get(artifact_id, {})
             slot = art_data.get("slot")
             possible_main = art_data.get("possible_main_stats", [])
@@ -116,13 +111,11 @@ class Player:
             chosen = random.choice(possible_main)
             stat_name = list(chosen.keys())[0]
             growth_key = f"{slot}_{stat_name}"
-            hero.artifact_data[str(uid)] = {
-                "level": 1,  # Начальный уровень
-                "exp": 0,
-                "exp_next": 100,
-                "sub_stats": [],
-                "growth_key": growth_key,
-                "artifact_id": artifact_id
+            self.artifact_data[str(uid)] = {
+                "level": 1, "exp": 0, "exp_next": 100,
+                "sub_stats": [], "growth_key": growth_key,
+                "artifact_id": artifact_id,
+                "main_stat": chosen,  # ← добавь
             }
             print(f"Добавлен артефакт {artifact_id} с UID {uid}")
             return True
@@ -131,12 +124,8 @@ class Player:
     def add_weapon(self, weapon_id):
         uid = self.inventory.add_item(weapon_id, 1)
         if uid:
-            hero = self.party[0]
-            hero.weapon_data[str(uid)] = {
-                "level": 1,
-                "weapon_id": weapon_id,
-                "exp": 0,
-                "exp_next": 100
+            self.weapon_data[str(uid)] = {
+                "level": 1, "weapon_id": weapon_id, "exp": 0, "exp_next": 100
             }
             print(f"Добавлено оружие {weapon_id} с UID {uid}")
             return True
@@ -167,12 +156,12 @@ class Player:
                 "constellation": char.constellation,
                 "weapon": char.weapon,
                 "artifacts": char.artifacts,
-                "artifact_data": char.artifact_data,
-                "weapon_data": char.weapon_data,
             }
             chars_data.append(char_data)
         full_data = {
-            "characters": chars_data
+            "characters": chars_data,
+            "artifact_data": self.artifact_data,  # ← на уровне Player
+            "weapon_data": self.weapon_data,  # ← на уровне Player
         }
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, 'w', encoding='utf-8') as f:
@@ -181,12 +170,11 @@ class Player:
         print("Партия сохранена")
 
     def load_party(self, filename):
-        # Вспомогательная функция для применения данных к персонажам
-        def apply_data(chars_data):
+        def apply_data(chars_data, full_data):
+            # 1. Применяем данные к персонажам
             for i, char in enumerate(self.party):
                 if i < len(chars_data):
                     saved = chars_data[i]
-                    # Применяем все поля (как у тебя было)
                     char.level = saved.get("level", char.level)
                     char.max_level = saved.get("max_level", char.max_level)
                     char.exp = saved.get("exp", char.exp)
@@ -205,35 +193,52 @@ class Player:
                     char.constellation = saved.get("constellation", char.constellation)
                     char.weapon = saved.get("weapon", char.weapon)
                     char.artifacts = saved.get("artifacts", char.artifacts)
-                    char.artifact_data = saved.get("artifact_data", {})
-                    # Восстановление growth_key (как у тебя)
-                    for uid, data in char.artifact_data.items():
-                        if "growth_key" not in data:
-                            artifact_id = data.get("artifact_id")
-                            main_stat = data.get("main_stat")
-                            if artifact_id and main_stat:
-                                slot = ITEM_DATA.get(artifact_id, {}).get("slot")
-                                if slot:
-                                    stat_name = list(main_stat.keys())[0]
-                                    data["growth_key"] = f"{slot}_{stat_name}"
-                                    print(f"Восстановлен growth_key для артефакта {artifact_id}: {data['growth_key']}")
-                    char.weapon_data = saved.get("weapon_data", {})
+
+            # 2. Загружаем метаданные: новый формат или миграция из старого
+            if "artifact_data" in full_data:
+                # Новый формат — на верхнем уровне
+                self.artifact_data = full_data["artifact_data"]
+                self.weapon_data = full_data["weapon_data"]
+            else:
+                # Старый формат — данные были у персонажей. Собираем в один словарь.
+                self.artifact_data = {}
+                self.weapon_data = {}
+                for char_data in chars_data:
+                    for uid, d in char_data.get("artifact_data", {}).items():
+                        if uid not in self.artifact_data:
+                            self.artifact_data[uid] = d
+                    for uid, d in char_data.get("weapon_data", {}).items():
+                        if uid not in self.weapon_data:
+                            self.weapon_data[uid] = d
+                print("Миграция: метаданные перенесены с персонажей на уровень Player")
+
+            # 3. Восстановление growth_key (если отсутствует)
+            for uid, art_data in self.artifact_data.items():
+                if "growth_key" not in art_data:
+                    artifact_id = art_data.get("artifact_id")
+                    main_stat = art_data.get("main_stat")
+                    if artifact_id and main_stat:
+                        slot = ITEM_DATA.get(artifact_id, {}).get("slot")
+                        if slot:
+                            stat_name = list(main_stat.keys())[0]
+                            art_data["growth_key"] = f"{slot}_{stat_name}"
+
             print("Прогресс партии загружен")
 
-        # 1. Попытка загрузить основной файл
+        # 1. Основной файл
         try:
             if os.path.exists(filename) and os.path.getsize(filename) > 0:
                 with open(filename, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                 if self._validate_party_data(data):
                     chars_data = self._extract_chars_data(data)
-                    apply_data(chars_data)
+                    apply_data(chars_data, data)
                     self.modified = False
                     return
         except (FileNotFoundError, json.JSONDecodeError):
             pass
 
-        # 2. Попытка загрузить бэкап
+        # 2. Бэкап
         backup_file = filename + ".backup"
         try:
             if os.path.exists(backup_file) and os.path.getsize(backup_file) > 0:
@@ -241,14 +246,13 @@ class Player:
                     data = json.load(f)
                 if self._validate_party_data(data):
                     chars_data = self._extract_chars_data(data)
-                    apply_data(chars_data)
+                    apply_data(chars_data, data)
                     self.modified = False
                     print("Загружен бэкап партии")
                     return
         except (FileNotFoundError, json.JSONDecodeError):
             pass
 
-        # 3. Если ничего не вышло
         print("Файл партии повреждён, используются текущие данные")
 
     def _validate_party_data(self, data):
@@ -271,8 +275,7 @@ class Player:
                                "base_hp", "base_atk", "base_defense", "crit_rate",
                                "crit_dmg", "energy_recharge", "elemental_mastery",
                                "phys_bonus", "resistance", "speed", "talents",
-                               "constellation", "weapon", "artifacts", "artifact_data",
-                               "weapon_data"]
+                               "constellation", "weapon", "artifacts"]
             for field in required_fields:
                 if field not in char_data:
                     return False

@@ -16,21 +16,23 @@
   ],
   "plume_1": [
     6,
-    8
+    8,
+    9
   ],
   "plume_2": [
     7
   ],
-  "magic_elixir": 128,
-  "story_of_the_Almighty": 14,
-  "fencing_textbook": 42,
+  "magic_elixir": 149,
+  "story_of_the_Almighty": 18,
+  "fencing_textbook": 46,
   "crystal_of_true_power": 2,
   "oak_wood": 6,
   "chamomile": 15,
   "poppy": 10,
-  "notes_for_beginner": 14,
+  "notes_for_beginner": 31,
   "guide_for_the_experienced_traveler": 6,
-  "collection_fencing_exercises": 5,
-  "electrified_crystal_fragments": 23,
-  "charged_crystal_fragment": 8
+  "collection_fencing_exercises": 11,
+  "electrified_crystal_fragments": 39,
+  "charged_crystal_fragment": 11,
+  "concentrated_elixir_of_secret_magic": 10
 }
