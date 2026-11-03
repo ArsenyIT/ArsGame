@@ -48,9 +48,19 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/tiles/border/Border_angel_3.png"), "border_angel_3")
         self.load_image(resource_path("assets/textures/tiles/border/Border_angel_4.png"), "border_angel_4")
         self.load_image(resource_path("assets/textures/tiles/border/Border_middle.png"), "border_middle")
+            # ---- Стены ----
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_1.png"), "wall_1")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_2.png"), "wall_2")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_3.png"), "wall_3")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_4.png"), "wall_4")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_1.png"), "wall_angel_1")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_2.png"), "wall_angel_2")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_3.png"), "wall_angel_3")
+        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_4.png"), "wall_angel_4")
             # ---- Пустота ----
         self.load_image(resource_path("assets/textures/tiles/void/Void_1.png"), "void_1")
         self.load_image(resource_path("assets/textures/tiles/void/Void_2.png"), "void_2")
+        self.load_image(resource_path("assets/textures/tiles/void/Void_3.png"), "void_3")
             # ---- Тропинка ----
         self.load_image(resource_path("assets/textures/tiles/path/Path.png"), "path")
                 # ---- С обычной травой ----
@@ -79,6 +89,12 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/tiles/path/forest_grass/Path_with_forest_grass_rim_2.png"), "path_with_forest_grass_rim_2")
         self.load_image(resource_path("assets/textures/tiles/path/forest_grass/Path_with_forest_grass_rim_3.png"), "path_with_forest_grass_rim_3")
         self.load_image(resource_path("assets/textures/tiles/path/forest_grass/Path_with_forest_grass_rim_4.png"), "path_with_forest_grass_rim_4")
+            # ---- Ковры ----
+        self.load_image(resource_path("assets/textures/tiles/carpet/Carpet.png"), "carpet")
+        self.load_image(resource_path("assets/textures/tiles/carpet/Floor_carpet.png"), "floor_carpet")
+            # ---- Полы ----
+        self.load_image(resource_path("assets/textures/tiles/boards/Boards_in_the_room.png"), "boards_in_the_room")
+        self.load_image(resource_path("assets/textures/tiles/boards/Boards_in_the_corridor.png"), "boards_in_the_room")
             # ---- Вода ----
         self.load_image(resource_path("assets/textures/tiles/water/Water_1_level.png"), "water_1_level")
         self.load_image(resource_path("assets/textures/tiles/water/Water_2_level.png"), "water_2_level")
@@ -106,6 +122,7 @@ class ResourceManager:
 
         # ---- Карты ----
         self.load_image(resource_path("assets/textures/maps/Map_1.png"), "map_1")
+        self.load_image(resource_path("assets/textures/maps/GG_house_map_1.png"), "gg_house_map_1")
 
         # ---- Предметы ----
         self.load_image(resource_path("assets/textures/items/Oak_wood.png"), "oak_wood")
@@ -274,3 +291,5 @@ class ResourceManager:
 
         # ---- Дверь ----
         self.load_image(resource_path("assets/textures/door/GG_door.png"), "gg_door")
+        self.load_image(resource_path("assets/textures/door/GG_door_inside_1.png"), "gg_door_inside_1")
+        self.load_image(resource_path("assets/textures/door/GG_door_inside_2.png"), "gg_door_inside_2")
