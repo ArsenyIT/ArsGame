@@ -115,6 +115,7 @@ class ResourceManager:
         # ---- Кнопки ----
             # ---- Мир ----
         self.load_image(resource_path("assets/textures/buttons/world/World_button_collect.png"), "world_button_collect")
+        self.load_image(resource_path("assets/textures/buttons/world/World_button_open.png"), "world_button_open")
             # ---- ГГ ----
         self.load_image(resource_path("assets/textures/buttons/GG/Button_activate.png"), "button_activate_gg")
         self.load_image(resource_path("assets/textures/buttons/GG/Button_artifacts.png"), "button_artifacts_gg")

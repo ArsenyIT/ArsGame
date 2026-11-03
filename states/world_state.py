@@ -82,12 +82,12 @@ class WorldState:
                     obj_name = obj.get("name")  # Имя объекта
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.collision_rects.append((rect, obj_name))
-            elif layer["type"] == "objectgroup" and layer["name"] == "Collision_objects":
+            elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
                 for obj in layer["objects"]:
                     obj_name = obj.get("name")
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.doors.append((rect, obj_name))
-            elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
+            elif layer["type"] == "objectgroup" and layer["name"] == "Overlay":
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.overlay_rects.append((rect, obj["name"]))
@@ -180,6 +180,8 @@ class WorldState:
             49: self.game.resources.get_image("grass_with_flowers")
         }
         self.squad = self.game.resources.get_image("squad_list")
+
+        self.world_open = self.game.resources.get_image("world_button_open")
         self.world_collect = self.game.resources.get_image("world_button_collect")
 
     def on_exit(self):
@@ -402,7 +404,7 @@ class WorldState:
             chest_screen_rect = self.camera.apply(self.near_chest_data["rect"])
             hint_x = chest_screen_rect.x - self.game.WIDTH * 0.0146 #20
             hint_y = chest_screen_rect.y - self.game.HEIGHT * 0.039 #30
-            screen.blit(self.world_collect, (hint_x, hint_y))
+            screen.blit(self.world_open, (hint_x, hint_y))
         elif self.near_item_data is not None:
             item_screen_rect = self.camera.apply(self.near_item_data["rect"])
             hint_x = item_screen_rect.x - self.game.WIDTH * 0.0183 #25
