@@ -49,14 +49,14 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/tiles/border/Border_angel_4.png"), "border_angel_4")
         self.load_image(resource_path("assets/textures/tiles/border/Border_middle.png"), "border_middle")
             # ---- Стены ----
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_1.png"), "wall_1")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_2.png"), "wall_2")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_3.png"), "wall_3")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_4.png"), "wall_4")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_1.png"), "wall_angel_1")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_2.png"), "wall_angel_2")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_3.png"), "wall_angel_3")
-        self.load_image(resource_path("assets/textures/tiles/border/Wall_angel_4.png"), "wall_angel_4")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_1.png"), "wall_1")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_2.png"), "wall_2")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_3.png"), "wall_3")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_4.png"), "wall_4")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_angle_1.png"), "wall_angle_1")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_angle_2.png"), "wall_angle_2")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_angle_3.png"), "wall_angle_3")
+        self.load_image(resource_path("assets/textures/tiles/wall/Wall_angle_4.png"), "wall_angle_4")
             # ---- Пустота ----
         self.load_image(resource_path("assets/textures/tiles/void/Void_1.png"), "void_1")
         self.load_image(resource_path("assets/textures/tiles/void/Void_2.png"), "void_2")
@@ -94,7 +94,7 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/tiles/carpet/Floor_carpet.png"), "floor_carpet")
             # ---- Полы ----
         self.load_image(resource_path("assets/textures/tiles/boards/Boards_in_the_room.png"), "boards_in_the_room")
-        self.load_image(resource_path("assets/textures/tiles/boards/Boards_in_the_corridor.png"), "boards_in_the_room")
+        self.load_image(resource_path("assets/textures/tiles/boards/Boards_in_the_corridor.png"), "boards_in_the_corridor")
             # ---- Вода ----
         self.load_image(resource_path("assets/textures/tiles/water/Water_1_level.png"), "water_1_level")
         self.load_image(resource_path("assets/textures/tiles/water/Water_2_level.png"), "water_2_level")
@@ -293,3 +293,4 @@ class ResourceManager:
         self.load_image(resource_path("assets/textures/door/GG_door.png"), "gg_door")
         self.load_image(resource_path("assets/textures/door/GG_door_inside_1.png"), "gg_door_inside_1")
         self.load_image(resource_path("assets/textures/door/GG_door_inside_2.png"), "gg_door_inside_2")
+        self.load_image(resource_path("assets/textures/door/GG_door_inside_3.png"), "gg_door_inside_3")

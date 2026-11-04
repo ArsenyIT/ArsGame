@@ -7,6 +7,15 @@ from inventory import Inventory
 import time
 import random
 
+MAP_FILES = {
+    "World_1": "assets/maps/map.json",
+    "House": "assets/maps/gg_house.json",
+}
+DEFAULT_SPAWNS = {
+    "World_1": (7000, 7500),
+    "House": (228, 1400),
+}
+
 class WorldState:
     def __init__(self, game):
         self.game = game
@@ -39,13 +48,17 @@ class WorldState:
         self.idle_interval = 0.55
         self.walk_interval = 0.25
         self.is_moving = False
+        self.next_spawn = None  # спавн после перехода
+        self.doors = []
+        self.near_door_data = None
 
     def on_enter(self):
         # загрузить карту, спрайты, инициализировать положение игрока
-        spawn_tile_x = 140
-        spawn_tile_y = 150
-        hero_x = spawn_tile_x * self.tile_size
-        hero_y = spawn_tile_y * self.tile_size
+        if self.next_spawn:
+            hero_x, hero_y = self.next_spawn
+            self.next_spawn = None
+        else:
+            hero_x, hero_y = DEFAULT_SPAWNS.get(self.map_name, (7000, 7500))
         hero_width = int(self.game.WIDTH * 0.0329) #45
         hero_height = int(self.game.HEIGHT * 0.12) #90
         self.hero_rect = pygame.Rect(hero_x, hero_y, hero_width, hero_height)
@@ -54,7 +67,8 @@ class WorldState:
         self.items_state = all_state.get(self.map_name, {})
         with open(resource_path("assets/data/chest_loot.json"), "r", encoding="utf-8") as f:
             self.chest_loot = json.load(f)
-        with open(resource_path("assets/maps/map.json"), "r", encoding="utf-8") as f:
+        map_file = MAP_FILES[self.map_name]
+        with open(resource_path(map_file), "r", encoding="utf-8") as f:
             map_json = json.load(f)
         map_width = map_json["width"] * self.tile_size
         map_height = map_json["height"] * self.tile_size
@@ -64,7 +78,6 @@ class WorldState:
         self.overlay_rects = []
         self.items = []
         self.chests = []
-        self.doors = []
         for layer in map_json["layers"]:
             if layer["type"] == "tilelayer":
                 if layer["name"] == "Ground":
@@ -82,11 +95,6 @@ class WorldState:
                     obj_name = obj.get("name")  # Имя объекта
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
                     self.collision_rects.append((rect, obj_name))
-            elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
-                for obj in layer["objects"]:
-                    obj_name = obj.get("name")
-                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
-                    self.doors.append((rect, obj_name))
             elif layer["type"] == "objectgroup" and layer["name"] == "Overlay":
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
@@ -127,8 +135,20 @@ class WorldState:
                         "respawn": props.get("respawn", 0),
                     })
 
+            elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
+                for obj in layer["objects"]:
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    pickup_zone = rect.inflate(130, 130)
+                    self.doors.append({
+                        "id": str(obj["id"]),
+                        "name": obj["name"],
+                        "rect": rect,
+                        "pickup_zone": pickup_zone,
+                    })
+
         self.camera = Camera(map_width, map_height, self.tile_size, self.game.WIDTH, self.game.HEIGHT)
-        self.tile_textures = {
+
+        self.tile_textures_world = {
             1: self.game.resources.get_image("grass_1"),
             2: self.game.resources.get_image("grass_2"),
             3: self.game.resources.get_image("void_1"),
@@ -179,6 +199,28 @@ class WorldState:
             48: self.game.resources.get_image("path_with_forest_grass_rim_4"),
             49: self.game.resources.get_image("grass_with_flowers")
         }
+
+        self.tile_textures_house = {
+            1: self.game.resources.get_image("boards_in_the_corridor"),
+            2: self.game.resources.get_image("boards_in_the_room"),
+            3: self.game.resources.get_image("carpet"),
+            4: self.game.resources.get_image("floor_carpet"),
+            5: self.game.resources.get_image("void_3"),
+            6: self.game.resources.get_image("wall_1"),
+            7: self.game.resources.get_image("wall_2"),
+            8: self.game.resources.get_image("wall_3"),
+            9: self.game.resources.get_image("wall_4"),
+            10: self.game.resources.get_image("wall_angle_1"),
+            11: self.game.resources.get_image("wall_angle_2"),
+            12: self.game.resources.get_image("wall_angle_3"),
+            13: self.game.resources.get_image("wall_angle_4"),
+        }
+
+        if self.map_name == "House":
+            self.tile_textures = self.tile_textures_house
+        else:
+            self.tile_textures = self.tile_textures_world
+
         self.squad = self.game.resources.get_image("squad_list")
 
         self.world_open = self.game.resources.get_image("world_button_open")
@@ -186,6 +228,17 @@ class WorldState:
 
     def on_exit(self):
         pass
+
+    def try_enter_door(self, door):
+        name = door["name"]
+        if self.map_name == "World_1" and name == "gg_door":
+            self.map_name = "House"
+            self.next_spawn = (228, 1400)
+            self.game.change_state("world")
+        elif self.map_name == "House" and name == "gg_door_inside_1":
+            self.map_name = "World_1"
+            self.next_spawn = (7338, 7100)
+            self.game.change_state("world")
 
     def roll_chest_loot(self, chest_type):
         result = []
@@ -251,7 +304,9 @@ class WorldState:
         if InputHandler.is_key_pressed(events, pygame.K_t):
             self.game.change_state("party")
         if InputHandler.is_key_pressed(events, pygame.K_f):
-            if self.near_chest_data is not None:
+            if self.near_door_data is not None:
+                self.try_enter_door(self.near_door_data)
+            elif self.near_chest_data is not None:
                 chest = self.near_chest_data
                 loot = self.roll_chest_loot(chest["name"])
                 for item_name, amount in loot:
@@ -344,6 +399,12 @@ class WorldState:
                 self.near_chest_data = chest
                 break
 
+        self.near_door_data = None
+        for door in self.doors:
+            if self.hero_rect.colliderect(door["pickup_zone"]):
+                self.near_door_data = door
+                break
+
     def draw(self, screen):
         self.camera.draw_map(screen, self.ground_data, self.tile_textures)
 
@@ -355,13 +416,10 @@ class WorldState:
             else:
                 print(f"Текстура для {tex_name} не найдена")
 
-        for door, tex_name in self.doors:
-            img = self.game.resources.get_image(tex_name)
+        for door in self.doors:
+            img = self.game.resources.get_image(door["name"])
             if img:
-                screen_rect = self.camera.apply(door)
-                screen.blit(img, screen_rect)
-            else:
-                print(f"Текстура для {tex_name} не найдена")
+                screen.blit(img, self.camera.apply(door["rect"]))
 
         for item in self.items:
             if not self.is_item_available(item):
@@ -400,7 +458,10 @@ class WorldState:
         #ramka = pygame.Rect(squad_x, squad_y, squad_width, squad_height)
         #screen.blit(self.squad, ramka)
 
-        if self.near_chest_data is not None:
+        if self.near_door_data is not None:
+            door_screen_rect = self.camera.apply(self.near_door_data["rect"])
+            screen.blit(self.world_open, (door_screen_rect.x - self.game.WIDTH * 0.0183, door_screen_rect.y - self.game.HEIGHT * 0.039))
+        elif self.near_chest_data is not None:
             chest_screen_rect = self.camera.apply(self.near_chest_data["rect"])
             hint_x = chest_screen_rect.x - self.game.WIDTH * 0.0146 #20
             hint_y = chest_screen_rect.y - self.game.HEIGHT * 0.039 #30

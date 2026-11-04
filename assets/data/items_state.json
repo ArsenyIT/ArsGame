@@ -28,5 +28,6 @@
       "collected": true,
       "respawn_at": 0
     }
-  }
+  },
+  "House": {}
 }
