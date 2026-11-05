@@ -225,6 +225,7 @@ class WorldState:
 
         self.world_open = self.game.resources.get_image("world_button_open")
         self.world_collect = self.game.resources.get_image("world_button_collect")
+        self.world_log_in = self.game.resources.get_image("world_button_log_in")
 
     def on_exit(self):
         pass
@@ -460,7 +461,9 @@ class WorldState:
 
         if self.near_door_data is not None:
             door_screen_rect = self.camera.apply(self.near_door_data["rect"])
-            screen.blit(self.world_open, (door_screen_rect.x - self.game.WIDTH * 0.0183, door_screen_rect.y - self.game.HEIGHT * 0.039))
+            hint_x = door_screen_rect.x - self.game.WIDTH * 0.0014 #2
+            hint_y = door_screen_rect.y - self.game.HEIGHT * 0.039 #30
+            screen.blit(self.world_log_in, (hint_x, hint_y))
         elif self.near_chest_data is not None:
             chest_screen_rect = self.camera.apply(self.near_chest_data["rect"])
             hint_x = chest_screen_rect.x - self.game.WIDTH * 0.0146 #20
