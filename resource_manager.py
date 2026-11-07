@@ -119,6 +119,7 @@ class ResourceManager:
 
         # ---- Объекты поверх персонажа ----
         self.load_image(resource_path("assets/textures/overlay/Oak.png"), "oak")
+        self.load_image(resource_path("assets/textures/overlay/Oak_with_hollow.png"), "oak_with_hollow")
 
         # ---- Карты ----
         self.load_image(resource_path("assets/textures/maps/Map_1.png"), "map_1")

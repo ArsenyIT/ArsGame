@@ -3,7 +3,6 @@ import json
 from camera import Camera
 from input_handler import InputHandler
 from utils import resource_path
-from inventory import Inventory
 import time
 import random
 
@@ -48,12 +47,12 @@ class WorldState:
         self.idle_interval = 0.55
         self.walk_interval = 0.25
         self.is_moving = False
-        self.next_spawn = None  # спавн после перехода
+        self.next_spawn = None  # Спавн после перехода
         self.doors = []
         self.near_door_data = None
 
     def on_enter(self):
-        # загрузить карту, спрайты, инициализировать положение игрока
+        # Загрузить карту, спрайты, инициализировать положение игрока
         if self.next_spawn:
             hero_x, hero_y = self.next_spawn
             self.next_spawn = None
@@ -138,7 +137,7 @@ class WorldState:
             elif layer["type"] == "objectgroup" and layer["name"] == "Doors":
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
-                    pickup_zone = rect.inflate(130, 130)
+                    pickup_zone = rect.inflate(20, 130)
                     self.doors.append({
                         "id": str(obj["id"]),
                         "name": obj["name"],

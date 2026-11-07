@@ -7,8 +7,8 @@ class Camera:
         self.map_width = map_width
         self.map_height = map_height
         self.tile_size = tile_size
-        self.screen_width = screen_width
-        self.screen_height = screen_height
+        self.screen_width = screen_width + screen_width * 0.0366 #50
+        self.screen_height = screen_height + screen_height * 0.065 #50
 
     def update(self, target_rect):
         target_x = target_rect.centerx - self.screen_width // 2
