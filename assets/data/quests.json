@@ -1,0 +1,14 @@
+{
+    "preface": {
+        "name": "Предисловие: Враг, таившийся 10 лет.",
+        "description": "Начало новой истории.",
+        "stages": [
+            {"text": "Прослушайте начало истории от рассказчика.", "type": "position", "x": 7000, "y": 7500, "radius": 200},
+            {"text": "Зайдите в дом.", "type": "change_map", "map": "House"},
+            {"text": "Победите неизвестного", "type": "battle", "set_flag": "acquaintance"}
+        ],
+        "rewards": [
+            {"item": "notes_for_beginner", "amount": 20}
+        ]
+    }
+}
