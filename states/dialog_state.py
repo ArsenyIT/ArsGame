@@ -7,8 +7,6 @@ from utils import resource_path
 class DialogState:
     def __init__(self, game):
         self.game = game
-        self.font = None  # шрифт для текста
-        self.name_font = None  # шрифт для имени говорящего
         self.dialog_lines = []  # список реплик (каждая реплика = dict с ключами speaker, text)
         self.current_line = 0  # индекс текущей реплики
         self.chapter_files = [
@@ -19,6 +17,7 @@ class DialogState:
             #"Tom_1/Season_1/Chapter_4.json"
         ]
         self.current_chapter_index = 0
+        self.set_flag = None
 
     def load_scene(self, filename="tom_1/season_1/preface"):
         full_path = os.path.join(resource_path("assets/data/dialogues"), filename)
@@ -27,13 +26,20 @@ class DialogState:
         # Если data — список, то это массив реплик
         if isinstance(data, list):
             self.dialog_lines = data
+            self.get_flags(self.dialog_lines)
         else:
             # Если data — словарь, нужно извлечь первую сцену или использовать переданный ключ
             self.dialog_lines = []
         self.current_line = 0
 
+    def get_flags(self, dialog_lines):
+        flags = dialog_lines[self.current_line]
+        self.set_flag = flags.get("set_flag")
+
     def on_enter(self):
         self.dialog_window = self.game.resources.get_image("dialog_box")
+
+        # Выбираем filename
         if hasattr(self.game, "temp_scene"):
             filename = self.game.temp_scene
         else:
@@ -41,7 +47,7 @@ class DialogState:
 
         self.load_scene(filename)
 
-        # Создаём шрифты (один раз, можно вынести в __init__)
+        # Создаём шрифты
         self.font = pygame.font.Font(None, 28)
         self.name_font = pygame.font.Font(None, 32)
 
@@ -75,8 +81,12 @@ class DialogState:
     def update(self, dt, events):
         if InputHandler.is_key_pressed(events, pygame.K_SPACE) or InputHandler.is_key_pressed(events, pygame.K_RETURN):
             # Если есть следующая реплика
-            if self.current_line + 1 < len(self.dialog_lines):
+            if self.set_flag != None:
+                self.game.change_state("world")
+                self.set_flag = None
+            elif self.current_line + 1 < len(self.dialog_lines):
                 self.current_line += 1
+                self.get_flags(self.dialog_lines)
             else:
                 if self.current_chapter_index + 1 < len(self.chapter_files):
                     self.current_chapter_index += 1
