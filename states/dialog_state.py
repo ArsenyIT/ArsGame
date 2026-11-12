@@ -97,7 +97,7 @@ class DialogState:
             self.game.change_state("world")
 
     def draw(self, screen):
-        screen.fill((0, 0, 0))  # Уникальный цвет для каждого состояния
+        screen.fill((0, 0, 0))
         dialog_rect = pygame.Rect(self.game.WIDTH * 0.0366, self.game.HEIGHT - self.game.HEIGHT * 0.26, self.game.WIDTH - self.game.WIDTH * 0.073, self.game.HEIGHT * 0.15625) #50,200,100,120
         screen.blit(self.dialog_window, dialog_rect)
 
