@@ -142,7 +142,7 @@ class InventoryState:
         return result
 
     def draw(self, screen):
-        screen.blit(self.inventory_menu_1, (0, 0))
+        screen.blit(self.inventory_menu_1, (0, 0, self.game.WIDTH, self.game.HEIGHT))
         menu_2 = pygame.Rect(0, self.game.HEIGHT * 0.155, self.game.WIDTH * 0.732, self.game.HEIGHT) #119,1000,768
         screen.blit(self.inventory_menu_2, menu_2)
         icon_1 = pygame.Rect(0, 0, self.game.WIDTH * 0.093, self.game.HEIGHT * 0.15) #127,116
