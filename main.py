@@ -6,7 +6,7 @@ def main():
     # 1. Инициализация pygame
     pygame.init()
 
-    # 2. Настройки окна (размеры, название)
+    # 2. Настройки окна
     info = pygame.display.Info()
     WIDTH = info.current_w
     HEIGHT = info.current_h

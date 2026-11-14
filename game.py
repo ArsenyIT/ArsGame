@@ -10,10 +10,11 @@ class Game:
         self.resources = ResourceManager()
         self.resources.load_all()
         self.player = Player()
-        self.state = None          # Текущее состояние
-        self.states = {}           # Словарь {имя_состояния: объект}
+        self.state = None # Текущее состояние
+        self.states = {} # Словарь {имя_состояния: объект}
         self.load_states()
         self.change_state("world") # Начальное состояние
+        self.type_map = "World_1"
         self.selected_character_index = 0
 
     def load_states(self):

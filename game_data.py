@@ -12,7 +12,7 @@ MAX_ARTIFACT_LEVEL_BY_RARITY = {
 }
 
 TALENT_BOOK_REQUIREMENTS = {
-    1: (2, 2),   # с 1 на 2: 2 книги 2★
+    1: (2, 2), # с 1 на 2: 2 книги 2★
     2: (2, 3),
     3: (2, 4),
     4: (2, 6),
@@ -86,7 +86,7 @@ def calculate_weapon_stats(weapon_id, level):
     sec_stat = secondary.get("stat", "")
 
     growth_data = load_weapon_growth()
-    # Приводим weapon_id к формату из JSON (заглавная первая буква)
+    # Приводим weapon_id к формату из JSON
     growth_key = weapon_id.capitalize()
     growth = growth_data.get(growth_key, {}).get(str(level), {})
 
@@ -341,7 +341,7 @@ class Character:
             return False
 
         data = self.artifact_data[uid_str]
-        # Инициализация полей опыта, если их нет (для старых сохранений)
+        # Инициализация полей опыта, если их нет
         if "exp" not in data:
             data["exp"] = 0
         if "exp_next" not in data:
@@ -428,7 +428,7 @@ class Character:
 
     # ----- Оружие -----
     def equip_weapon(self, uid):
-        # Экипирует оружие по UID (не удаляет из инвентаря)
+        # Экипирует оружие по UID
         uid_str = str(uid)
         if uid_str in self.weapon_data:
             # Если уже есть оружие, снимаем его
@@ -441,7 +441,7 @@ class Character:
         return False
 
     def unequip_weapon(self):
-        # Снимает оружие (не добавляет в инвентарь, оно там и так есть)
+        # Снимает оружие
         if self.weapon is not None:
             self.weapon = None
             print("Оружие снято")
@@ -455,7 +455,7 @@ class Character:
             return False
 
         data = self.weapon_data[uid_str]
-        # Инициализация полей опыта, если их нет (для старых сохранений)
+        # Инициализация полей опыта, если их нет
         if "exp" not in data:
             data["exp"] = 0
         if "exp_next" not in data:
@@ -475,7 +475,7 @@ class Character:
         while data["exp"] >= data["exp_next"]:
             data["exp"] -= data["exp_next"]
             data["level"] += 1
-            # Пересчитываем exp_next для следующего уровня (аналогично персонажу)
+            # Пересчитываем exp_next для следующего уровня
             data["exp_next"] = int(data["exp_next"] * 1.5) + 50
             print(f"Уровень оружия повышен до {data['level']}")
 

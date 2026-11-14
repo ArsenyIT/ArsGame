@@ -24,6 +24,7 @@ class WorldState:
         self.near_chest_data = None
         self.chest_loot = {}
         self.map_name = "World_1"
+        self.game.type_map = self.map_name
         self.near_item_data = None
         self.hint_font = pygame.font.Font(None, 24)
         self.tile_size = 50
@@ -233,10 +234,12 @@ class WorldState:
         name = door["name"]
         if self.map_name == "World_1" and name == "gg_door":
             self.map_name = "House"
+            self.game.type_map = self.map_name
             self.next_spawn = (228, 1400)
             self.game.change_state("world")
         elif self.map_name == "House" and name == "gg_door_inside_1":
             self.map_name = "World_1"
+            self.game.type_map = self.map_name
             self.next_spawn = (7338, 7100)
             self.game.change_state("world")
 
