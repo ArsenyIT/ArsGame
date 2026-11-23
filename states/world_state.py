@@ -98,7 +98,7 @@ class WorldState:
             elif layer["type"] == "objectgroup" and layer["name"] == "Overlay":
                 for obj in layer["objects"]:
                     rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
-                    self.overlay_rects.append((rect, obj["name"]))
+                    self.overlay_rects.append((rect, obj["name"], int(obj["id"])))
             elif layer["type"] == "objectgroup" and layer["name"] == "Items":
                 for obj in layer["objects"]:
                     props = {p["name"]: p["value"] for p in obj.get("properties", [])}
@@ -226,6 +226,8 @@ class WorldState:
         self.world_open = self.game.resources.get_image("world_button_open")
         self.world_collect = self.game.resources.get_image("world_button_collect")
         self.world_log_in = self.game.resources.get_image("world_button_log_in")
+
+        self.overlay_rects.sort(key=lambda x: x[2])
 
     def on_exit(self):
         pass
@@ -449,7 +451,7 @@ class WorldState:
         if player_sprite:
             screen.blit(player_sprite, hero_screen_rect)
 
-        for rect, tex_name in self.overlay_rects:
+        for rect, tex_name, obj_id in self.overlay_rects:
             img = self.game.resources.get_image(tex_name)
             if img:
                 screen.blit(img, self.camera.apply(rect))
